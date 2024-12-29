@@ -1,0 +1,116 @@
+---
+title: 'Medical'
+description: 'Facilitate efficient and automated insurance claims processes between Healthcare Providers and Insurance Companies.'
+icon: 'users-medical'
+---
+
+## Overview
+The API's in this documentation has been designed to seamlessly integrate with Yasmina's platform, enabling a smooth and efficient exchange of medical insurance-related data and functionalities. Whether you're looking to request or manage policies, handle claims, or access customer information, this API provides a robust and secure interface. With clear endpoints and comprehensive support, our goal is to simplify the integration process and ensure that our client can leverage the full potential of our insurance services with minimal effort.
+
+### Steps
+Below is the basic journey to requesting your first insurance(s)
+<Steps>
+  <Step title="Authorization">
+  	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
+  	Or go directly to [Authorization API](/medical-api-reference/auth/generate-token)
+  </Step>
+  <Step title="Create a company">
+  	Create a company record. The company is the one that wants to give insurance for their employees. [Click for more details](#create-a-company-record). <br />
+  	Or go directly to [Create company API](/medical-api-reference/company/create-company)
+  </Step>
+  <Step title="Choose a package">
+  	List and then choose the medical insurance package that you want the employees to get. [Click for more details](#list-available-packages).
+  	Or go directly to [List categories](/medical-api-reference/products/list-categories)
+  </Step>
+  <Step title="Request insurance for the employees">
+  	Select the employees of the company that are going to get insurances and pick a package for each. [Click for more details](#request-policies).
+  	Or go directly to [Request policies API](/medical-api-reference/policies/request-policies)
+  </Step>
+  <Step title="Health declaration">
+  	Here we have two approaches. Either the HR fills the health declaration, or we dispatch the health declaration to the employees for them to fill. [Click for more details](#health-declaration)
+  	Or go directly to [Dispatch HR Forms API](/medical-api-reference/hr-forms/dispatch-hr-forms)
+  </Step>
+  <Step title="Payment">
+  	Go the payment link. We will generate that for you.
+  </Step>
+</Steps>
+
+### Authorization
+
+To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
+You will need `client_key` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
+Go to the following link to use the [Authorization API](https://www.google.com).
+<Warning>For security reasons. Do not make your client_key and client_secret public in your platform.</Warning>
+
+### Creating a Company record
+
+After acquiring an access_token, you can begin using the APIs. The first step to produce policies is to create a company record with their employees. After creating the company record, you can request to issue policies to the employees of that company.
+
+The [POST companies API](/medical-api-reference/company/create-company), will require few fields that define details of the company such as Email, Phone etc...
+
+It will return a response with a unique identifier (id). Here is an example of the response from the POST companies API.
+```
+{
+  "name": "Misk schools",
+  "name_ar": "مدارس مسك",
+  "sponsor_number": "123",
+  "email_address": "masoud@yasmina.ai",
+  "phone_number": "0797531543",
+  "commercial_registration_number": "456",
+  "client_id": "9c5b2b00-abcd-496c-a60b-8892fb63f0c3",
+  "updated_at": "2024-07-15T20:36:12.000000Z",
+  "created_at": "2024-07-15T20:36:12.000000Z",
+  "id": 3
+}
+```
+You can also visit the [List companies API](/medical-api-reference/company/list-companies) to show all companies you've created
+
+### List available packages
+Before you start issuing policies to a Company's employees. Check out the [Categories API](/medical-api-reference/products/list-categories).
+This gives you a list of available insurance categories.
+1. The Medgulf PDF
+	- Contains a picture of what is provided by Medgulf
+2. The translations
+	- The translations includes **keys** that map to the instructional text in Arabic and English that were provided by Medgulf.
+3. The categories
+	- The categories items uses these keys and gives the coverage values
+
+Coverage values can either be a number (the amount), or a boolean (whether it's covered or not), or a text (the type of coverage) Each item in the categories has a category property. This is what you will need to provide when you issue policies. Notice the category field in the following sample of the categories response API.
+
+### Request insurance policies
+To issue policies, you need to execute the [Request policies API](/medical-api-reference/policies/request-policies).
+The API takes two fields. The company_id as referenced above. And an array called insured. The insured are the employees that the company wants to request insurance for.policies
+Here is an example of a payload you would send
+```
+{
+  "insured": [
+    {
+        "name": "Ghassan Barghouti",
+        "nationality_iso": "JO",
+        "category": "MG1",
+        "iqama_id": "123",
+        "date_of_birth": "1988-04-20",
+        "number_of_dependents": 1
+    },
+    {
+        "name": "Masoud El-Helou",
+        "nationality_iso": "SA",
+        "category": "MG1",
+        "nationality_id": "123",
+        "date_of_birth": "1988-04-20",
+        "number_of_dependents": 1
+    }
+  ],
+  "company_id": 1
+}
+```
+Notice in the above, there are two employees within the company. One of them we are supplying the `iqama_id` as he is a Non-Saudi while the other we supply a `nationality_id` as he is Saudi.
+The `category` that we are supplying is what was returned from the [Categories API](/medical-api-reference/products/list-categories)
+
+### HR declaration forms
+You can dispatch HR forms using the [Dispatch HR Forms API](/medical-api-reference/hr-forms/dispatch-hr-forms) for the employees that you are requesting insurance for. And then later supply them to the insurance provider
+
+### Payment
+Yasmina will supply a payment link of which your clients can pay for the insurance. You must share this link in your platform.
+
+

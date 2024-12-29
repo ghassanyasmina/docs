@@ -3,15 +3,15 @@
   "name": "Starter Kit",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "light": "/logo/light.png"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
+    "primary": "#16c89d",
     "light": "#07C983",
     "dark": "#0D9373",
     "anchors": {
-      "from": "#0D9373",
+      "from": "#16c89d",
       "to": "#07C983"
     }
   },
@@ -27,25 +27,38 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
+      "name": "Car API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Medical API Reference",
+      "url": "medical-api-reference",
+      "openapi": "/medical-api-reference/openapi.json"
+    },
+    {
+      "name": "Property API Reference",
+      "url": "property-api-reference"
+    },
+    {
+      "name": "Travel API Reference",
+      "url": "travel-api-reference"
     }
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Portal",
+      "icon": "table-columns",
+      "url": "https://portal.yasmina.ai"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "name": "Yasmina website",
+      "icon": "globe",
+      "url": "https://www.yasmina.ai"
     },
     {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "Contact us",
+      "icon": "address-book",
+      "url": "https://www.yasmina.ai/yasmina/contact-us"
     }
   ],
   "navigation": [
@@ -53,25 +66,23 @@
       "group": "Get Started",
       "pages": [
         "introduction",
-        "quickstart",
-        "development"
+        "environments"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "API Integration guides",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "integrations/car",
+        "integrations/medical",
+        "integrations/property",
+        "integrations/travel"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Other resources",
       "pages": [
-        "api-reference/introduction"
+        "otherintegrations/iframe",
+        "otherintegrations/portal"
       ]
     },
     {
@@ -80,6 +91,22 @@
         "api-reference/endpoint/get",
         "api-reference/endpoint/create",
         "api-reference/endpoint/delete"
+      ]
+    },
+    {
+      "group": "Endpoint Examples",
+      "pages": [
+        "property-api-reference/endpoint/get",
+        "property-api-reference/endpoint/create",
+        "property-api-reference/endpoint/delete"
+      ]
+    },
+    {
+      "group": "Endpoint Examples",
+      "pages": [
+        "travel-api-reference/endpoint/get",
+        "travel-api-reference/endpoint/create",
+        "travel-api-reference/endpoint/delete"
       ]
     }
   ],

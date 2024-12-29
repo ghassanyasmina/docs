@@ -1,0 +1,2871 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Yasmina Medical APIs",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "pet"
+    },
+    {
+      "name": "auth"
+    }
+  ],
+  "paths": {
+    "/api/v1/clients/companies": {
+      "post": {
+        "summary": "companies",
+        "deprecated": false,
+        "description": "This API is for creating a company. The company ID is then used to issue policies for the employees (or insured) in this company.",
+        "operationId": "CreateCompany",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the company"
+                  },
+                  "name_ar": {
+                    "type": "string",
+                    "description": "Arabic name of the company"
+                  },
+                  "sponsor_number": {
+                    "type": "string",
+                    "description": "Sponsor number"
+                  },
+                  "email_address": {
+                    "type": "string",
+                    "description": "Email address"
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "description": "Phone number"
+                  },
+                  "commercial_registration_number": {
+                    "type": "string",
+                    "description": "The registration number of the company"
+                  }
+                },
+                "required": [
+                  "name",
+                  "name_ar",
+                  "sponsor_number",
+                  "email_address",
+                  "phone_number",
+                  "commercial_registration_number"
+                ]
+              },
+              "example": {
+                "name": "Yasmina",
+                "name_ar": "ياسمينا",
+                "sponsor_number": "123",
+                "email_address": "masoud@yasmina.ai",
+                "phone_number": "0797531543",
+                "commercial_registration_number": "456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Company"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Company",
+                    "value": {
+                      "name": "Yasmina",
+                      "name_ar": "ياسمينا",
+                      "sponsor_number": "123",
+                      "email_address": "masoud@yasmina.ai",
+                      "phone_number": "0797531543",
+                      "commercial_registration_number": "456",
+                      "client_id": "9c5b2b00-abcd-496c-a60b-8892fb63f0c3",
+                      "updated_at": "2024-07-15T20:36:12.000000Z",
+                      "created_at": "2024-07-15T20:36:12.000000Z",
+                      "id": 3
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 40101,
+                      "message": "Unauthenticated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "companies",
+        "deprecated": false,
+        "description": "This API is for creating a company. The company ID is then used to issue policies for the employees (or insured) in this company.",
+        "operationId": "ShowCompanies",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Company"
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "name": "Yasmina",
+                        "name_ar": "ياسمينا",
+                        "sponsor_number": "123",
+                        "email_address": "masoud@yasmina.ai",
+                        "phone_number": "0797531543",
+                        "commercial_registration_number": "456",
+                        "client_id": "9c5b2b00-abcd-496c-a60b-8892fb63f0c3",
+                        "updated_at": "2024-07-15T20:36:12.000000Z",
+                        "created_at": "2024-07-15T20:36:12.000000Z",
+                        "id": 3
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 40101,
+                      "message": "Unauthenticated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/request-policy": {
+      "post": {
+        "summary": "Request Insurance",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "company_id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "company_name": {
+                    "type": "string"
+                  },
+                  "commercial_registration_number": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "employees": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nationality_iso": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "iqama_id": {
+                          "type": "string"
+                        },
+                        "category": {
+                          "type": "string"
+                        },
+                        "date_of_birth": {
+                          "type": "string"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "identification_number": {
+                          "type": "string"
+                        },
+                        "marital_status": {
+                          "type": "string"
+                        },
+                        "number_of_dependents": {
+                          "type": "integer"
+                        },
+                        "dependents": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "nationality": {
+                                "type": "string"
+                              },
+                              "iqama_id": {
+                                "type": "string"
+                              },
+                              "date_of_birth": {
+                                "type": "string"
+                              },
+                              "gender": {
+                                "type": "string"
+                              },
+                              "identification_number": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "nationality_id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "nationality_iso",
+                        "date_of_birth",
+                        "number_of_dependents",
+                        "gender",
+                        "identification_number",
+                        "marital_status"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "company_id",
+                  "name",
+                  "company_name",
+                  "commercial_registration_number",
+                  "category",
+                  "phone",
+                  "employees"
+                ]
+              },
+              "example": {
+                "company_id": 11,
+                "name": "Ghassan Barghouti",
+                "company_name": "Syarah",
+                "commercial_registration_number": "123",
+                "category": "basic",
+                "phone": "00962797531543",
+                "employees": [
+                  {
+                    "nationality_iso": "JO",
+                    "name": "Ghassan Barghouti",
+                    "iqama_id": "12345",
+                    "category": "PE100",
+                    "date_of_birth": "1988-04-20",
+                    "gender": "M",
+                    "identification_number": "112236",
+                    "marital_status": "married",
+                    "number_of_dependents": 5,
+                    "dependents": [
+                      {
+                        "name": "Gus",
+                        "nationality": "JO",
+                        "iqama_id": "12345",
+                        "date_of_birth": "1988-04-20",
+                        "gender": "M",
+                        "identification_number": "121"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Masoud",
+                    "nationality_iso": "SA",
+                    "date_of_birth": "1988-12-08",
+                    "number_of_dependents": 3,
+                    "nationality_id": "123456789",
+                    "gender": "M",
+                    "identification_number": "11164",
+                    "marital_status": "married"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Accepted",
+                    "value": "Success"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 40101,
+                      "message": "Unauthenticated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "object",
+                      "properties": {
+                        "company_id": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "insured.0.name": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "company_id",
+                        "insured.0.name"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "details"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 42201,
+                      "message": "The selected company id is invalid. (and 1 more error)",
+                      "details": {
+                        "company_id": [
+                          "The selected company id is invalid."
+                        ],
+                        "insured.0.name": [
+                          "The insured.0.name field cannot be empty."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/bulk-medical-policies": {
+      "post": {
+        "summary": "Request Bulk Insurance Copy",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "insured": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Insured"
+                    }
+                  },
+                  "company_id": {
+                    "type": "integer",
+                    "description": "One of the company ids that were created from the company API"
+                  }
+                },
+                "required": [
+                  "insured",
+                  "company_id"
+                ]
+              },
+              "example": {
+                "insured": [
+                  {
+                    "nationality": "SA",
+                    "category": "MG1",
+                    "identification_number": "123",
+                    "dependents": [
+                      {
+                        "nationality": "SA",
+                        "identification_number": "1234"
+                      }
+                    ]
+                  }
+                ],
+                "company_id": 3
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": 140,
+                        "meta_data": {
+                          "name": "Ghassan",
+                          "gender": "M",
+                          "category": "MG1",
+                          "company_id": 11,
+                          "dependents": [
+                            {
+                              "name": "Khaled",
+                              "gender": "M",
+                              "nationality": "JO",
+                              "identification_number": "121"
+                            }
+                          ],
+                          "nationality": "JO",
+                          "marital_status": "married",
+                          "identification_number": "11223"
+                        },
+                        "start_date": null,
+                        "provider_policy_id": null,
+                        "provider_policy": null,
+                        "order_status": 0,
+                        "approval_status": 0,
+                        "end_date": null,
+                        "is_claimed": false,
+                        "created_at": "2024-07-17T23:39:39.000000Z",
+                        "updated_at": "2024-07-17T23:39:39.000000Z",
+                        "client_id": "9c8c31a2-5b54-4902-8ecc-265c14c05e1f",
+                        "canceled_at": null,
+                        "invoice": null,
+                        "cancellation_document": null
+                      },
+                      {
+                        "id": 141,
+                        "meta_data": {
+                          "name": "Masoud",
+                          "gender": "M",
+                          "category": "MG2",
+                          "company_id": 11,
+                          "dependents": [],
+                          "nationality": "JO",
+                          "marital_status": "married",
+                          "identification_number": "1116"
+                        },
+                        "start_date": null,
+                        "provider_policy_id": null,
+                        "provider_policy": null,
+                        "order_status": 0,
+                        "approval_status": 0,
+                        "end_date": null,
+                        "is_claimed": false,
+                        "created_at": "2024-07-17T23:39:39.000000Z",
+                        "updated_at": "2024-07-17T23:39:39.000000Z",
+                        "client_id": "9c8c31a2-5b54-4902-8ecc-265c14c05e1f",
+                        "canceled_at": null,
+                        "invoice": null,
+                        "cancellation_document": null
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 40101,
+                      "message": "Unauthenticated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "object",
+                      "properties": {
+                        "company_id": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "insured.0.name": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "company_id",
+                        "insured.0.name"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "details"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 42201,
+                      "message": "The selected company id is invalid. (and 1 more error)",
+                      "details": {
+                        "company_id": [
+                          "The selected company id is invalid."
+                        ],
+                        "insured.0.name": [
+                          "The insured.0.name field cannot be empty."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/policies/{id}/cancel": {
+      "post": {
+        "summary": "Cancel an existing policy",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cancellation_document": {
+                    "format": "binary",
+                    "type": "string",
+                    "example": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Policy"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": 144,
+                      "meta_data": {
+                        "name": "ghassan",
+                        "gender": "M",
+                        "category": "PE100",
+                        "company_id": 11,
+                        "dependents": [
+                          {
+                            "name": "Gus",
+                            "gender": "M",
+                            "category": "P199",
+                            "nationality": "JO",
+                            "identification_number": "121"
+                          }
+                        ],
+                        "nationality": "JO",
+                        "marital_status": "married",
+                        "identification_number": "112236"
+                      },
+                      "start_date": null,
+                      "provider_policy_id": null,
+                      "provider_policy": null,
+                      "order_status": 0,
+                      "approval_status": 0,
+                      "end_date": null,
+                      "is_claimed": false,
+                      "created_at": "2024-07-17T23:42:44.000000Z",
+                      "updated_at": "2024-07-17T23:52:18.000000Z",
+                      "client_id": "9c8c31a2-5b54-4902-8ecc-265c14c05e1f",
+                      "canceled_at": "2024-07-17T23:46:33.000000Z",
+                      "invoice": null,
+                      "cancellation_document": null
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 40101,
+                      "message": "Unauthenticated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/policies": {
+      "get": {
+        "summary": "View Policies",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status values that need to be considered for filter",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": 140,
+                        "meta_data": {
+                          "name": "ghassan",
+                          "gender": "M",
+                          "category": "PE100",
+                          "company_id": 11,
+                          "dependents": [
+                            {
+                              "name": "Gus",
+                              "gender": "M",
+                              "category": "P199",
+                              "nationality": "JO",
+                              "identification_number": "121"
+                            }
+                          ],
+                          "nationality": "JO",
+                          "marital_status": "married",
+                          "identification_number": "11223"
+                        },
+                        "start_date": null,
+                        "provider_policy_id": null,
+                        "provider_policy": null,
+                        "order_status": 0,
+                        "approval_status": 0,
+                        "end_date": null,
+                        "is_claimed": false,
+                        "created_at": "2024-07-17T23:39:39.000000Z",
+                        "updated_at": "2024-07-17T23:39:39.000000Z",
+                        "client_id": "9c8c31a2-5b54-4902-8ecc-265c14c05e1f",
+                        "canceled_at": null,
+                        "invoice": null,
+                        "cancellation_document": null
+                      },
+                      {
+                        "id": 141,
+                        "meta_data": {
+                          "name": "Masoud",
+                          "gender": "M",
+                          "category": "PE200",
+                          "company_id": 11,
+                          "nationality": "JO",
+                          "marital_status": "married",
+                          "identification_number": "1116"
+                        },
+                        "start_date": null,
+                        "provider_policy_id": null,
+                        "provider_policy": null,
+                        "order_status": 0,
+                        "approval_status": 0,
+                        "end_date": null,
+                        "is_claimed": false,
+                        "created_at": "2024-07-17T23:39:39.000000Z",
+                        "updated_at": "2024-07-17T23:39:39.000000Z",
+                        "client_id": "9c8c31a2-5b54-4902-8ecc-265c14c05e1f",
+                        "canceled_at": null,
+                        "invoice": null,
+                        "cancellation_document": null
+                      },
+                      {
+                        "id": 142,
+                        "meta_data": {
+                          "name": "ghassan",
+                          "gender": "M",
+                          "category": "PE100",
+                          "company_id": 11,
+                          "dependents": [
+                            {
+                              "name": "Gus",
+                              "gender": "M",
+                              "category": "P199",
+                              "nationality": "JO",
+                              "identification_number": "121"
+                            }
+                          ],
+                          "nationality": "JO",
+                          "marital_status": "married",
+                          "identification_number": "112234"
+                        },
+                        "start_date": null,
+                        "provider_policy_id": null,
+                        "provider_policy": null,
+                        "order_status": 0,
+                        "approval_status": 0,
+                        "end_date": null,
+                        "is_claimed": false,
+                        "created_at": "2024-07-17T23:40:07.000000Z",
+                        "updated_at": "2024-07-17T23:40:07.000000Z",
+                        "client_id": "9c8c31a2-5b54-4902-8ecc-265c14c05e1f",
+                        "canceled_at": null,
+                        "invoice": null,
+                        "cancellation_document": null
+                      },
+                      {
+                        "id": 143,
+                        "meta_data": {
+                          "name": "Masoud",
+                          "gender": "M",
+                          "category": "PE200",
+                          "company_id": 11,
+                          "nationality": "JO",
+                          "marital_status": "married",
+                          "identification_number": "11164"
+                        },
+                        "start_date": null,
+                        "provider_policy_id": null,
+                        "provider_policy": null,
+                        "order_status": 0,
+                        "approval_status": 0,
+                        "end_date": null,
+                        "is_claimed": false,
+                        "created_at": "2024-07-17T23:40:07.000000Z",
+                        "updated_at": "2024-07-17T23:52:18.000000Z",
+                        "client_id": "9c8c31a2-5b54-4902-8ecc-265c14c05e1f",
+                        "canceled_at": "2024-07-17T23:47:44.000000Z",
+                        "invoice": null,
+                        "cancellation_document": null
+                      },
+                      {
+                        "id": 144,
+                        "meta_data": {
+                          "name": "ghassan",
+                          "gender": "M",
+                          "category": "PE100",
+                          "company_id": 11,
+                          "dependents": [
+                            {
+                              "name": "Gus",
+                              "gender": "M",
+                              "category": "P199",
+                              "nationality": "JO",
+                              "identification_number": "121"
+                            }
+                          ],
+                          "nationality": "JO",
+                          "marital_status": "married",
+                          "identification_number": "112236"
+                        },
+                        "start_date": null,
+                        "provider_policy_id": null,
+                        "provider_policy": null,
+                        "order_status": 0,
+                        "approval_status": 0,
+                        "end_date": null,
+                        "is_claimed": false,
+                        "created_at": "2024-07-17T23:42:44.000000Z",
+                        "updated_at": "2024-07-17T23:52:18.000000Z",
+                        "client_id": "9c8c31a2-5b54-4902-8ecc-265c14c05e1f",
+                        "canceled_at": "2024-07-17T23:46:33.000000Z",
+                        "invoice": null,
+                        "cancellation_document": null
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 40101,
+                      "message": "Unauthenticated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/policies/dispatch-forms": {
+      "post": {
+        "summary": "Dispatch HR forms",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "national ids"
+                }
+              },
+              "example": "{\n    \"national_ids\": ['123', '22324']\n}"
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "summary": "Auth",
+        "deprecated": false,
+        "description": "This API is used to generate an access token. The access token is then used in all other Yasmina API's.",
+        "operationId": "auth",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "description": "Must be client_credentials",
+                    "faker": "client_credentials"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  },
+                  "client_secret": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "client_id",
+                  "client_secret"
+                ]
+              },
+              "example": {
+                "grant_type": "client_credentials",
+                "client_id": "9ba293f7-5f62-4e82-be9b-d804cc9d392c",
+                "client_secret": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token_type": {
+                      "type": "string",
+                      "description": "status code"
+                    },
+                    "expires_in": {
+                      "type": "integer",
+                      "faker": "31536000"
+                    },
+                    "access_token": {
+                      "type": "string",
+                      "description": "JWT format"
+                    }
+                  },
+                  "required": [
+                    "token_type",
+                    "expires_in",
+                    "access_token"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success example",
+                    "value": {
+                      "token_type": "Bearer",
+                      "expires_in": 31536000,
+                      "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YzViMmIwMC1hYmNkLTQ5NmMtYTYwYi04ODkyZmI2M2YwYzMiLCJqdGkiOiI2ODUzNjE2NThkNjhlYjk0Mjk0ZTZiMWMyYzc2NzlhMDg2ZWUxMmJlMjgxNmFiMzk4MmVlODZmNzAwY2FjZjcwZjA4ZGY0MjM4N2Q4MjVmZiIsImlhdCI6MTcyMDU2NDQ2MC41MTkyMjQsIm5iZiI6MTcyMDU2NDQ2MC41MTkyMjUsImV4cCI6MTc1MjEwMDQ2MC41MTMyMjMsInN1YiI6IiIsInNjb3BlcyI6W119.nGxpdC9uA2UXwiD8XcKacKHgwSzQh1VfQPs4719xS0GOvINaFaq8nf7oTVBX-WQMl349s535qQPS6-kALgxMuRGWL0Taer56ZAgQbdzLQol93MZwUkRBWnVSE9MYuOicVFMjJUWr8wIeJMavWJ3z8VD76PcGQwvm-uKBHbgSi7Vj1N0fSMutrUCJCPJID8EuvVuSWWnQWeHOhba7vzAugMDDcwMXe8i9aD1pmyQuUnw0MD2FshbvGjro6GlcRcsbxERJe42S8fRef03ru4sEFd-CLU0H_xEYHLBvMpKLwgdWw6muYI3vNOdn5gL_z-ya3SMYJA2iJy7-hfbPOcA5uUHSRcPVZixw702FsBlPs7Wj1K9VXVowL4WjTU1qiTBBcDlhwlQhGyLAMSbjrQo6-Be_0q4GJOfTXOx-r3jtDceS21vS2kEH5hTopp8u6SSaBH1WBwJHnBFtPn5gSdhs5nKMjvVvzws7_cpouRbpq11mXRd05d8mlJAlnz4_6xZUWn-4DYqIuihgbrDWzArddVUpQIGfaI1Cgfh1GXKPPEA7ihvDtR-JcY_rWPLK3VnluA2yjDU56Xh9SZSnc4CyYwn055R1Wr02m8_njBp_9PhYNWt8utKcQm13l4SlN1dXhai62V5qXgCKwvPsIR_OpGKCF5cb-htsv7mN9qVGQPA"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/clients/policies/{id}/claims": {
+      "post": {
+        "summary": "Claim",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requested_amount": {
+                    "type": "number",
+                    "description": "Value in SAR",
+                    "example": 1000
+                  },
+                  "description": {
+                    "description": "All details about what happened",
+                    "example": "",
+                    "type": "string"
+                  },
+                  "supporting_document": {
+                    "format": "binary",
+                    "type": "string",
+                    "description": "Could be used for uploading the invoice",
+                    "example": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "requested_amount": {
+                      "type": "string"
+                    },
+                    "claim_status": {
+                      "type": "integer"
+                    },
+                    "policy_id": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "supporting_document": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "description",
+                    "requested_amount",
+                    "claim_status",
+                    "policy_id",
+                    "updated_at",
+                    "created_at",
+                    "id",
+                    "supporting_document"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success example",
+                    "value": {
+                      "code": 0
+                    }
+                  },
+                  "2": {
+                    "summary": "Success",
+                    "value": {
+                      "description": "Injury",
+                      "requested_amount": "1002.312",
+                      "claim_status": 0,
+                      "policy_id": 144,
+                      "updated_at": "2024-07-18T00:46:06.000000Z",
+                      "created_at": "2024-07-18T00:46:06.000000Z",
+                      "id": 1
+                    }
+                  },
+                  "3": {
+                    "summary": "Success",
+                    "value": {
+                      "description": "Injury",
+                      "requested_amount": "1002.312",
+                      "claim_status": 0,
+                      "policy_id": 144,
+                      "updated_at": "2024-07-18T00:46:06.000000Z",
+                      "created_at": "2024-07-18T00:46:06.000000Z",
+                      "id": 1
+                    }
+                  },
+                  "4": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 42201,
+                      "message": "The description field cannot be empty.",
+                      "details": {
+                        "description": [
+                          "The description field cannot be empty."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 40101,
+                      "message": "Unauthenticated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "nullable": true
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "details"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/policies/{policyId}/claims/{id}": {
+      "get": {
+        "summary": "Claim Status",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "pet"
+        ],
+        "parameters": [
+          {
+            "name": "policyId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "policy_id": {
+                      "type": "integer"
+                    },
+                    "claim_status": {
+                      "type": "integer",
+                      "description": "0 submitted, 1 being verified, 2 approved, 3 rejected, 4 payment sent"
+                    },
+                    "supporting_document": {
+                      "type": "null"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "requested_amount": {
+                      "type": "number"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "policy_id",
+                    "claim_status",
+                    "supporting_document",
+                    "description",
+                    "requested_amount",
+                    "created_at",
+                    "updated_at"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success example",
+                    "value": {
+                      "id": 2,
+                      "policy_id": 144,
+                      "claim_status": 0,
+                      "supporting_document": null,
+                      "description": "Injury",
+                      "requested_amount": 1002.31,
+                      "created_at": "2024-07-18T00:47:40.000000Z",
+                      "updated_at": "2024-07-18T00:47:40.000000Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "code": 40101,
+                      "message": "Unauthenticated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/products/categories": {
+      "get": {
+        "summary": "Categories",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "category": {
+                        "type": "string"
+                      },
+                      "maximum_annual_benefit_limit_per_person": {
+                        "type": "integer"
+                      },
+                      "geography": {
+                        "type": "string"
+                      },
+                      "general_coverage": {
+                        "type": "object",
+                        "properties": {
+                          "dependents": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "is_covered": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "is_covered"
+                            ]
+                          },
+                          "chronic_medical_conditions": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "is_covered": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "is_covered"
+                            ]
+                          },
+                          "work_related_injury_illness": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "is_covered": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "is_covered"
+                            ]
+                          },
+                          "hearing_aids": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "coverage": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "coverage"
+                            ]
+                          },
+                          "cost_of_renal_dialysis": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "coverage": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "coverage"
+                            ]
+                          },
+                          "cost_of_psychological_disorders": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "coverage": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "coverage"
+                            ]
+                          },
+                          "cost_of_acquired_heart_valve_disease": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "coverage": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "text",
+                              "coverage"
+                            ]
+                          },
+                          "cost_of_harvesting_organs_from_donors": {
+                            "type": "object",
+                            "properties": {
+                              "coverage": {
+                                "type": "integer"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "coverage",
+                              "text"
+                            ]
+                          },
+                          "cost_of_alzheimer": {
+                            "type": "object",
+                            "properties": {
+                              "coverage": {
+                                "type": "integer"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "coverage",
+                              "text"
+                            ]
+                          },
+                          "cost_of_autistic_patients": {
+                            "type": "object",
+                            "properties": {
+                              "coverage": {
+                                "type": "integer"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "coverage",
+                              "text"
+                            ]
+                          },
+                          "cost_of_disability_cases": {
+                            "type": "object",
+                            "properties": {
+                              "coverage": {
+                                "type": "integer"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "coverage",
+                              "text"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "dependents",
+                          "chronic_medical_conditions",
+                          "work_related_injury_illness",
+                          "hearing_aids",
+                          "cost_of_renal_dialysis",
+                          "cost_of_psychological_disorders",
+                          "cost_of_acquired_heart_valve_disease",
+                          "cost_of_harvesting_organs_from_donors",
+                          "cost_of_alzheimer",
+                          "cost_of_autistic_patients",
+                          "cost_of_disability_cases"
+                        ]
+                      },
+                      "in_patient_coverage": {
+                        "type": "object",
+                        "properties": {
+                          "room_type": {
+                            "type": "string"
+                          },
+                          "outside_apn_ksa": {
+                            "type": "integer"
+                          },
+                          "abroad_emergency": {
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "room_type",
+                          "outside_apn_ksa",
+                          "abroad_emergency"
+                        ]
+                      },
+                      "outpatient": {
+                        "type": "object",
+                        "properties": {
+                          "coverage_percentage": {
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "coverage_percentage"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "category",
+                      "maximum_annual_benefit_limit_per_person",
+                      "geography",
+                      "general_coverage",
+                      "in_patient_coverage",
+                      "outpatient"
+                    ]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "medgulf_pdf": "https://axjqy4nuifd8.compat.objectstorage.me-jeddah-1.oraclecloud.com/Yasmina-Dev-bucket/medgulf/dG2GQZDNPLLJwExIGsWsNoGpedqgFmSytyvVLSJC.pdf",
+                      "translations": {
+                        "dependents": {
+                          "text": "Dependents",
+                          "text_ar": "المعالين"
+                        },
+                        "chronic_medical_conditions": {
+                          "text": "Pre-Existing & Chronic Medical Conditions",
+                          "text_ar": "إصابات العمل وامراض المهنية"
+                        },
+                        "work_related_injury_illness": {
+                          "text": "Work Related Injury / Illness",
+                          "text_ar": "الحالات السابقة والحالات المزمنة"
+                        },
+                        "hearing_aids": {
+                          "text": "Hearing Aids",
+                          "text_ar": "تكاليف السماعات الطبية"
+                        },
+                        "cost_of_renal_dialysis": {
+                          "text": "Cost of Renal Dialysis",
+                          "text_ar": "تكاليف الغسيل الكلوي"
+                        },
+                        "cost_of_psychological_disorders": {
+                          "text": "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine",
+                          "text_ar": "تغطي الحالات النفسية غير الحادة بحد 5000 ريال سعودي لاربع جلسات مع الادوية"
+                        },
+                        "cost_of_acquired_heart_valve_disease": {
+                          "text": "Cost of Acquired Heart Valve Disease",
+                          "text_ar": "تكاليف حالات التلف في صمامات القلب المكتسبة"
+                        },
+                        "cost_of_harvesting_organs_from_donors": {
+                          "text": "Cost of Harvesting Organs “From Donors”",
+                          "text_ar": "\"تكاليف إجراء عملية التبرع بالاعضاء \"للمتبرع"
+                        },
+                        "cost_of_alzheimer": {
+                          "text": "Cost of Alzheimer's Disease Treatment",
+                          "text_ar": "تكاليف مرض الزهايمر"
+                        },
+                        "cost_of_autistic_patients": {
+                          "text": "Cost of Autistic Patients",
+                          "text_ar": "تكاليف حالات التوحد"
+                        },
+                        "cost_of_disability_cases": {
+                          "text": "Cost of Disability Cases",
+                          "text_ar": "تكاليف حالات ا́عاقة"
+                        },
+                        "outside_apn_ksa": {
+                          "text": "Hospital Accommodation: Room Type",
+                          "text_ar": "نوع الغرفة المسموح بها"
+                        },
+                        "abroad_emergency": {
+                          "text": "Hospital Accommodation outside APN in KSA",
+                          "text_ar": "الكلفة اليومية للتنويم خارج شبكة المستشفيات المعتمدة في الداخل"
+                        },
+                        "bariatric_surgery": {
+                          "text": "Bariatric surgery in cases of BMI above 45",
+                          "text_ar": "الكلفة اليومية للتنويم خارج شبكة المستشفيات في خارج المملكة (حالة طارئة)"
+                        },
+                        "cost_of_surgery": {
+                          "text": "Cost of Surgery & Anesthesia, Daycare for Surgical Procedure, Radiotherapy and Chemotherapy",
+                          "text_ar": "جراحة معالجة السمنة المفرطة في حال تجاوز كتلة الجسم 45 (BMI)"
+                        },
+                        "copayment": {
+                          "text": "Copayment of each & every claim (emergency outside/inside APN or abroad)",
+                          "text_ar": "تكلفة الجراحة والتخدير جراحة اليوم الواحد كلفة العلاج الكيميائي وا́شعاعي"
+                        },
+                        "companions_charges_per_day": {
+                          "text": "Companions charges",
+                          "text_ar": "مصاريف المرافقين"
+                        },
+                        "copayment_out_patient": {
+                          "text": "Copayment of each & every claim including Pre-and posnatal care Hearing Aids Cost (Maximum of SR 100 per visit)",
+                          "text_ar": "نسبة المشاركة عن كل زيارة بما فيها متابعة الحمل و الوسائل السمعية ( بحد أقصى 100 ريال عن كل زيارة )"
+                        },
+                        "outpatient_hospital_description": {
+                          "text": "For hospitals falling outside of the lowest network. For other types of providers falling outside of the lowest\nnetwork. For all providers who fall within the lowest network, max. SR 75 per claim. Providers who fall within the\nlowest network are denoted by “LN” besides the provider name in the attached Provider List.",
+                          "text_ar": "الحـد اقصـى عـن كل مطالبـة 100 ريـال للمستشـفيات خـارج شـبكة الحـد ادنـى الموحـده. أما بالنسـبة للمرافـق الطبية اخرى خارج شبكة الحد ادنى الموحده سيكون الحد اقصى عن كل مطالبة 100 ريال. ولجميع مرافق شبكة الحد ادنى الموحـده سـيكون الحـد اقصـى 75 ريـال عـن كل مطالبـة. سـيتم ا́شـارة إلـى مـزودي الخدمـة ضمـن شـبكة الحـد ادنـى الموحده في قائمة المرافق الطبية بـ 'ش ح أ' بجانب اسم المرفق"
+                        },
+                        "doctor_consultation": {
+                          "text": "The visit includes doctor consultation, related investigations & prescribed medicine",
+                          "text_ar": "الزيارة تشمل استشارة الطبيب والفحوصات المتعلقة بها والادوية الموصوفة"
+                        }
+                      },
+                      "categories": {
+                        "basic": {
+                          "name": "Basic",
+                          "category": "basic",
+                          "maximum_annual_benefit_limit_per_person": 500000,
+                          "geography": "Saudi Arabia",
+                          "general_coverage": {
+                            "dependents": true,
+                            "chronic_medical_conditions": true,
+                            "work_related_injury_illness": true,
+                            "hearing_aids": 6000,
+                            "cost_of_renal_dialysis": 100000,
+                            "cost_of_psychological_disorders": 15000,
+                            "cost_of_acquired_heart_valve_disease": 150000,
+                            "cost_of_harvesting_organs_from_donors": 50000,
+                            "cost_of_alzheimer": 15000,
+                            "cost_of_autistic_patients": 50000,
+                            "cost_of_disability_cases": 100000
+                          },
+                          "in_patient_coverage": {
+                            "room_type": "Semi-Private",
+                            "outside_apn_ksa": 800,
+                            "abroad_emergency": 600,
+                            "bariatric_surgery": 20000,
+                            "cost_of_surgery": true,
+                            "copayment": false,
+                            "companions_charges_per_day": 150
+                          },
+                          "outpatient": {
+                            "coverage_percentage": 20,
+                            "coverage_list": [
+                              "copayment_out_patient",
+                              "outpatient_hospital_description",
+                              "doctor_consultation"
+                            ]
+                          }
+                        },
+                        "economy": {
+                          "name": "Economy",
+                          "category": "economy",
+                          "maximum_annual_benefit_limit_per_person": 500000,
+                          "geography": "Saudi Arabia",
+                          "general_coverage": {
+                            "dependents": true,
+                            "chronic_medical_conditions": true,
+                            "work_related_injury_illness": true,
+                            "hearing_aids": 6000,
+                            "cost_of_renal_dialysis": 100000,
+                            "cost_of_psychological_disorders": 15000,
+                            "cost_of_acquired_heart_valve_disease": 150000,
+                            "cost_of_harvesting_organs_from_donors": 50000,
+                            "cost_of_alzheimer": 15000,
+                            "cost_of_autistic_patients": 50000,
+                            "cost_of_disability_cases": 100000
+                          },
+                          "in_patient_coverage": {
+                            "room_type": "Semi-Private",
+                            "outside_apn_ksa": 800,
+                            "abroad_emergency": 600,
+                            "bariatric_surgery": 20000,
+                            "cost_of_surgery": true,
+                            "copayment": false,
+                            "companions_charges_per_day": 150
+                          },
+                          "outpatient": {
+                            "coverage_percentage": 20,
+                            "coverage_list": [
+                              "copayment_out_patient",
+                              "outpatient_hospital_description",
+                              "doctor_consultation"
+                            ]
+                          }
+                        },
+                        "standard": {
+                          "name": "Standard",
+                          "category": "standard",
+                          "maximum_annual_benefit_limit_per_person": 500000,
+                          "geography": "Saudi Arabia",
+                          "general_coverage": {
+                            "dependents": true,
+                            "chronic_medical_conditions": true,
+                            "work_related_injury_illness": true,
+                            "hearing_aids": 6000,
+                            "cost_of_renal_dialysis": 100000,
+                            "cost_of_psychological_disorders": 15000,
+                            "cost_of_acquired_heart_valve_disease": 150000,
+                            "cost_of_harvesting_organs_from_donors": 50000,
+                            "cost_of_alzheimer": 15000,
+                            "cost_of_autistic_patients": 50000,
+                            "cost_of_disability_cases": 100000
+                          },
+                          "in_patient_coverage": {
+                            "room_type": "Semi-Private",
+                            "outside_apn_ksa": 800,
+                            "abroad_emergency": 600,
+                            "bariatric_surgery": 20000,
+                            "cost_of_surgery": true,
+                            "copayment": false,
+                            "companions_charges_per_day": 150
+                          },
+                          "outpatient": {
+                            "coverage_percentage": 20,
+                            "coverage_list": [
+                              "copayment_out_patient",
+                              "outpatient_hospital_description",
+                              "doctor_consultation"
+                            ]
+                          }
+                        },
+                        "classic": {
+                          "name": "Classic",
+                          "category": "classic",
+                          "maximum_annual_benefit_limit_per_person": 500000,
+                          "geography": "Saudi Arabia",
+                          "general_coverage": {
+                            "dependents": true,
+                            "chronic_medical_conditions": true,
+                            "work_related_injury_illness": true,
+                            "hearing_aids": 6000,
+                            "cost_of_renal_dialysis": 100000,
+                            "cost_of_psychological_disorders": 15000,
+                            "cost_of_acquired_heart_valve_disease": 150000,
+                            "cost_of_harvesting_organs_from_donors": 50000,
+                            "cost_of_alzheimer": 15000,
+                            "cost_of_autistic_patients": 50000,
+                            "cost_of_disability_cases": 100000
+                          },
+                          "in_patient_coverage": {
+                            "room_type": "Semi-Private",
+                            "outside_apn_ksa": 800,
+                            "abroad_emergency": 600,
+                            "bariatric_surgery": 20000,
+                            "cost_of_surgery": true,
+                            "copayment": false,
+                            "companions_charges_per_day": 150
+                          },
+                          "outpatient": {
+                            "coverage_percentage": 20,
+                            "coverage_list": [
+                              "copayment_out_patient",
+                              "outpatient_hospital_description",
+                              "doctor_consultation"
+                            ]
+                          }
+                        },
+                        "advance": {
+                          "name": "Advance",
+                          "category": "advance",
+                          "maximum_annual_benefit_limit_per_person": 500000,
+                          "geography": "Saudi Arabia",
+                          "general_coverage": {
+                            "dependents": true,
+                            "chronic_medical_conditions": true,
+                            "work_related_injury_illness": true,
+                            "hearing_aids": 6000,
+                            "cost_of_renal_dialysis": 100000,
+                            "cost_of_psychological_disorders": 15000,
+                            "cost_of_acquired_heart_valve_disease": 150000,
+                            "cost_of_harvesting_organs_from_donors": 50000,
+                            "cost_of_alzheimer": 15000,
+                            "cost_of_autistic_patients": 50000,
+                            "cost_of_disability_cases": 100000
+                          },
+                          "in_patient_coverage": {
+                            "room_type": "Semi-Private",
+                            "outside_apn_ksa": 800,
+                            "abroad_emergency": 600,
+                            "bariatric_surgery": 20000,
+                            "cost_of_surgery": true,
+                            "copayment": false,
+                            "companions_charges_per_day": 150
+                          },
+                          "outpatient": {
+                            "coverage_percentage": 20,
+                            "coverage_list": [
+                              "copayment_out_patient",
+                              "outpatient_hospital_description",
+                              "doctor_consultation"
+                            ]
+                          }
+                        },
+                        "premier": {
+                          "name": "Premier",
+                          "category": "premier",
+                          "maximum_annual_benefit_limit_per_person": 750000,
+                          "geography": "Saudi Arabia",
+                          "general_coverage": {
+                            "dependents": true,
+                            "chronic_medical_conditions": true,
+                            "work_related_injury_illness": true,
+                            "hearing_aids": 6000,
+                            "cost_of_renal_dialysis": 100000,
+                            "cost_of_psychological_disorders": 15000,
+                            "cost_of_acquired_heart_valve_disease": 150000,
+                            "cost_of_harvesting_organs_from_donors": 50000,
+                            "cost_of_alzheimer": 15000,
+                            "cost_of_autistic_patients": 50000,
+                            "cost_of_disability_cases": 100000
+                          },
+                          "in_patient_coverage": {
+                            "room_type": "Semi-Private",
+                            "outside_apn_ksa": 800,
+                            "abroad_emergency": 600,
+                            "bariatric_surgery": 20000,
+                            "cost_of_surgery": true,
+                            "copayment": false,
+                            "companions_charges_per_day": 150
+                          },
+                          "outpatient": {
+                            "coverage_percentage": 20,
+                            "coverage_list": [
+                              "copayment_out_patient",
+                              "outpatient_hospital_description",
+                              "doctor_consultation"
+                            ]
+                          }
+                        },
+                        "executive": {
+                          "name": "Executive",
+                          "category": "executive",
+                          "maximum_annual_benefit_limit_per_person": 750000,
+                          "geography": "Saudi Arabia",
+                          "general_coverage": {
+                            "dependents": true,
+                            "chronic_medical_conditions": true,
+                            "work_related_injury_illness": true,
+                            "hearing_aids": 6000,
+                            "cost_of_renal_dialysis": 100000,
+                            "cost_of_psychological_disorders": 15000,
+                            "cost_of_acquired_heart_valve_disease": 150000,
+                            "cost_of_harvesting_organs_from_donors": 50000,
+                            "cost_of_alzheimer": 15000,
+                            "cost_of_autistic_patients": 50000,
+                            "cost_of_disability_cases": 100000
+                          },
+                          "in_patient_coverage": {
+                            "room_type": "private",
+                            "outside_apn_ksa": 800,
+                            "abroad_emergency": 600,
+                            "bariatric_surgery": 20000,
+                            "cost_of_surgery": true,
+                            "copayment": false,
+                            "companions_charges_per_day": 150
+                          },
+                          "outpatient": {
+                            "coverage_percentage": 20,
+                            "coverage_list": [
+                              "copayment_out_patient",
+                              "outpatient_hospital_description",
+                              "doctor_consultation"
+                            ]
+                          }
+                        },
+                        "elite": {
+                          "name": "Elite",
+                          "category": "elite",
+                          "maximum_annual_benefit_limit_per_person": 1000000,
+                          "geography": "Saudi Arabia",
+                          "general_coverage": {
+                            "dependents": true,
+                            "chronic_medical_conditions": true,
+                            "work_related_injury_illness": true,
+                            "hearing_aids": 6000,
+                            "cost_of_renal_dialysis": 100000,
+                            "cost_of_psychological_disorders": 15000,
+                            "cost_of_acquired_heart_valve_disease": 150000,
+                            "cost_of_harvesting_organs_from_donors": 50000,
+                            "cost_of_alzheimer": 15000,
+                            "cost_of_autistic_patients": 50000,
+                            "cost_of_disability_cases": 100000
+                          },
+                          "in_patient_coverage": {
+                            "room_type": "suite",
+                            "outside_apn_ksa": 800,
+                            "abroad_emergency": 1000,
+                            "bariatric_surgery": 20000,
+                            "cost_of_surgery": true,
+                            "copayment": false,
+                            "companions_charges_per_day": 150
+                          },
+                          "outpatient": {
+                            "coverage_percentage": 20,
+                            "coverage_list": [
+                              "copayment_out_patient",
+                              "outpatient_hospital_description",
+                              "doctor_consultation"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/payment-link": {
+      "get": {
+        "summary": "Payment link",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "link for due payment"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "name": "Basic",
+                        "key": "MG8",
+                        "maximum_annual_benefit_limit_per_person": 500000,
+                        "geography": "Saudi Arabia",
+                        "general_coverage": {
+                          "Dependents": "Covered",
+                          "Pre-Existing & Chronic Medical Conditions": "Covered",
+                          "Work Related Injury / Illness": "Not covered",
+                          "Hearing Aids": 6000,
+                          "Cost of Renal Dialysis": 100000,
+                          "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine": 15000,
+                          "Cost of Acquired Heart Valve Disease": 150000,
+                          "Cost of Harvesting Organs “From Donors”": 50000,
+                          "Cost of Alzheimer's Disease Treatment": 15000,
+                          "Cost of Autistic Patients": 50000,
+                          "Cost of Disability Cases": 100000,
+                          "In-Patient and Day-Care Patient": "Covered",
+                          "Hospital Accommodation: Room Type": "Semi-Private"
+                        },
+                        "in_patient_coverage": {
+                          "room_type": "Semi-Private",
+                          "outside_apn_ksa": 800,
+                          "abroad_emergency": 600
+                        },
+                        "outpatient": {
+                          "coverage_percentage": 20
+                        }
+                      },
+                      {
+                        "name": "Economy",
+                        "key": "MG7",
+                        "maximum_annual_benefit_limit_per_person": 500000,
+                        "geography": "Saudi Arabia",
+                        "general_coverage": {
+                          "Dependents": "Covered",
+                          "Pre-Existing & Chronic Medical Conditions": "Covered",
+                          "Work Related Injury / Illness": "Not covered",
+                          "Hearing Aids": 6000,
+                          "Cost of Renal Dialysis": 100000,
+                          "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine": 15000,
+                          "Cost of Acquired Heart Valve Disease": 150000,
+                          "Cost of Harvesting Organs “From Donors”": 50000,
+                          "Cost of Alzheimer's Disease Treatment": 15000,
+                          "Cost of Autistic Patients": 50000,
+                          "Cost of Disability Cases": 100000,
+                          "In-Patient and Day-Care Patient": "Covered",
+                          "Hospital Accommodation: Room Type": "Semi-Private"
+                        },
+                        "in_patient_coverage": {
+                          "room_type": "Semi-Private",
+                          "outside_apn_ksa": 800,
+                          "abroad_emergency": 600
+                        },
+                        "outpatient": {
+                          "coverage_percentage": 20
+                        }
+                      },
+                      {
+                        "name": "Standard",
+                        "key": "MG6",
+                        "maximum_annual_benefit_limit_per_person": 500000,
+                        "geography": "Saudi Arabia",
+                        "general_coverage": {
+                          "Dependents": "Covered",
+                          "Pre-Existing & Chronic Medical Conditions": "Covered",
+                          "Work Related Injury / Illness": "Not covered",
+                          "Hearing Aids": 6000,
+                          "Cost of Renal Dialysis": 100000,
+                          "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine": 15000,
+                          "Cost of Acquired Heart Valve Disease": 150000,
+                          "Cost of Harvesting Organs “From Donors”": 50000,
+                          "Cost of Alzheimer's Disease Treatment": 15000,
+                          "Cost of Autistic Patients": 50000,
+                          "Cost of Disability Cases": 100000,
+                          "In-Patient and Day-Care Patient": "Covered",
+                          "Hospital Accommodation: Room Type": "Semi-Private"
+                        },
+                        "in_patient_coverage": {
+                          "room_type": "Semi-Private",
+                          "outside_apn_ksa": 800,
+                          "abroad_emergency": 600
+                        },
+                        "outpatient": {
+                          "coverage_percentage": 20
+                        }
+                      },
+                      {
+                        "name": "Classic",
+                        "key": "MG5",
+                        "maximum_annual_benefit_limit_per_person": 500000,
+                        "geography": "Saudi Arabia",
+                        "general_coverage": {
+                          "Dependents": "Covered",
+                          "Pre-Existing & Chronic Medical Conditions": "Covered",
+                          "Work Related Injury / Illness": "Not covered",
+                          "Hearing Aids": 6000,
+                          "Cost of Renal Dialysis": 100000,
+                          "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine": 15000,
+                          "Cost of Acquired Heart Valve Disease": 150000,
+                          "Cost of Harvesting Organs “From Donors”": 50000,
+                          "Cost of Alzheimer's Disease Treatment": 15000,
+                          "Cost of Autistic Patients": 50000,
+                          "Cost of Disability Cases": 100000,
+                          "In-Patient and Day-Care Patient": "Covered",
+                          "Hospital Accommodation: Room Type": "Semi-Private"
+                        },
+                        "in_patient_coverage": {
+                          "room_type": "Semi-Private",
+                          "outside_apn_ksa": 800,
+                          "abroad_emergency": 600
+                        },
+                        "outpatient": {
+                          "coverage_percentage": 20
+                        }
+                      },
+                      {
+                        "name": "Advance",
+                        "key": "MG4",
+                        "maximum_annual_benefit_limit_per_person": 500000,
+                        "geography": "Saudi Arabia",
+                        "general_coverage": {
+                          "Dependents": "Covered",
+                          "Pre-Existing & Chronic Medical Conditions": "Covered",
+                          "Work Related Injury / Illness": "Not covered",
+                          "Hearing Aids": 6000,
+                          "Cost of Renal Dialysis": 100000,
+                          "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine": 15000,
+                          "Cost of Acquired Heart Valve Disease": 150000,
+                          "Cost of Harvesting Organs “From Donors”": 50000,
+                          "Cost of Alzheimer's Disease Treatment": 15000,
+                          "Cost of Autistic Patients": 50000,
+                          "Cost of Disability Cases": 100000,
+                          "In-Patient and Day-Care Patient": "Covered",
+                          "Hospital Accommodation: Room Type": "Semi-Private"
+                        },
+                        "in_patient_coverage": {
+                          "room_type": "Semi-Private",
+                          "outside_apn_ksa": 800,
+                          "abroad_emergency": 600
+                        },
+                        "outpatient": {
+                          "coverage_percentage": 20
+                        }
+                      },
+                      {
+                        "name": "Premier",
+                        "key": "MG3",
+                        "maximum_annual_benefit_limit_per_person": 750000,
+                        "geography": "Saudi Arabia",
+                        "general_coverage": {
+                          "Dependents": "Covered",
+                          "Pre-Existing & Chronic Medical Conditions": "Covered",
+                          "Work Related Injury / Illness": "Not covered",
+                          "Hearing Aids": 6000,
+                          "Cost of Renal Dialysis": 100000,
+                          "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine": 15000,
+                          "Cost of Acquired Heart Valve Disease": 150000,
+                          "Cost of Harvesting Organs “From Donors”": 50000,
+                          "Cost of Alzheimer's Disease Treatment": 15000,
+                          "Cost of Autistic Patients": 50000,
+                          "Cost of Disability Cases": 100000,
+                          "In-Patient and Day-Care Patient": "Covered",
+                          "Hospital Accommodation: Room Type": "Semi-Private"
+                        },
+                        "in_patient_coverage": {
+                          "room_type": "Semi-Private",
+                          "outside_apn_ksa": 800,
+                          "abroad_emergency": 600
+                        },
+                        "outpatient": {
+                          "coverage_percentage": 20
+                        }
+                      },
+                      {
+                        "name": "Executive",
+                        "key": "MG2",
+                        "maximum_annual_benefit_limit_per_person": 750000,
+                        "geography": "Saudi Arabia",
+                        "general_coverage": {
+                          "Dependents": "Covered",
+                          "Pre-Existing & Chronic Medical Conditions": "Covered",
+                          "Work Related Injury / Illness": "Not covered",
+                          "Hearing Aids": 6000,
+                          "Cost of Renal Dialysis": 100000,
+                          "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine": 15000,
+                          "Cost of Acquired Heart Valve Disease": 150000,
+                          "Cost of Harvesting Organs “From Donors”": 50000,
+                          "Cost of Alzheimer's Disease Treatment": 15000,
+                          "Cost of Autistic Patients": 50000,
+                          "Cost of Disability Cases": 100000,
+                          "In-Patient and Day-Care Patient": "Covered",
+                          "Hospital Accommodation: Room Type": "Semi-Private"
+                        },
+                        "in_patient_coverage": {
+                          "room_type": "Semi-Private",
+                          "outside_apn_ksa": 800,
+                          "abroad_emergency": 600
+                        },
+                        "outpatient": {
+                          "coverage_percentage": 20
+                        }
+                      },
+                      {
+                        "name": "Elite",
+                        "key": "MG1",
+                        "maximum_annual_benefit_limit_per_person": 1000000,
+                        "geography": "Saudi Arabia",
+                        "general_coverage": {
+                          "Dependents": "Covered",
+                          "Pre-Existing & Chronic Medical Conditions": "Covered",
+                          "Work Related Injury / Illness": "Not covered",
+                          "Hearing Aids": 6000,
+                          "Cost of Renal Dialysis": 100000,
+                          "Cost of Psychological Disorders Cost of Covers non-acute cases with limit (5,000) SR for four sessions with medicine": 15000,
+                          "Cost of Acquired Heart Valve Disease": 150000,
+                          "Cost of Harvesting Organs “From Donors”": 50000,
+                          "Cost of Alzheimer's Disease Treatment": 15000,
+                          "Cost of Autistic Patients": 50000,
+                          "Cost of Disability Cases": 100000,
+                          "In-Patient and Day-Care Patient": "Covered",
+                          "Hospital Accommodation: Room Type": "Semi-Private"
+                        },
+                        "in_patient_coverage": {
+                          "room_type": "Semi-Private",
+                          "outside_apn_ksa": 800,
+                          "abroad_emergency": 600
+                        },
+                        "outpatient": {
+                          "coverage_percentage": 20
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clients/payment-due": {
+      "get": {
+        "summary": "Due Payment",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "link for due payment"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Due Payment",
+                    "value": {
+                      "payment": 1500
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Insured": {
+        "type": "object",
+        "properties": {
+          "nationality": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "description": "group",
+            "enum": [
+              "MG1",
+              "MG2",
+              "MG3",
+              "MG4",
+              "MG5",
+              "MG6",
+              "MG7",
+              "MG8"
+            ]
+          },
+          "identification_number": {
+            "type": "string",
+            "description": "For Saudi's Nationality ID, for others Iqama ID"
+          },
+          "dependents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Insured%20Child"
+            },
+            "nullable": true
+          }
+        },
+        "required": [
+          "nationality",
+          "category",
+          "identification_number"
+        ]
+      },
+      "Insured Child": {
+        "type": "object",
+        "properties": {
+          "nationality": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "description": "group"
+          },
+          "gender": {
+            "type": "string",
+            "description": "M / F",
+            "enum": [
+              "M",
+              "F"
+            ]
+          },
+          "identification_number": {
+            "type": "string",
+            "description": "For Saudi's Nationality ID, for others Iqama ID"
+          }
+        },
+        "required": [
+          "nationality",
+          "category",
+          "gender",
+          "identification_number"
+        ]
+      },
+      "Company": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "name_ar": {
+            "type": "string"
+          },
+          "sponsor_number": {
+            "type": "string"
+          },
+          "email_address": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "commercial_registration_number": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "name_ar",
+          "sponsor_number",
+          "email_address",
+          "phone_number",
+          "commercial_registration_number",
+          "client_id",
+          "updated_at",
+          "created_at",
+          "id"
+        ]
+      },
+      "Policy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "meta_data": {
+            "$ref": "#/components/schemas/Insured"
+          },
+          "start_date": {
+            "type": "null"
+          },
+          "provider_policy_id": {
+            "type": "null"
+          },
+          "provider_policy": {
+            "type": "null"
+          },
+          "order_status": {
+            "type": "integer"
+          },
+          "approval_status": {
+            "type": "integer"
+          },
+          "end_date": {
+            "type": "null"
+          },
+          "is_claimed": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "canceled_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoice": {
+            "type": "null"
+          },
+          "cancellation_document": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "id",
+          "meta_data",
+          "start_date",
+          "provider_policy_id",
+          "provider_policy",
+          "order_status",
+          "approval_status",
+          "end_date",
+          "is_claimed",
+          "created_at",
+          "updated_at",
+          "client_id",
+          "canceled_at",
+          "invoice",
+          "cancellation_document"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "servers": []
+}

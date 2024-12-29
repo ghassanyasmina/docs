@@ -1,0 +1,633 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI For Medical Insurance",
+    "description": "API's that you need to use to request insurance(s) for your clients",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://staging.yasmina.ai/api/v1/clients"
+    },
+    {
+      "url": "https://sandbox.yasmina.ai/api/v1/clients"
+    },
+    {
+      "url": "https://portal.yasmina.ai/api/v1/clients"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/oauth/token": {
+      "servers": [
+        {
+          "url": "https://staging.yasmina.ai"
+        },
+        {
+          "url": "https://sandbox.yasmina.ai"
+        },
+        {
+          "url": "https://portal.yasmina.ai"
+        }
+      ],
+      "post": {
+        "security": [],
+        "summary": "Generate Token",
+        "description": "Generates an Oauth token to later use in our API's",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "enum": ["client_credentials"],
+                    "default": "client_credentials",
+                    "description": "The type of OAuth grant being used."
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "default": "hmm",
+                    "example": "your-client-key",
+                    "description": "The client key issued by the authorization server."
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "example": "your-client-secret",
+                    "description": "The client secret issued by the authorization server."
+                  }
+                },
+                "required": ["grant_type", "client_key", "client_secret"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/companies": {
+      "post": {
+        "description": "You need to create a company record before requesting medical insurance to the employees of the company",
+        "summary": "Create company",
+        "tags": ["Company"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the company"
+                  },
+                  "name_ar": {
+                    "type": "string",
+                    "description": "Arabic name of the company"
+                  },
+                  "sponsor_number": {
+                    "type": "string",
+                    "description": "Sponsor number"
+                  },
+                  "email_address": {
+                    "type": "string",
+                    "description": "Email address"
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "description": "Phone number"
+                  },
+                  "commercial_registration_number": {
+                    "type": "string",
+                    "description": "The registration number of the company"
+                  }
+                },
+                "required": [
+                  "name",
+                  "name_ar",
+                  "sponsor_number",
+                  "email_address",
+                  "phone_number",
+                  "commercial_registration_number"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Company created",
+            "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Company"
+                  }
+                }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "description": "Problem in the values that you submitted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": 42201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The email address must be a valid email address. (and 1 more error)"
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "email_address": [
+                          "The email address must be a valid email address."
+                        ],
+                        "commercial_registration_number": [
+                          "The commercial registration number field cannot be empty."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "To list all the companies that you've created",
+        "summary": "List companies",
+        "tags": ["Company"],
+        "responses": {
+          "200": {
+            "description": "A list of companies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Company"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/policies": {
+      "get": {
+        "description": "List policies that you've requested",
+        "summary": "List policies",
+        "tags": ["Policies"],
+        "parameters": [
+          {
+            "name": "company_id",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/request-policies": {
+      "post": {
+        "description": "",
+        "summary": "Request policies",
+        "tags": ["Policies"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "insured": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Insured"
+                    }
+                  },
+                  "company_id": {
+                    "type": "integer",
+                    "description": "One of the company ids that were created from the company API"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Policies requested",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Problem in the values that you submitted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "default": 42201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "insured.1.number_of_dependents": [
+                          "The insured.1.number_of_dependents field cannot be empty."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/categories": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "List categories",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "All the categories that medgulf offers"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/policies/dispatch-forms": {
+      "post": {
+        "summary": "Dispatch HR forms",
+        "description": "",
+        "tags": ["HR Forms"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "national ids"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Forms dispatched successfully"
+          }
+        }
+      }
+    },
+    "/policies/{policyId}/claims": {
+      "post": {
+        "tags": ["Claims"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policyId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Issue a claim to your policy",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "requested_amount": {
+                      "type": "string"
+                    },
+                    "claim_status": {
+                      "type": "integer"
+                    },
+                    "policy_id": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "supporting_document": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requested_amount": {
+                    "type": "number",
+                    "description": "Value in SAR",
+                    "example": 1000
+                  },
+                  "description": {
+                    "description": "All details about what happened",
+                    "example": "",
+                    "type": "string"
+                  },
+                  "supporting_document": {
+                    "format": "binary",
+                    "type": "string",
+                    "description": "Could be used for uploading the invoice",
+                    "example": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "40101"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthenticated"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Insured": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "nationality_iso": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "description": "group",
+            "enum": [
+              "MG1",
+              "MG2",
+              "MG3",
+              "MG4",
+              "MG5",
+              "MG6",
+              "MG7",
+              "MG8"
+            ]
+          },
+          "nationality_id": {
+            "type": "string",
+            "description": "For Saudi's"
+          },
+          "iqama_id": {
+            "type": "string",
+            "description": "For Non-Saudi's"
+          },
+          "number_of_dependents": {
+            "type": "number"
+          },
+          "date_of_birth": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "nationality_iso",
+          "category",
+          "date_of_birth",
+          "number_of_dependents"
+        ]
+      },
+      "Policy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "meta_data": {
+            "$ref": "#/components/schemas/Insured"
+          },
+          "start_date": {
+            "type": "string"
+          },
+          "provider_policy_id": {
+            "type": "integer"
+          },
+          "provider_policy": {
+            "type": "string"
+          },
+          "order_status": {
+            "type": "integer"
+          },
+          "approval_status": {
+            "type": "integer"
+          },
+          "end_date": {
+            "type": "string"
+          },
+          "is_claimed": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "canceled_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoice": {
+            "type": "string"
+          },
+          "cancellation_document": {
+            "type": "string"
+          }
+        }
+      },
+      "Company": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "name_ar": {
+            "type": "string"
+          },
+          "sponsor_number": {
+            "type": "string"
+          },
+          "email_address": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "commercial_registration_number": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          }
+        },
+        "example": {
+          "name": "Misk schools",
+          "name_ar": "مدارس مسك",
+          "sponsor_number": "123",
+          "email_address": "masoud@yasmina.ai",
+          "phone_number": "0797531543",
+          "commercial_registration_number": "456",
+          "client_id": "9ba293f7-5f62-4e82-be9b-d804cc9d392c",
+          "updated_at": "2024-12-28T09:50:14.000000Z",
+          "created_at": "2024-12-28T09:50:14.000000Z",
+          "id": 1
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
