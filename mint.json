@@ -71,15 +71,17 @@
       ]
     },
     {
-      "group": "Property",
+      "group": "Car",
+      "icon": "car",
       "pages": [
-        "property/introduction"
+        "car/introduction"
       ]
     },
     {
-      "group": "Car",
+      "group": "Property",
+      "icon": "house",
       "pages": [
-        "car/introduction"
+        "property/introduction"
       ]
     },
     {
@@ -91,9 +93,9 @@
     {
       "group": "API Integration guides",
       "pages": [
-        "integrations/car",
         "integrations/medical",
-        "integrations/property-api-reference",
+        "integrations/car",
+        "integrations/property",
         "integrations/travel"
       ]
     },
