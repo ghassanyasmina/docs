@@ -27,21 +27,22 @@
   },
   "tabs": [
     {
-      "name": "Car API Reference",
-      "url": "api-reference"
-    },
-    {
       "name": "Medical API Reference",
       "url": "medical-api-reference",
       "openapi": "/medical-api-reference/openapi.json"
     },
     {
+      "name": "Car API Reference",
+      "url": "car"
+    },
+    {
+
       "name": "Property API Reference",
-      "url": "property-api-reference"
+      "url": "property"
     },
     {
       "name": "Travel API Reference",
-      "url": "travel-api-reference"
+      "url": "travel"
     }
   ],
   "anchors": [
@@ -70,11 +71,29 @@
       ]
     },
     {
+      "group": "Property",
+      "pages": [
+        "property/introduction"
+      ]
+    },
+    {
+      "group": "Car",
+      "pages": [
+        "car/introduction"
+      ]
+    },
+    {
+      "group": "Travel",
+      "pages": [
+        "travel/introduction"
+      ]
+    },
+    {
       "group": "API Integration guides",
       "pages": [
         "integrations/car",
         "integrations/medical",
-        "integrations/property",
+        "integrations/property-api-reference",
         "integrations/travel"
       ]
     },
@@ -83,30 +102,6 @@
       "pages": [
         "otherintegrations/iframe",
         "otherintegrations/portal"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "property-api-reference/endpoint/get",
-        "property-api-reference/endpoint/create",
-        "property-api-reference/endpoint/delete"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "travel-api-reference/endpoint/get",
-        "travel-api-reference/endpoint/create",
-        "travel-api-reference/endpoint/delete"
       ]
     }
   ],
