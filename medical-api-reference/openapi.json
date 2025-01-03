@@ -73,8 +73,20 @@
           }
         },
         "responses": {
-          "400": {
-            "$ref": "#/components/responses/Unauthorized"
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "invalid_client",
+                    "error_description": "Client authentication failed",
+                    "message": "Client authentication failed"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -150,7 +162,7 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": 42201
+                      "example": "42201"
                     },
                     "message": {
                       "type": "string",
@@ -198,6 +210,34 @@
         }
       }
     },
+    "/companies/{companyId}/policy-cancellation": {
+      "post": {
+        "description": "Cancel a policy for a company",
+        "summary": "Cancel policy",
+        "tags": ["Company"],
+        "parameters": [
+          {
+            "required": true,
+            "name": "companyId",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Canceled successfully"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/policies": {
       "get": {
         "description": "List policies that you've requested",
@@ -225,9 +265,13 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
+
     },
     "/request-policies": {
       "post": {
@@ -323,19 +367,55 @@
         }
       }
     },
-    "/policies/dispatch-forms": {
+    "/hr-forms/fill": {
+      "post": {
+        "summary": "Fill HR forms",
+        "description": "This if the HR wants to fill the Medical HR forms themselves.",
+        "tags": ["HR Forms"],
+        "responses": {
+          "204": {
+            "description": "Forms dispatched successfully"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/hr-forms/dispatch": {
       "post": {
         "summary": "Dispatch HR forms",
-        "description": "",
+        "description": "This is to dispatch the medical HR forms to employees. They will be provided with a link, once they answer it will be applied to the policy",
         "tags": ["HR Forms"],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "description": "national ids"
+                "description": "The national Ids of the people you need to dispatch the medical forms. Emails also work",
+                "type": "object",
+                "required": ["company_id", "ids_or_emails"],
+                "properties": {
+                  "company_id": {
+                    "type": "integer"
+                  },
+                  "ids_or_emails": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -344,6 +424,248 @@
         "responses": {
           "204": {
             "description": "Forms dispatched successfully"
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Validation failure",
+                  "type": "object",
+                  "example": {
+                    "code": "42201",
+                    "message": "The selected company id is invalid. (and 1 more error)",
+                    "details": {
+                      "company_id": [
+                        "The selected company id is invalid."
+                      ],
+                      "ids_or_emails": [
+                        "The ids or emails field cannot be empty."
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/hr-forms": {
+      "get": {
+        "summary": "Get the HR questions",
+        "description": "This is for showing the required medical questions and presenting it to employees",
+        "tags": ["HR Forms"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example":{
+                    "general_health_information": {
+                      "allergies": {
+                        "question": "Do you have any known allergies?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      },
+                      "current_medications": {
+                        "question": "Are you currently taking any medications?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      },
+                      "hospitalizations": {
+                        "question": "Have you been hospitalized in the last 5 years?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      },
+                      "pre_existing_conditions": {
+                        "question": "Do you have any pre-existing medical conditions?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      }
+                    },
+                    "surgical_history": {
+                      "past_surgeries": {
+                        "question": "Have you ever had surgery?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      },
+                      "surgery_complications": {
+                        "question": "Have you had any complications related to surgeries?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      }
+                    },
+                    "cardiovascular_health": {
+                      "conditions": {
+                        "question": "Have you ever been diagnosed with any of the following conditions?",
+                        "options": [
+                          "High Blood Pressure",
+                          "Heart Disease",
+                          "Stroke",
+                          "None of the above"
+                        ]
+                      },
+                      "chest_pain_or_breathlessness": {
+                        "question": "Do you experience chest pain or shortness of breath?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      },
+                      "heart_procedures": {
+                        "question": "Have you undergone any heart-related treatments or procedures (e.g., angioplasty, bypass surgery)?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      }
+                    },
+                    "chronic_conditions": {
+                      "diagnoses": {
+                        "question": "Have you been diagnosed with any of the following?",
+                        "options": [
+                          "Diabetes",
+                          "Asthma",
+                          "Chronic Kidney Disease",
+                          "Liver Disease",
+                          "Cancer",
+                          "None of the above"
+                        ]
+                      }
+                    },
+                    "lifestyle_and_habits": {
+                      "smoking": {
+                        "question": "Do you smoke or use tobacco products?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      },
+                      "alcohol_consumption": {
+                        "question": "Do you consume alcohol?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      },
+                      "physical_activity": {
+                        "question": "Do you engage in regular physical activity?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      },
+                      "family_history": {
+                        "question": "Do you have a family history of any major medical conditions (e.g., heart disease, diabetes, cancer)?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      }
+                    },
+                    "additional_information": {
+                      "other_medical_info": {
+                        "question": "Is there any other medical information that you believe we should be aware of?",
+                        "choices": [
+                          "Yes",
+                          "No"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/policies/{policyId}/deletion": {
+      "post": {
+        "summary": "Delete policy",
+        "tags": ["Policies"],
+        "description": "Delete a policy. Important if for example someone resigns",
+        "parameters": [
+          {
+            "name": "policyId",
+            "required": true,
+            "description": "The id field returned from policies API's",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cancellation_document": {
+                    "type": "string",
+                    "description": "Supporting document of why policy was deleted. Could be resignation document.",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Deleted successfully"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "40010",
+                  "message": "Policy is already canceled"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "40010"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Policy is already canceled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -361,7 +683,8 @@
             "required": true
           }
         ],
-        "summary": "Issue a claim to your policy",
+        "summary": "Issue claim",
+        "description": "Issue a claim to your policy",
         "responses": {
           "201": {
             "description": "Created",
@@ -431,10 +754,80 @@
           }
         }
       }
+    },
+    "/payment-link": {
+      "get": {
+        "description": "To generate a payment link for check out page",
+        "summary": "Payment link",
+        "tags": ["Payment"],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example":{
+                    "payment": "https://portal.yasmina.ai/checkoutPage?hash=eyJpdiI6ImZZVU1pN2NsbGxUOEtjNGlkQzVJanc9PSIsInZhbHVlIjoiV2Z6S2ljczQ4b3JmREFnNkVPa1phL0xZSTFGZ2dQRXZhcFo1K0pSaEE2ND0iLCJtYWMiOiJjNGRmMWM3ODQyZGEyZTA2M2JlOWYzZTA3NTc2NDcyNzk3M2E2ZGVhOWE3YjNjODQxNWU1MjU3ODA3ZDc3MjMzIiwidGFnIjoiIn0="
+                  }
+                }
+              }
+            },
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/payment-due": {
+      "get": {
+        "description": "Get the payment required",
+        "summary": "Payment due",
+        "tags": ["Payment"],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "payment": {
+                      "type": "integer",
+                      "example": 1500
+                    }
+                  },
+                  "example": {
+                    "payment": 1500
+                  }
+                }
+              }
+            },
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "components": {
     "responses": {
+      "NotFound": {
+        "description": "Record not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "40401"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Not found"
+                }
+              }
+            }
+          }
+        }
+      },
       "Unauthorized": {
         "description": "Unauthorized",
         "content": {

@@ -46,21 +46,6 @@
     }
   ],
   "anchors": [
-    {
-      "name": "Portal",
-      "icon": "table-columns",
-      "url": "https://portal.yasmina.ai"
-    },
-    {
-      "name": "Yasmina website",
-      "icon": "globe",
-      "url": "https://www.yasmina.ai"
-    },
-    {
-      "name": "Contact us",
-      "icon": "address-book",
-      "url": "https://www.yasmina.ai/yasmina/contact-us"
-    }
   ],
   "navigation": [
     {
@@ -100,10 +85,16 @@
       ]
     },
     {
-      "group": "Other resources",
+      "group": "Other features",
       "pages": [
         "otherintegrations/iframe",
         "otherintegrations/portal"
+      ]
+    },
+    {
+      "group": "Other resources",
+      "pages": [
+        "website","contact"
       ]
     }
   ],
