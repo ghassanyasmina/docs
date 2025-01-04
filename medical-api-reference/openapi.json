@@ -10,13 +10,13 @@
   },
   "servers": [
     {
-      "url": "https://staging.yasmina.ai/api/v1/clients"
+      "url": "https://staging.yasmina.ai/api/v1/medical"
     },
     {
-      "url": "https://sandbox.yasmina.ai/api/v1/clients"
+      "url": "https://sandbox.yasmina.ai/api/v1/medical"
     },
     {
-      "url": "https://portal.yasmina.ai/api/v1/clients"
+      "url": "https://portal.yasmina.ai/api/v1/medical"
     }
   ],
   "security": [
