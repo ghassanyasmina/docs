@@ -604,7 +604,7 @@
                 "insured": [
                   {
                     "nationality": "SA",
-                    "category": "MG1",
+                    "category": "basic",
                     "identification_number": "123",
                     "dependents": [
                       {
@@ -639,7 +639,7 @@
                         "meta_data": {
                           "name": "Ghassan",
                           "gender": "M",
-                          "category": "MG1",
+                          "category": "basic",
                           "company_id": 11,
                           "dependents": [
                             {
@@ -2584,7 +2584,7 @@
                       },
                       {
                         "name": "Elite",
-                        "key": "MG1",
+                        "key": "basic",
                         "maximum_annual_benefit_limit_per_person": 1000000,
                         "geography": "Saudi Arabia",
                         "general_coverage": {
@@ -2686,7 +2686,7 @@
             "type": "string",
             "description": "group",
             "enum": [
-              "MG1",
+              "basic",
               "MG2",
               "MG3",
               "MG4",

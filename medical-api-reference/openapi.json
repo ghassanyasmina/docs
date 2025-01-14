@@ -873,14 +873,14 @@
             "type": "string",
             "description": "group",
             "enum": [
-              "MG1",
-              "MG2",
-              "MG3",
-              "MG4",
-              "MG5",
-              "MG6",
-              "MG7",
-              "MG8"
+              "basic",
+              "economy",
+              "standard",
+              "classic",
+              "advance",
+              "premier",
+              "executive",
+              "elite"
             ]
           },
           "nationality_id": {
