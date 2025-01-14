@@ -17,13 +17,13 @@
   },
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "Contact us",
+      "url": "https://www.yasmina.ai/yasmina/contact-us"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Portal",
+    "url": "https://portal.yasmina.ai"
   },
   "tabs": [
     {

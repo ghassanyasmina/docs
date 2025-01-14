@@ -12,23 +12,28 @@ Below is the basic journey to requesting your first insurance(s)
 <Steps>
   <Step title="Authorization">
   	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
+
   	Or go directly to [Authorization API](/medical-api-reference/auth/generate-token)
   </Step>
   <Step title="Create a company">
   	Create a company record. The company is the one that wants to give insurance for their employees. [Click for more details](#create-a-company-record). <br />
+
   	Or go directly to [Create company API](/medical-api-reference/company/create-company)
   </Step>
   <Step title="Choose a package">
   	List and then choose the medical insurance package that you want the employees to get. [Click for more details](#list-available-packages).
+
   	Or go directly to [List categories](/medical-api-reference/products/list-categories)
   </Step>
   <Step title="Request insurance for the employees">
   	Select the employees of the company that are going to get insurances and pick a package for each. [Click for more details](#request-policies).
+
   	Or go directly to [Request policies API](/medical-api-reference/policies/request-policies)
   </Step>
   <Step title="Health declaration">
-  	Here we have two approaches. Either the HR fills the health declaration, or we dispatch the health declaration to the employees for them to fill. [Click for more details](#health-declaration)
-  	Or go directly to [Dispatch HR Forms API](/medical-api-reference/hr-forms/dispatch-hr-forms)
+  	Here we have two approaches. Either the Company admins fills the medical declaration form, or we dispatch the health declaration to the employees for them to fill. [Click for more details](#health-declaration)
+
+  	Or go directly to [Dispatch Medical Forms API](/medical-api-reference/hr-forms/dispatch-hr-forms)
   </Step>
   <Step title="Payment">
   	Go the payment link. We will generate that for you.
@@ -39,23 +44,35 @@ Below is the basic journey to requesting your first insurance(s)
 
 To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
 You will need `client_key` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
-Go to the following link to use the [Authorization API](https://www.google.com).
+
+After making the request, you will get access_token in the response. Example
+```
+{
+    "token_type": "Bearer",
+    "expires_in": 31536000,
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YmEyOTNmNy01ZjYyLTRlODItYmU5Yi1kODA0Y2M5ZDM5MmMiLCJqdGkiOiJlZWJjMWM5MWEyZThkMTVmNTYxNjZjMjkwM2Q0NTZjM2IzYWM5MTU5ZTdkODQ2YTE5NmFlYjcxMWM5OTJlMjc2MzAzNjY3MDA1MDQzM2U0OSIsImlhdCI6MTczNTkwNTE5OC40NTg5MiwibmJmIjoxNzM1OTA1MTk4LjQ1ODkyMSwiZXhwIjoxNzY3NDQxMTk4LjQ1Njk0LCJzdWIiOiIiLCJzY29wZXMiOltdfQ.Dy6df9fr4eBMLtkjnzcBjrXSg2AZLrmrBBC1NF8wmQaIOjcNffiqMiL9MqdMPj43Dxt4fj9rT1_S8dfwEpSbxNuIweNLOa7iDYpqMQ2l-cKG_sn24G27exZ9shLG8p2FHa4SHxSByRw00aCJceiTzq12LLNfc14rGPKZOv5Pi-HuLAP6ms_NfyN-KafOFOjYym4PyHCuTX8jEkoImgpBUpPgdnq1qyQdrZxL4grp0P_ezkhTgHgWwuzjSYgm4l-Eyga65kua-pdgWbhJ7-I1W_hjWT2dKCivcmk6nR9wtTjWs9hBvZrOfoZmox4YPIjZ_pvImZbHcZui-7xs80dnoaTKRviR8aot0cPIKoqRwinBodjWRh3QEu5juT1b7T-m85Wo_JNRoarKD4pW2Lzq7v1u9Z6PMEeYXvuFchzZ6HPvthblfwbtu3AX6ij0ZGlZPdMRdEiRtZf3dt8nsWdI-E_J0GAD-9wexlpNL92Z-IfuwMXuUQs_j4l92fcfBC_NxlEUTNACyOWPrA3V6ZSLHrga6W4Iz6Por3txzCsxlwvEBQAM70VyGeSqFi0wMLg2V8wVYAEpiEe2dl4RpMbUaPzRNc_KsDUYM_4DqwMTo2v2x4AAPxWmWiRn4PeAXovraN6Ll-eW9zq5hUbt3c-yj0spVYhJADHodoHmAdQM9MA"
+}
+```
+Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
+
+Go to the following link to use the [Authorization API](/medical-api-reference/auth/generate-token).
+
 <Warning>For security reasons. Do not make your client_key and client_secret public in your platform.</Warning>
 
 ### Creating a Company record
 
-After acquiring an access_token, you can begin using the APIs. The first step to produce policies is to create a company record with their employees. After creating the company record, you can request to issue policies to the employees of that company.
+After acquiring an access_token, you can begin using the APIs. Before you produce policies for a company, you must  create a company record. After creating the company record, you can request to issue policies to the employees of that company.
 
 The [POST companies API](/medical-api-reference/company/create-company), will require few fields that define details of the company such as Email, Phone etc...
 
 It will return a response with a unique identifier (id). Here is an example of the response from the POST companies API.
 ```
 {
-  "name": "Misk schools",
-  "name_ar": "مدارس مسك",
+  "name": "Syarah",
+  "name_ar": "شركة سيارة",
   "sponsor_number": "123",
-  "email_address": "masoud@yasmina.ai",
-  "phone_number": "0797531543",
+  "email_address": "yousef@syarah.com",
+  "phone_number": "+966551234567",
   "commercial_registration_number": "456",
   "client_id": "9c5b2b00-abcd-496c-a60b-8892fb63f0c3",
   "updated_at": "2024-07-15T20:36:12.000000Z",
@@ -66,7 +83,7 @@ It will return a response with a unique identifier (id). Here is an example of t
 You can also visit the [List companies API](/medical-api-reference/company/list-companies) to show all companies you've created
 
 ### List available packages
-Before you start issuing policies to a Company's employees. Check out the [Categories API](/medical-api-reference/products/list-categories).
+After creating a company record, you can list available packages to the company. Check out the [Categories API](/medical-api-reference/products/list-categories).
 This gives you a list of available insurance categories.
 1. The Insurance provider PDF
 	- Contains an overview picture of what is provided by the Insurance provider
@@ -75,7 +92,21 @@ This gives you a list of available insurance categories.
 3. The categories
 	- The categories items uses these keys and gives the coverage values
 
-Coverage values can either be a number (the amount), or a boolean (whether it's covered or not), or a text (the type of coverage) Each item in the categories has a category property. This is what you will need to provide when you issue policies. Notice the category field in the following sample of the categories response API.
+Each employee can have a separate package. Coverage values can either be a number (the amount), or a boolean (whether it's covered or not), or a text (the type of coverage) Each item in the categories has a `category` property. This is an important property as it is what you will need to provide when you issue policies. Notice the category field in the following sample of the categories response API.
+
+```
+    "categories": {
+        "basic": {
+            "name": "Basic",
+            "category": "basic",
+            "maximum_annual_benefit_limit_per_person": 500000,
+            "geography": "Saudi Arabia",
+            "general_coverage": {
+            ...
+        }
+        ...
+    }
+```
 
 ### Request insurance policies
 To issue policies, you need to execute the [Request policies API](/medical-api-reference/policies/request-policies).
@@ -85,16 +116,16 @@ Here is an example of a payload you would send
 {
   "insured": [
     {
-        "name": "Ghassan Barghouti",
-        "nationality_iso": "JO",
-        "category": "MG1",
+        "name": "Abdullah Enizi",
+        "nationality_iso": "SA",
+        "category": "MG2",
         "iqama_id": "123",
         "date_of_birth": "1988-04-20",
         "number_of_dependents": 1
     },
     {
-        "name": "Masoud El-Helou",
-        "nationality_iso": "SA",
+        "name": "Samer Najjar",
+        "nationality_iso": "JO",
         "category": "MG1",
         "nationality_id": "123",
         "date_of_birth": "1988-04-20",
@@ -104,11 +135,82 @@ Here is an example of a payload you would send
   "company_id": 1
 }
 ```
-Notice in the above, there are two employees within the company. One of them we are supplying the `iqama_id` as he is a Non-Saudi while the other we supply a `nationality_id` as he is Saudi.
+
+<Note>Notice in the above, there are two employees within the company. One of them we are supplying the `iqama_id` as he is a Non-Saudi while the other we supply a `nationality_id` as he is Saudi.</Note>
 The `category` that we are supplying is what was returned from the [Categories API](/medical-api-reference/products/list-categories)
 
 ### HR declaration forms
-You can dispatch HR forms using the [Dispatch HR Forms API](/medical-api-reference/hr-forms/dispatch-hr-forms) for the employees that you are requesting insurance for. And then later supply them to the insurance provider
+The companies that have requested insurance needs to be supply the insurance provider with Medical forms. These are mandatory for insurance providers to know past medical histories.
+
+Yasmina offers two methods for submitting these forms:
+
+1. **Fill Medical Forms:** Company administrators fill out the forms on behalf of the employees.
+
+2. **Dispatch Medical Forms:** Company administrators dispatch the forms to employees, who then complete them individually.
+
+Detailed explanations for each method are provided below.
+<AccordionGroup>
+  <Accordion title="Fill medical forms" icon="alien-8bit">
+  	The fill medical forms allows the company admin to do so on behalf of the employers of the company. It takes two fields of which both are objects `all_employees` and `ids_or_emails`.
+
+  	The idea behind the two fields, is to allow the Company admin to select the default answers for all employees, and then override the answers for specific employees.
+
+  	For example, let us say that all employees except 1 (for example employee with email john.doe@example.com), never had surgeries before, we can declare the answer `No` on the surgery question in the all_employees field, but declare `Yes` for the other employee.employee
+
+  	Here's an example of such case
+
+  	```
+  	{
+        "all_employees": {
+            "allergies": "No",
+            "current_medications": "No",
+            "hospitalizations": "No",
+            "pre_existing_conditions": "No",
+            "past_surgeries": "No",
+            "surgery_complications": "No",
+            "chest_pain_or_breathlessness": "No",
+            "heart_procedures": "No",
+            "smoking": "No",
+            "alcohol_consumption": "No",
+            "physical_activity": "No",
+            "family_history": "No",
+            "chronic_conditions": ["None of the above"]
+        },
+        "ids_or_emails": [
+            {
+                "id_or_email": "john.doe@example.com",
+                "answers": {
+                    "allergies": "No",
+                    "current_medications": "No",
+                    "hospitalizations": "No",
+                    "pre_existing_conditions": "No",
+                    "past_surgeries": "Yes",
+                    "surgery_complications": "No",
+                    "chest_pain_or_breathlessness": "No",
+                    "heart_procedures": "No",
+                    "smoking": "No",
+                    "alcohol_consumption": "No",
+                    "physical_activity": "No",
+                    "family_history": "No",
+                    "chronic_conditions": ["Liver Disease"]
+                }
+            }
+        ]
+    }
+  	```
+    Check out the [Fill medical forms API](/medical-api-reference/hr-forms/fill-hr-forms) docs for all the supported props.
+  </Accordion>
+
+  <Accordion title="Dispatch Medical forms" icon="envelopes">
+  	In this method, the Company admin puts a list of employees (emails, nationality ids, or Iqama ids). Yasmina then dispatches the medical form to each employee on email.
+
+  	The employees will get a link to fill the forms themselves.
+
+  	You can check the [Dispatch Medical Form API](/medical-api-reference/hr-forms/dispatch-hr-forms)
+
+    You can put other components inside Accordions.
+  </Accordion>
+</AccordionGroup>
 
 ### Payment
 Yasmina will supply a payment link of which your clients can pay for the insurance. You must share this link in your platform.
