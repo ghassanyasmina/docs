@@ -102,6 +102,7 @@
   },
   "api": {
     "playground": {
+      "mode": "show",
       "disableProxy": true
     }
   }
