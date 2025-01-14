@@ -367,11 +367,11 @@
         }
       }
     },
-    "/hr-forms/fill": {
+    "/medical-forms/fill": {
       "post": {
-        "summary": "Fill HR forms",
-        "description": "This if the HR wants to fill the Medical HR forms themselves.",
-        "tags": ["HR Forms"],
+        "summary": "Fill Medical forms",
+        "description": "This if the HR wants to fill the Medical forms themselves.",
+        "tags": ["Medical Forms"],
         "responses": {
           "204": {
             "description": "Forms dispatched successfully"
@@ -394,11 +394,11 @@
         }
       }
     },
-    "/hr-forms/dispatch": {
+    "/medical-forms/dispatch": {
       "post": {
-        "summary": "Dispatch HR forms",
-        "description": "This is to dispatch the medical HR forms to employees. They will be provided with a link, once they answer it will be applied to the policy",
-        "tags": ["HR Forms"],
+        "summary": "Dispatch Medical forms",
+        "description": "This is to dispatch the medical Medical forms to employees. They will be provided with a link, once they answer it will be applied to the policy",
+        "tags": ["Medical Forms"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -454,11 +454,11 @@
         }
       }
     },
-    "/hr-forms": {
+    "/medical-forms": {
       "get": {
-        "summary": "Get the HR questions",
+        "summary": "Get the Medical form questions",
         "description": "This is for showing the required medical questions and presenting it to employees",
-        "tags": ["HR Forms"],
+        "tags": ["Medical Forms"],
         "responses": {
           "200": {
             "description": "Success",
