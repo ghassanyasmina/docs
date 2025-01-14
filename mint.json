@@ -99,5 +99,10 @@
     }
   ],
   "footerSocials": {
+  },
+  "api": {
+    "playground": {
+      "disableProxy": true
+    }
   }
 }
