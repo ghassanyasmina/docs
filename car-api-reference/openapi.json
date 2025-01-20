@@ -10,9 +10,6 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/api/v1/car"
-    },
-    {
       "url": "https://staging.yasmina.ai/api/v1/car"
     },
     {
@@ -30,9 +27,6 @@
   "paths": {
     "/oauth/token": {
       "servers": [
-        {
-          "url": "http://localhost:8000"
-        },
         {
           "url": "https://staging.yasmina.ai"
         },
