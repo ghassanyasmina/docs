@@ -32,8 +32,9 @@
       "openapi": "/medical-api-reference/openapi.json"
     },
     {
-      "name": "Car API Reference",
-      "url": "car"
+      "name": "Motor Insurance API Reference",
+      "url": "car-api-reference",
+      "openapi": "/car-api-reference/openapi.json"
     },
     {
 
@@ -53,13 +54,6 @@
       "pages": [
         "introduction",
         "environments"
-      ]
-    },
-    {
-      "group": "Car",
-      "icon": "car",
-      "pages": [
-        "car/introduction"
       ]
     },
     {
