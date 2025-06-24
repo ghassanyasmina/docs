@@ -61,7 +61,6 @@
                   },
                   "client_id": {
                     "type": "string",
-                    "default": "hmm",
                     "example": "your-client-key",
                     "description": "The client key issued by the authorization server."
                   },
