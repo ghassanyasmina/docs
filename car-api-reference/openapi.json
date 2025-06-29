@@ -2,13 +2,16 @@
   "openapi": "3.0.1",
   "info": {
     "title": "OpenAPI For Motor Insurance",
-    "description": "API's that you need to use to request insurance(s) for your clients",
+    "description": "API's that ... you need to use to request insurance(s) for your clients",
     "license": {
       "name": "MIT"
     },
     "version": "1.0.0"
   },
   "servers": [
+    {
+      "url": "http://localhost:8000/api/v1/car"
+    },
     {
       "url": "https://staging.yasmina.ai/api/v1/car"
     },
@@ -25,8 +28,103 @@
     }
   ],
   "paths": {
+    "/insurance-aggregator": {
+      "servers": [
+        {
+          "url": "http://localhost:8000/api/v1/car"
+        },
+        {
+          "url": "https://staging.yasmina.ai/api/v1/car"
+        },
+        {
+          "url": "https://sandbox.yasmina.ai/api/v1/car"
+        },
+        {
+          "url": "https://portal.yasmina.ai/api/v1/car"
+        }
+      ],
+      "post": {
+        "description": "Generate quotes from different insurance companies",
+        "tags": ["Aggregator"],
+        "summary": "List quotes",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "owner_id",
+                  "car_year",
+                  "car_sequence_number",
+                  "car_price",
+                  "insurance_type"
+                ],
+                "properties": {
+                  "owner_id": {
+                    "type": "string",
+                    "pattern": "^\\d{10}$",
+                    "description": "Exactly 10 digits"
+                  },
+                  "car_year": {
+                    "type": "integer",
+                    "minimum": 1900,
+                    "maximum": 2025,
+                    "description": "Four-digit year, not in the future"
+                  },
+                  "car_sequence_number": {
+                    "type": "string",
+                    "pattern": "^\\d{9}$",
+                    "description": "Exactly 9 digits"
+                  },
+                  "car_price": {
+                    "type": "number",
+                    "minimum": 5000,
+                    "maximum": 10000000,
+                    "description": "Price in SAR between 5,000 and 10,000,000"
+                  },
+                  "insurance_type": {
+                    "type": "string",
+                    "enum": ["comp", "TPL"],
+                    "description": "Must be either “comp” or “TPL”"
+                  }
+                }
+              },
+              "example": {
+                "owner_id": "0123456789",
+                "car_year": 2020,
+                "car_sequence_number": "123456789",
+                "car_price": 150000,
+                "insurance_type": "comp"
+              }
+            }
+          }
+        }
+      }
+    },
     "/oauth/token": {
       "servers": [
+        {
+          "url": "http://localhost:8000"
+        },
         {
           "url": "https://staging.yasmina.ai"
         },
