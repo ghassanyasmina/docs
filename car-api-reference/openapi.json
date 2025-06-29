@@ -10,9 +10,6 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/api/v1/car"
-    },
-    {
       "url": "https://staging.yasmina.ai/api/v1/car"
     },
     {
@@ -31,9 +28,6 @@
     "/insurance-aggregator": {
       "servers": [
         {
-          "url": "http://localhost:8000/api/v1/car"
-        },
-        {
           "url": "https://staging.yasmina.ai/api/v1/car"
         },
         {
@@ -44,9 +38,9 @@
         }
       ],
       "post": {
-        "description": "Generate quotes from different insurance companies",
+        "description": "Get prices from different insurance companies",
         "tags": ["Aggregator"],
-        "summary": "List quotes",
+        "summary": "Insurance ggregator",
         "responses": {
           "200": {
             "description": "Success",
