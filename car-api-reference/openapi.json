@@ -40,7 +40,7 @@
       "post": {
         "description": "Get prices from different insurance companies",
         "tags": ["Aggregator"],
-        "summary": "Insurance ggregator",
+        "summary": "Insurance aggregator",
         "responses": {
           "200": {
             "description": "Success",
