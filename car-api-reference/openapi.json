@@ -237,6 +237,15 @@
                   "new_owner_id": {
                     "description": "The Nationality ID of the new owner",
                     "type": "string"
+                  },
+                  "extra_fields": {
+                    "type": "object",
+                    "description": "Optional free-form object with additional fields. Total JSON-encoded size must not exceed 255 characters.",
+                    "additionalProperties": true,
+                    "example": {
+                      "some_key": "some value",
+                      "another_key": 123
+                    }
                   }
                 },
                 "required": ["vin", "car_sequence_number", "current_car_owner", "new_owner_id"]
