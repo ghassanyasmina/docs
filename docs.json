@@ -62,30 +62,6 @@
                 "group": "Schengen Travel Insurance"
               }
             ]
-          },
-          {
-            "group": "SDK libraries",
-            "icon": "toolbox",
-            "pages": [
-              "integrations/property",
-              "integrations/travel"
-            ]
-          },
-          {
-            "group": "Iframes",
-            "icon": "window-restore",
-            "pages": [
-              "integrations/property",
-              "integrations/travel"
-            ]
-          },
-          {
-            "group": "HTML snippets",
-            "icon": "code",
-            "pages": [
-              "integrations/property",
-              "integrations/travel"
-            ]
           }
         ]
       }
