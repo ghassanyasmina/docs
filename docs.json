@@ -1,0 +1,90 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "theme": "maple",
+  "name": "Yasmina embedded insurance",
+  "colors": {
+    "primary": "#16A34A",
+    "light": "#07C983",
+    "dark": "#15803D"
+  },
+  "logo": {
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Getting started",
+        "pages": [
+          "introduction",
+          "environments"
+        ]
+      },
+      {
+        "group": "Integration guides",
+        "pages": [
+          "integrations/medical",
+          "integrations/car",
+          "integrations/property",
+          "integrations/travel"
+        ]
+      },
+      {
+        "group": "Integration options",
+        "pages": [
+          {
+            "group": "API integration",
+            "icon": "code",
+            "pages": [
+              {
+                "openapi": {
+                  "directory": "medical-api-reference",
+                  "source": "/medical-api-reference/openapi.json"
+                },
+                "group": "SME Medical API reference"
+              },
+              {
+                "openapi": {
+                  "directory": "car-api-reference",
+                  "source": "/car-api-reference/openapi.json"
+                },
+                "group": "Motor API reference"
+              },
+              {
+                "openapi": {
+                  "directory": "yasmina-schengen-api-reference",
+                  "source": "/yasmina-schengen-travel-insurance/openapi.json"
+                },
+                "group": "Schengen Travel Insurance"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:hi@mintlify.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Portal",
+      "href": "https://portal.yasmina.ai"
+    }
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://www.linkedin.com/company/yasminaai",
+      "x": "https://x.com/YasminaIns",
+      "instagram": "https://www.instagram.com/yasminainsurance/"
+    }
+  }
+}

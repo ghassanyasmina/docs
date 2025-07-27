@@ -1,0 +1,450 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Schengen Travel Insurance",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://staging.yasmina.ai/api/v1/yasmina-schengen-travel"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "paths": {
+    "/oauth/token": {
+      "servers": [
+        {
+          "url": "https://staging.yasmina.ai"
+        }
+      ],
+      "post": {
+        "security": [],
+        "summary": "Generate Token",
+        "description": "Generates an Oauth token to later use in our API's",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "enum": ["client_credentials"],
+                    "default": "client_credentials",
+                    "description": "The type of OAuth grant being used."
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "example": "your-client-key",
+                    "description": "The client key issued by the authorization server."
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "example": "your-client-secret",
+                    "description": "The client secret issued by the authorization server."
+                  }
+                },
+                "required": ["grant_type", "client_key", "client_secret"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "invalid_client",
+                    "error_description": "Client authentication failed",
+                    "message": "Client authentication failed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/yasmina-schengen-travel/request-quote": {
+      "post": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "Request Quote",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nationality_id": {
+                    "type": "string",
+                    "example": "1234567890"
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "example": "+966501234567"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "bashar@yasmina.ai"
+                  },
+                  "multi_entry": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "enum": [7,10,15,21,30,60,90,180],
+                    "example": 10,
+                    "description": "Required only if multi_entry is false"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-07-27"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "1988-04-20"
+                  },
+                  "travellers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nationality": {
+                          "type": "string",
+                          "enum": [
+                            "AF", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU",
+                            "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO",
+                            "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV",
+                            "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CG", "CD", "CK", "CR",
+                            "CI", "HR", "CU", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ",
+                            "ER", "EE", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "GA", "GM", "GE",
+                            "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY",
+                            "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM",
+                            "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KP", "KR", "KW", "KG", "LA",
+                            "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MG", "MW", "MY", "MV",
+                            "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME",
+                            "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NC", "NZ", "NI", "NE", "NG",
+                            "NU", "NF", "MK", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE",
+                            "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN",
+                            "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG",
+                            "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "SS", "ES", "LK", "SD", "SR", "SJ",
+                            "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN",
+                            "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "US", "UM", "UY", "UZ", "VU",
+                            "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"
+                          ],
+                          "example": "SA",
+                          "description": "ISO 3166-1 alpha-2 country code."
+                        },
+                        "full_name": {
+                          "type": "string",
+                          "example": "Bashar Abalkhail"
+                        },
+                        "passport_number": {
+                          "type": "string",
+                          "example": "G12345678"
+                        },
+                        "gender": {
+                          "type": "string",
+                          "enum": ["m", "f"],
+                          "example": "m"
+                        },
+                        "date_of_birth": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "1982-04-20"
+                        },
+                        "relation": {
+                          "type": "string",
+                          "example": "self"
+                        },
+                        "passport_expiry_date": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2025-10-30"
+                        }
+                      },
+                      "required": [
+                        "nationality",
+                        "full_name",
+                        "passport_number",
+                        "gender",
+                        "date_of_birth",
+                        "relation",
+                        "passport_expiry_date"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "nationality_id",
+                  "phone_number",
+                  "email",
+                  "multi_entry",
+                  "start_date",
+                  "date_of_birth",
+                  "travellers"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quote details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "client_id": { "type": "string", "format": "uuid" },
+                    "nationality_id": { "type": "string" },
+                    "phone_number": { "type": "string" },
+                    "email": { "type": "string", "format": "email", "example": "bashar@yasmina.ai" },
+                    "date_of_birth": { "type": "string", "format": "date" },
+                    "type": { "type": "string", "example": "yasmina_schengen_travel_insurance" },
+                    "quote_id": { "type": "string" },
+                    "bill": {
+                      "type": "object",
+                      "properties": {
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "adult": {
+                              "type": "object",
+                              "properties": {
+                                "count": { "type": "integer" },
+                                "price": { "type": "number" },
+                                "total": { "type": "number" }
+                              }
+                            }
+                          }
+                        },
+                        "adminFees": { "type": "number" }
+                      }
+                    },
+                    "price": { "type": "number" },
+                    "updated_at": { "type": "string", "format": "date-time" },
+                    "created_at": { "type": "string", "format": "date-time" },
+                    "travellers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "nationality": { "type": "string", "example": "JO" },
+                          "full_name": { "type": "string", "example": "Bashar Abalkhail" },
+                          "passport_number": { "type": "string" },
+                          "gender": { "type": "string", "enum": ["m", "f"] },
+                          "date_of_birth": { "type": "string", "format": "date" },
+                          "relation": { "type": "string" },
+                          "passport_expiry_date": { "type": "string", "format": "date" }
+                        }
+                      }
+                    },
+                    "multi_entry": { "type": "boolean" },
+                    "start_date": { "type": "string", "format": "date" },
+                    "duration": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/yasmina-schengen-travel/upload-documents": {
+      "post": {
+        "summary": "Upload travel documents",
+        "description": "Uploads ID and passport documents for a specific travel quote.",
+        "operationId": "uploadDocuments",
+        "tags": ["Quotes"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quote_id": {
+                    "type": "string",
+                    "example": "Q-HVI7GMGM"
+                  },
+                  "id_document": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "passport_document": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": ["quote_id", "id_document", "passport_document"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Documents uploaded successfully"
+          },
+          "400": {
+            "description": "Documents already uploaded"
+          },
+
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "42201"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "The quote id field cannot be empty. (and 2 more errors)"
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "quote_id": [
+                          "The quote id field cannot be empty."
+                        ],
+                        "id_document": [
+                          "The id document field cannot be empty."
+                        ],
+                        "passport_document": [
+                          "The passport document must be a file."
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["code", "message", "details"]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/yasmina-schengen-travel/purchase": {
+      "post": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "Purchase",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quote_id": {
+                    "type": "string",
+                    "example": "Q-L5ELL0WU"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/yasmina-schengen-travel/policies": {
+      "get": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "List policies",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
