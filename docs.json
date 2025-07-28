@@ -56,6 +56,13 @@
               },
               {
                 "openapi": {
+                  "directory": "property-api-reference",
+                  "source": "/property-api-reference/openapi.json"
+                },
+                "group": "Property API reference"
+              },
+              {
+                "openapi": {
                   "directory": "yasmina-schengen-api-reference",
                   "source": "/yasmina-schengen-travel-insurance/openapi.json"
                 },

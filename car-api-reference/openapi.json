@@ -216,7 +216,7 @@
       },
       "post": {
         "description": "For requesting a new policy",
-        "summary": "Request Policy",
+        "summary": "Issue policy",
         "tags": ["Policies"],
         "requestBody": {
           "content": {

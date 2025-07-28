@@ -1,0 +1,908 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI For Property Insurance",
+    "description": "APIs for requesting and managing policies for your clients",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://staging.yasmina.ai/api/v1/property"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/oauth/token": {
+      "servers": [
+        {
+          "url": "http://localhost:8000"
+        },
+        {
+          "url": "https://staging.yasmina.ai"
+        }
+      ],
+      "post": {
+        "security": [],
+        "summary": "Generate Token",
+        "description": "Generates an Oauth token to later use in our API's",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "enum": [
+                      "client_credentials"
+                    ],
+                    "default": "client_credentials",
+                    "description": "The type of OAuth grant being used."
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "example": "your-client-key",
+                    "description": "The client key issued by the authorization server."
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "example": "your-client-secret",
+                    "description": "The client secret issued by the authorization server."
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "client_id",
+                  "client_secret"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "invalid_client",
+                    "error_description": "Client authentication failed",
+                    "message": "Client authentication failed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prices": {
+      "get": {
+        "description": "Shows prices from different insurance companies based on the provided property and contents cost. You must provide at least one of property_cost or contents_cost. You can also provide both",
+        "tags": [
+          "Prices"
+        ],
+        "summary": "Lists prices",
+        "parameters": [
+          {
+            "name": "property_cost",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "name": "contents_cost",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "x-validation": {
+          "anyOf": [
+            {
+              "required": [
+                "property_cost"
+              ]
+            },
+            {
+              "required": [
+                "contents_cost"
+              ]
+            }
+          ]
+        },
+        "responses": {
+          "200": {
+            "description": "Lists prices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "walaa": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Walaa"
+                        },
+                        "name_ar": {
+                          "type": "string"
+                        },
+                        "logo": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "coverages": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 476.1
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "tawuniya": {
+                      "name": "Tawuniya",
+                      "name_ar": "التعاونية",
+                      "logo": "http://localhost:8000/images/tawuniya-logo.png",
+                      "coverages": [
+                        "fires",
+                        "explosion",
+                        "storms",
+                        "floods",
+                        "maintenance",
+                        "ac_repair",
+                        "emergency_repairs",
+                        "theft",
+                        "earthquakes"
+                      ],
+                      "price": 476.1
+                    },
+                    "medgulf": {
+                      "name": "Medgulf",
+                      "name_ar": "ميدغلف",
+                      "logo": "http://localhost:8000/images/medgulf-logo.png",
+                      "benefits": [
+                        "fires",
+                        "explosion",
+                        "storms",
+                        "floods",
+                        "maintenance",
+                        "emergency_repairs",
+                        "theft",
+                        "earthquakes"
+                      ],
+                      "price": 508.3
+                    },
+                    "walaa": {
+                      "name": "Walaa",
+                      "name_ar": "ولاء",
+                      "logo": "http://localhost:8000/images/walaa-logo.jpeg",
+                      "benefits": [
+                        "fires",
+                        "explosion",
+                        "storms",
+                        "floods",
+                        "maintenance",
+                        "emergency_repairs",
+                        "theft",
+                        "earthquakes",
+                        "liability"
+                      ],
+                      "price": 603.75
+                    },
+                    "takaful_alrajhi": {
+                      "name": "Takaful Alrajhi",
+                      "name_ar": "تكافل الراجحي",
+                      "logo": "https://mdckhobar.sa/wp-content/uploads/2024/10/Al-Rajhi-Takaful.png",
+                      "benefits": [
+                        "fires",
+                        "explosion",
+                        "storms",
+                        "floods",
+                        "maintenance",
+                        "emergency_repairs",
+                        "theft",
+                        "earthquakes",
+                        "srcc_protection",
+                        "business_interruption"
+                      ],
+                      "price": 399.05
+                    },
+                    "wataniyeh": {
+                      "name": "Wataniyeh",
+                      "name_ar": "الوطنية",
+                      "logo": "https://www.jordanfinancialservices.com/sites/default/files/images/logos/nic-01.jpg",
+                      "benefits": [
+                        "fires",
+                        "explosion",
+                        "storms",
+                        "floods",
+                        "maintenance",
+                        "emergency_repairs",
+                        "theft",
+                        "earthquakes",
+                        "accidental_home_damage"
+                      ],
+                      "price": 632.5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policies": {
+      "get": {
+        "description": "Listing requested policies",
+        "tags": [
+          "Policies"
+        ],
+        "summary": "List policies",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "For requesting a new policy",
+        "summary": "Issue policy",
+        "tags": [
+          "Policies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "insurance_provider": {
+                    "type": "string",
+                    "example": "walaa"
+                  },
+                  "personal_details": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "fahad@gmail.com"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "example": "+966501234567"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Fahad Al-Qahtani"
+                      },
+                      "birthdate": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-05-14"
+                      },
+                      "nationality": {
+                        "type": "string",
+                        "example": "SA"
+                      },
+                      "nationality_id": {
+                        "type": "string",
+                        "example": "1023456789"
+                      }
+                    },
+                    "required": [
+                      "email",
+                      "phone_number",
+                      "name",
+                      "birthdate",
+                      "nationality",
+                      "nationality_id"
+                    ]
+                  },
+                  "building_details": {
+                    "type": "object",
+                    "properties": {
+                      "building_age": {
+                        "type": "integer",
+                        "example": 8
+                      },
+                      "building_type": {
+                        "type": "string",
+                        "example": "Apartment"
+                      },
+                      "apartment_size": {
+                        "type": "integer",
+                        "example": 120
+                      }
+                    },
+                    "required": [
+                      "building_age",
+                      "building_type",
+                      "apartment_size"
+                    ]
+                  },
+                  "address": {
+                    "type": "object",
+                    "properties": {
+                      "street_name": {
+                        "type": "string",
+                        "example": "King Abdulaziz Road"
+                      },
+                      "building_number": {
+                        "type": "string",
+                        "example": "345"
+                      },
+                      "district_name": {
+                        "type": "string",
+                        "example": "Al Olaya"
+                      },
+                      "city_name": {
+                        "type": "string",
+                        "example": "Riyadh"
+                      },
+                      "additional_number": {
+                        "type": "string",
+                        "example": "1234"
+                      },
+                      "zip_code": {
+                        "type": "string",
+                        "example": "12233"
+                      },
+                      "unit_number": {
+                        "type": "string",
+                        "example": "12B"
+                      }
+                    },
+                    "required": [
+                      "street_name",
+                      "building_number",
+                      "district_name",
+                      "city_name",
+                      "additional_number",
+                      "zip_code",
+                      "unit_number"
+                    ]
+                  },
+                  "property_cost": {
+                    "type": "number",
+                    "example": 500000
+                  },
+                  "contents_cost": {
+                    "type": "number",
+                    "example": 100000
+                  },
+                  "has_agreed_to_terms_and_conditions": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "required": [
+                  "insurance_provider",
+                  "personal_details",
+                  "building_details",
+                  "address",
+                  "has_agreed_to_terms_and_conditions"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Policy"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "description": "Problem in the values that you submitted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "code": "42201",
+                    "message": "The insurance provider field cannot be empty.",
+                    "details": {
+                      "insurance_provider": [
+                        "The insurance provider field cannot be empty."
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policies/{propertyPolicy}/documents": {
+      "post": {
+        "description": "Upload supporting documents for the related property or contents",
+        "summary": "Upload documents",
+        "tags": [
+          "Policies"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "propertyPolicy",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "document": {
+                    "type": "string",
+                    "description": "Supporting document",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully uploaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Policy"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Problem in the values that you submitted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "code": "42201",
+                    "message": "The document field cannot be empty.",
+                    "details": {
+                      "document": [
+                        "The document field cannot be empty."
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policies/{propertyPolicy}/cancellation": {
+      "post": {
+        "description": "Cancel a policy",
+        "summary": "Cancel policy",
+        "tags": [
+          "Policies"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "propertyPolicy",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Cancellation success"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "40010",
+                  "message": "Policy is already canceled"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "40010"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Policy is already canceled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/policies/{propertyPolicy}/claims": {
+      "post": {
+        "tags": [
+          "Claims"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "propertyPolicy",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Issue claim",
+        "description": "Issue a claim to your policy",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "requested_amount": {
+                      "type": "string"
+                    },
+                    "claim_status": {
+                      "type": "integer"
+                    },
+                    "policy_id": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "supporting_document": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requested_amount": {
+                    "type": "number",
+                    "description": "Value in SAR",
+                    "example": 1000
+                  },
+                  "description": {
+                    "description": "All details about what happened",
+                    "example": "",
+                    "type": "string"
+                  },
+                  "supporting_document": {
+                    "format": "binary",
+                    "type": "string",
+                    "description": "Could be used for uploading the invoice",
+                    "example": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments": {
+      "get": {
+        "description": "Get payment records",
+        "summary": "List payments",
+        "tags": [
+          "Payments"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+              }
+            },
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "NotFound": {
+        "description": "Record not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "40401"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "40101"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthenticated"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Policy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 655
+          },
+          "meta_data": {
+            "type": "object",
+            "properties": {
+              "insurance_provider": {
+                "type": "string",
+                "example": "walaa"
+              },
+              "has_agreed_to_terms_and_conditions": {
+                "type": "boolean",
+                "example": true
+              },
+              "property_cost": {
+                "type": "number",
+                "example": 500000
+              },
+              "documents": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": "gOSkcUZnQQpV3YLvUygSrmkTh6L9g3gxKvFbIfwU.docx"
+                }
+              },
+              "personal_details": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Fahad Al-Qahtani"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "fahad@gmail.com"
+                  },
+                  "birthdate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "1990-05-14"
+                  },
+                  "nationality": {
+                    "type": "string",
+                    "example": "SA"
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "example": "+966501234567"
+                  },
+                  "nationality_id": {
+                    "type": "string",
+                    "example": "1023456789"
+                  }
+                }
+              },
+              "building_details": {
+                "type": "object",
+                "properties": {
+                  "building_age": {
+                    "type": "integer",
+                    "example": 8
+                  },
+                  "building_type": {
+                    "type": "string",
+                    "example": "Apartment"
+                  },
+                  "apartment_size": {
+                    "type": "integer",
+                    "example": 120
+                  }
+                }
+              },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "street_name": {
+                    "type": "string",
+                    "example": "King Abdulaziz Road"
+                  },
+                  "building_number": {
+                    "type": "string",
+                    "example": "345"
+                  },
+                  "district_name": {
+                    "type": "string",
+                    "example": "Al Olaya"
+                  },
+                  "city_name": {
+                    "type": "string",
+                    "example": "Riyadh"
+                  },
+                  "additional_number": {
+                    "type": "string",
+                    "example": "1234"
+                  },
+                  "zip_code": {
+                    "type": "string",
+                    "example": "12233"
+                  },
+                  "unit_number": {
+                    "type": "string",
+                    "example": "12B"
+                  }
+                }
+              }
+            }
+          },
+          "provider_policy_id": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "provider_policy": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          },
+          "client_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "9f7db0ed-0783-4654-9b18-47c316809204"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-07-28T09:54:03.000000Z"
+          },
+          "canceled_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": null
+          },
+          "status": {
+            "type": "integer",
+            "example": 0
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
