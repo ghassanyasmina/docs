@@ -15,6 +15,15 @@
     "light": "/logo/light.png"
   },
   "favicon": "/favicon.svg",
+  "api": {
+    "openapi": {
+      "directory": "medical-api-reference",
+      "source": "/medical-api-reference/openapi.json"
+    },
+    "playground": {
+      "proxy": false
+    }
+  },
   "navigation": {
     "groups": [
       {

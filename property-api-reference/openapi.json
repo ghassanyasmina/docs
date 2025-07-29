@@ -22,9 +22,6 @@
     "/oauth/token": {
       "servers": [
         {
-          "url": "http://localhost:8000"
-        },
-        {
           "url": "https://staging.yasmina.ai"
         }
       ],
@@ -95,7 +92,7 @@
         "tags": [
           "Prices"
         ],
-        "summary": "Lists prices",
+        "summary": "List prices",
         "parameters": [
           {
             "name": "property_cost",
@@ -130,7 +127,7 @@
         },
         "responses": {
           "200": {
-            "description": "Lists prices",
+            "description": "Success in listing prices",
             "content": {
               "application/json": {
                 "schema": {
@@ -167,7 +164,7 @@
                     "tawuniya": {
                       "name": "Tawuniya",
                       "name_ar": "التعاونية",
-                      "logo": "http://localhost:8000/images/tawuniya-logo.png",
+                      "logo": "https://staging.yasmina.ai/images/tawuniya-logo.png",
                       "coverages": [
                         "fires",
                         "explosion",
@@ -184,7 +181,7 @@
                     "medgulf": {
                       "name": "Medgulf",
                       "name_ar": "ميدغلف",
-                      "logo": "http://localhost:8000/images/medgulf-logo.png",
+                      "logo": "https://staging.yasmina.ai/images/medgulf-logo.png",
                       "benefits": [
                         "fires",
                         "explosion",
@@ -200,7 +197,7 @@
                     "walaa": {
                       "name": "Walaa",
                       "name_ar": "ولاء",
-                      "logo": "http://localhost:8000/images/walaa-logo.jpeg",
+                      "logo": "https://staging.yasmina.ai/images/walaa-logo.jpeg",
                       "benefits": [
                         "fires",
                         "explosion",
