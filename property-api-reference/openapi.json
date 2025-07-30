@@ -281,7 +281,7 @@
         }
       },
       "post": {
-        "description": "For requesting a new policy",
+        "description": "For issuing a new policy",
         "summary": "Issue policy",
         "tags": [
           "Policies"
