@@ -926,16 +926,16 @@
           }
         },
         "example": {
-          "name": "Syarah",
-          "name_ar": "شركة سيارة",
-          "sponsor_number": "123",
-          "email_address": "yousef@syarah.com",
-          "phone_number": "+966551234567",
-          "commercial_registration_number": "456",
-          "client_id": "9ba293f7-5f62-4e82-be9b-d804cc9d392c",
-          "updated_at": "2024-12-28T09:50:14.000000Z",
-          "created_at": "2024-12-28T09:50:14.000000Z",
-          "id": 1
+          "name": "Example company name",
+          "name_ar": "مثال اسم شركة",
+          "sponsor_number": "789",
+          "email_address": "example@example.com",
+          "phone_number": "+966512345678",
+          "commercial_registration_number": "9876543210",
+          "client_id": "a1b2c3d4-5678-90ab-cdef-1234567890ab",
+          "updated_at": "2025-08-01T14:22:30.000000Z",
+          "created_at": "2025-08-01T14:22:30.000000Z",
+          "id": 42
         }
       },
       "Error": {
