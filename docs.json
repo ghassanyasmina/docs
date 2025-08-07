@@ -153,29 +153,6 @@
         ]
       },
       {
-        "tab": "SDKs",
-        "icon": "toolbox",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": [
-              "introduction",
-              "environments"
-            ]
-          },
-          {
-            "group": "Integration Guides",
-            "pages": [
-              "integrations/medical",
-              "integrations/car",
-              "integrations/cartpl",
-              "integrations/property",
-              "integrations/travel"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Changelog",
         "icon": "clock-rotate-left",
         "groups": [
