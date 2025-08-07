@@ -1,11 +1,23 @@
 ---
-title: "Travel I"
+title: 'Life Insurance (S&P)'
+description: "Life Insurance – S&P Financial Strength Ratings Integration Guide"
+icon: 'user-shield'
 ---
 
-## ✨ Overview
+### Steps
+Below is the basic journey to requesting your first insurance(s)
+<Steps>
+	<Step title="Authorization">
+	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
 
-Yasmina provides Schengen Travel Insurance with flexible duration and multi-traveller options. You can easily integrate this product into your platform and let your customers purchase policies seamlessly.
+	Or go directly to [Authorization API](/life-api-reference/auth/generate-token)
+	</Step>
+	  <Step title="Issue policies for your customers">
+      	Provide the customer details such as age, name etc... [Click for more details](#request-policies).
 
+      	Or go directly to [Issue policies API](/life-api-reference/policies/request-policy)
+      </Step>
+</Steps>
 
 ### Authorization
 
@@ -22,6 +34,9 @@ After making the request, you will get access_token in the response. Example
 ```
 Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
 
-Go to the following link to use the [Authorization API](/auth-api-reference/oauth-20/generate-token).
+Go to the following link to use the [Authorization API](/life-api-reference/auth/generate-token).
 
 <Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
+
+### Issue policies
+To issue policies, you need to execute the [Issue policies API](/life-api-reference/policies/request-policy)).

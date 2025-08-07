@@ -1,5 +1,5 @@
 ---
-title: 'Medical'
+title: 'SME Medical Insurance'
 description: 'Facilitate efficient and automated insurance claims processes between Healthcare Providers and Insurance Companies.'
 icon: 'users-medical'
 ---
@@ -13,27 +13,27 @@ Below is the basic journey to requesting your first insurance(s)
   <Step title="Authorization">
   	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
 
-  	Or go directly to [Authorization API](/medical-api-reference/auth/generate-token)
+  	Or go directly to <a href="/auth-api-reference/oauth-20/generate-token" target="_blank">Authorization API</a>
   </Step>
   <Step title="Create a company">
   	Create a company record. The company is the one that wants to give insurance for their employees. [Click for more details](#create-a-company-record). <br />
 
-  	Or go directly to [Create company API](/medical-api-reference/company/create-company)
+  	Or go directly to <a href="/medical-api-reference/company/create-company" target="_blank">Create company API</a>
   </Step>
   <Step title="Choose a package">
   	List and then choose the medical insurance package that you want the employees to get. [Click for more details](#list-available-packages).
 
-  	Or go directly to [List categories](/medical-api-reference/products/list-categories)
+  	Or go directly to <a href="/medical-api-reference/products/list-categories" target="_blank">List categories</a>
   </Step>
-  <Step title="Request insurance for the employees">
-  	Select the employees of the company that are going to get insurances and pick a package for each. [Click for more details](#request-policies).
+  <Step title="Issue insurance for the employees">
+  	Select the employees of the company that are going to get insurances and pick a package for each. [Click for more details](#issue-insurance-policies).
 
-  	Or go directly to [Request policies API](/medical-api-reference/policies/request-policies)
+  	Or go directly to <a href="/medical-api-reference/policies/issue-policies" target="_blank">Issue policies API</a>
   </Step>
   <Step title="Health declaration">
   	Here we have two approaches. Either the Company admins fills the medical declaration form, or we dispatch the health declaration to the employees for them to fill. [Click for more details](#health-declaration)
 
-  	Or go directly to [Dispatch Medical Forms API](/medical-api-reference/hr-forms/dispatch-hr-forms)
+  	Or go directly to <a href="/medical-api-reference/hr-forms/dispatch-hr-forms" target="_blank">Dispatch Medical Forms API</a>
   </Step>
   <Step title="Payment">
   	Go the payment link. We will generate that for you.
@@ -43,7 +43,7 @@ Below is the basic journey to requesting your first insurance(s)
 ### Authorization
 
 To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
-You will need `client_key` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
+You will need `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
 
 After making the request, you will get access_token in the response. Example
 ```
@@ -57,9 +57,9 @@ Use the access_token and supply in the headers like this `Authorization: Bearer 
 
 Go to the following link to use the [Authorization API](/medical-api-reference/auth/generate-token).
 
-<Warning>For security reasons. Do not make your client_key and client_secret public in your platform.</Warning>
+<Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
 
-### Creating a Company record
+### Create a Company record
 
 After acquiring an access_token, you can begin using the APIs. Before you produce policies for a company, you must  create a company record. After creating the company record, you can request to issue policies to the employees of that company.
 
@@ -108,9 +108,9 @@ Each employee can have a separate package. Coverage values can either be a numbe
     }
 ```
 
-### Request insurance policies
-To issue policies, you need to execute the [Request policies API](/medical-api-reference/policies/request-policies).
-The API takes two fields. The company_id as referenced above. And an array called insured. The insured are the employees that the company wants to request insurance for.policies
+### Issue insurance policies
+To issue policies, you need to execute the [Issue policies API](/medical-api-reference/policies/issue-policies).
+The API takes two fields. The company_id as referenced above. And an array called insured. The insured are the employees that the company wants to issue insurance for.policies
 Here is an example of a payload you would send
 ```
 {

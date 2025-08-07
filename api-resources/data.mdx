@@ -1,0 +1,20 @@
+---
+title: "Data Types"
+icon: "database"
+---
+
+All Yasmina API responses are in JSON format. Responses with code 204 will not have a body.
+
+Below is the common data types that we use throughout our API
+
+| Data Type   | Format / Description                                     |
+|-------------|----------------------------------------------------------|
+| Datetime    | ISO 8601 format, e.g., `2025-08-05T13:30:00Z`            |
+| Date        | ISO 8601 date format, e.g., `2025-08-05`                |
+| Country     | ISO 3166-1 alpha-2 code, e.g., `SA`                      |
+| Client ID   | UUID format, e.g., `123e4567-e89b-12d3-a456-426614174000`|
+| Client Secret   | A random string. This will be hashed in our databases for enhanced security|
+| ID          | Yasmina internal identifier, this will be an integer|
+| Provider Policy ID          | Policy ID that is provided by Insurance company |
+| Provider Policy       | A file URL (Usually in PDF) |
+| Cancellation Document       | A file URL (Usually in PDF) |

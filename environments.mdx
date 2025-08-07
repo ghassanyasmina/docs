@@ -1,13 +1,47 @@
 ---
 title: 'Environments'
-description: "Before you deploy your integration code to production, you're welcome to use our Sandbox environment"
 icon: 'server'
 ---
 
-We have three environments
-- Staging (https://staging.yasmina.ai)
-	- For testing new features
-- Sandbox (https://sandbox.yasmina.ai)
-	- A playground to test the integration. This is not a live database, so you're free to play around
-- Production (https://portal.yasmina.ai)
-	- Once you make sure everything is good. You can start working on this environment.
+Yasmina provides three separate environments to support your full development and integration lifecycle — from internal testing, to integration validation, to going live with real customers
+
+***
+
+### Production
+This is the live environment where your customers purchase real insurance policies through your platform. All actions here have real-world impact and are subject to live processing and billing.
+
+Base URL: https://portal.yasmina.ai
+
+Use this environment only after your integration has been fully tested and approved.
+
+***
+
+### Sandbox
+The Sandbox environment behaves just like Production — same APIs, same flows — but it uses dummy data. This makes it perfect for:
+
+* Testing your API integration
+
+* Simulating real-world scenarios
+
+* Internal QA or demos
+
+Although the flows mirror Production, no real policies are issued and no live data is processed.
+
+Base URL: https://sandbox.yasmina.ai
+
+***
+
+### Staging
+Staging is where we test new features and enhancements before they’re released to Sandbox and Production. This environment is ideal if:
+
+* You’re one of our early-access partners
+
+* You want to test upcoming product improvements
+
+* You’re working with Yasmina to validate custom flows
+
+It may occasionally contain features not yet available in Sandbox or Production.
+
+Base URL: https://staging.yasmina.ai
+
+***

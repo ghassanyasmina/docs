@@ -1,5 +1,5 @@
 ---
-title: 'Property'
+title: 'Property Insurance'
 description: 'Seamlessly embed property insurance into your platform, letting your customers insure their properties with just a click.'
 icon: 'house'
 ---
@@ -15,17 +15,17 @@ Below is the basic journey to requesting your first insurance(s)
 
 	Or go directly to [Authorization API](/property-api-reference/auth/generate-token)
 	</Step>
-	  <Step title="Request policies for your customers">
+	  <Step title="Issue policies for your customers">
       	Provide the property details such as VIN and Sequence number [Click for more details](#request-policies).
 
-      	Or go directly to [Request policies API](/property-api-reference/policies/request-policy)
+      	Or go directly to [Issue policies API](/property-api-reference/policies/request-policy)
       </Step>
 </Steps>
 
 ### Authorization
 
 To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
-You will need `client_key` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
+You will need `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
 
 After making the request, you will get access_token in the response. Example
 ```
@@ -39,7 +39,7 @@ Use the access_token and supply in the headers like this `Authorization: Bearer 
 
 Go to the following link to use the [Authorization API](/medical-api-reference/auth/generate-token).
 
-<Warning>For security reasons. Do not make your client_key and client_secret public in your platform.</Warning>
+<Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
 
 ### Get prices
 Yasmina works with multiple insurance providers. You can retrieve and compare offers to help your client choose the most suitable option.
@@ -56,7 +56,7 @@ To get insurance prices, use the API below. You’ll need to provide either `pro
 
 [Get Prices](/property-api-reference/prices/lists-prices)
 
-### Request policies
+### Issue policies
 
 To issue policies, use the [Issue Policies API](/property-api-reference/policies/request-policy).
 Choose from the providers listed in the prices section.

@@ -11,75 +11,186 @@
     "dark": "#15803D"
   },
   "logo": {
-    "dark": "/logo/dark.png",
-    "light": "/logo/light.png"
+    "dark": "/logo/Vector-1.png",
+    "light": "/logo/Vector.png"
   },
   "favicon": "/favicon.svg",
   "api": {
-    "openapi": {
-      "directory": "medical-api-reference",
-      "source": "/medical-api-reference/openapi.json"
+    "params": {
+      "expanded": "all"
+    },
+    "examples": {
+      "defaults": "required"
     },
     "playground": {
+      "display": "interactive",
       "proxy": false
     }
   },
+  "contextual": {
+    "options": [
+      "chatgpt"
+    ]
+  },
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "Getting started",
-        "pages": [
-          "introduction",
-          "environments"
-        ]
-      },
-      {
-        "group": "Integration guides",
-        "pages": [
-          "integrations/medical",
-          "integrations/car",
-          "integrations/property",
-          "integrations/travel"
-        ]
-      },
-      {
-        "group": "Integration options",
-        "pages": [
+        "tab": "Guide",
+        "icon": "book",
+        "groups": [
           {
-            "group": "API integration",
-            "icon": "code",
+            "group": "Getting Started",
             "pages": [
-              {
-                "openapi": {
-                  "directory": "medical-api-reference",
-                  "source": "/medical-api-reference/openapi.json"
-                },
-                "group": "SME Medical API reference"
-              },
-              {
-                "openapi": {
-                  "directory": "car-api-reference",
-                  "source": "/car-api-reference/openapi.json"
-                },
-                "group": "Motor API reference"
-              },
-              {
-                "openapi": {
-                  "directory": "property-api-reference",
-                  "source": "/property-api-reference/openapi.json"
-                },
-                "group": "Property API reference"
-              },
-              {
-                "openapi": {
-                  "directory": "yasmina-schengen-api-reference",
-                  "source": "/yasmina-schengen-travel-insurance/openapi.json"
-                },
-                "group": "Schengen Travel Insurance"
-              }
+              "introduction",
+              "environments",
+              "authentication",
+              "developer"
+            ]
+          },
+          {
+            "group": "Insurance Integration Guides",
+            "pages": [
+              "integrations/medical",
+              "integrations/car",
+              "integrations/cartpl",
+              "integrations/property",
+              "integrations/travel",
+              "integrations/lifeinsurance",
+              "integrations/livestock"
+            ]
+          },
+          {
+            "group": "Multi-Insurance Provider Pricing APIs",
+            "pages": [
+              "prices/overview",
+              "prices/motor",
+              "prices/property"
+            ]
+          },
+          {
+            "group": "API Resources",
+            "pages": [
+              "api-resources/data",
+              "api-resources/errors",
+              "api-resources/rate"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages":[
+              "webhooks/guide"
+            ]
+          },
+          {
+            "group": "White-labeling Solutions",
+            "pages": [
+              "whitelabel/iframes",
+              "whitelabel/snippets"
             ]
           }
         ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "file-code",
+        "groups": [
+          {
+            "group": "Authentication",
+            "openapi": {
+              "source": "auth-api-reference/openapi.json",
+              "directory": "auth-api-reference"
+            }
+          },
+          {
+            "group": "SME Medical APIs",
+            "openapi": {
+              "source": "medical-api-reference/openapi.json",
+              "directory": "medical-api-reference"
+            }
+          },
+          {
+            "group": "Comprehensive Motor Insurance APIs",
+            "openapi": {
+              "source": "car-api-reference/openapi.json",
+              "directory": "car-api-reference"
+            }
+          },
+          {
+            "group": "TPL Motor Insurance APIs",
+            "openapi": {
+              "source": "cartpl-api-reference/openapi.json",
+              "directory": "cartpl-api-reference"
+            }
+          },
+          {
+            "group": "Property Insurance APIs",
+            "openapi": {
+              "source": "property-api-reference/openapi.json",
+              "directory": "property-api-reference"
+            }
+          },
+          {
+            "group": "Travel Insurance APIs",
+            "openapi": {
+              "source": "yasmina-schengen-travel-insurance/openapi.json",
+              "directory": "yasmina-schengen-travel-insurance"
+            }
+          },
+          {
+            "group": "Payment",
+            "openapi": {
+              "source": "payments-api-reference/openapi.json",
+              "directory": "payments-api-reference"
+            }
+          },
+          {
+            "group": "Multi-Insurance Provider Pricing APIs",
+            "openapi": {
+              "source": "pricing-api-reference/openapi.json",
+              "directory": "pricing-api-reference"
+            }
+          }
+        ]
+      },
+      {
+        "tab": "SDKs",
+        "icon": "toolbox",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "environments"
+            ]
+          },
+          {
+            "group": "Integration Guides",
+            "pages": [
+              "integrations/medical",
+              "integrations/car",
+              "integrations/cartpl",
+              "integrations/property",
+              "integrations/travel"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "icon": "clock-rotate-left",
+        "groups": [
+          {
+            "group": "Changelog",
+            "pages": [
+              "changelog"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Portal",
+        "icon": "user-gear",
+        "href": "https://portal.yasmina.ai"
       }
     ]
   },
@@ -101,6 +212,30 @@
       "linkedin": "https://www.linkedin.com/company/yasminaai",
       "x": "https://x.com/YasminaIns",
       "instagram": "https://www.instagram.com/yasminainsurance/"
-    }
+    },
+    "links": [
+      {
+        "header": "Yasmina Website",
+        "items": [
+          {
+            "label": "Home",
+            "href": "https://www.yasmina.ai"
+          },
+          {
+            "label": "Blog",
+            "href": "https://www.yasmina.ai/yasminainsights"
+          }
+        ]
+      },
+      {
+        "header": "Yasmina Home",
+        "items": [
+          {
+            "label": "Home",
+            "href": "https://home-insurance.yasmina.ai"
+          }
+        ]
+      }
+    ]
   }
 }

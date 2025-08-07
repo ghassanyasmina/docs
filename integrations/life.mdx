@@ -1,11 +1,26 @@
 ---
-title: "Travel I"
+title: 'Comprehensive Motor Insurance'
+description: "Seamless insurance for the cars you're selling and the drivers that are buying from you."
+icon: 'car'
 ---
 
-## ✨ Overview
+## Overview
+The API's in this documentation has been designed to seamlessly integrate with Yasmina's platform, enabling a smooth and efficient exchange of car insurance-related data and functionalities. Whether you're looking to request or manage policies, handle claims, or access customer information, this API provides a robust and secure interface. With clear endpoints and comprehensive support, our goal is to simplify the integration process and ensure that our client can leverage the full potential of our insurance services with minimal effort.
 
-Yasmina provides Schengen Travel Insurance with flexible duration and multi-traveller options. You can easily integrate this product into your platform and let your customers purchase policies seamlessly.
+### Steps
+Below is the basic journey to requesting your first insurance(s)
+<Steps>
+	<Step title="Authorization">
+	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
 
+	Or go directly to [Authorization API](/car-api-reference/auth/generate-token)
+	</Step>
+	  <Step title="Issue policies for your customers">
+      	Provide the car details such as VIN and Sequence number [Click for more details](#request-policies).
+
+      	Or go directly to [Issue policies API](/car-api-reference/policies/request-policy)
+      </Step>
+</Steps>
 
 ### Authorization
 
@@ -22,6 +37,9 @@ After making the request, you will get access_token in the response. Example
 ```
 Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
 
-Go to the following link to use the [Authorization API](/auth-api-reference/oauth-20/generate-token).
+Go to the following link to use the [Authorization API](/car-api-reference/auth/generate-token).
 
 <Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
+
+### Issue policies
+To issue policies, you need to execute the [Issue policies API](/car-api-reference/policies/request-policy)).

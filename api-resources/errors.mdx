@@ -1,0 +1,18 @@
+---
+title: "Errors"
+icon: "triangle-exclamation"
+---
+
+Yasmina APIs follow standard HTTP status codes to indicate the success or failure of an API request. Below is a list of common error codes you may encounter and what they typically mean.
+
+| Status Code | Meaning                        | Description                                                                 |
+|-------------|--------------------------------|-----------------------------------------------------------------------------|
+| 400         | Bad Request                    | The request was malformed or invalid. For example trying to cancel an already cancelled policy |
+| 401         | Unauthorized                   | The request lacks valid authentication credentials.                        |
+| 403         | Forbidden                      | You are authenticated but not allowed to access this resource or product. |
+| 404         | Not Found                      | The requested resource does not exist.                                     |
+| 405         | Method Not Allowed             | The HTTP method used is not supported for this endpoint.                   |
+| 422         | Unprocessable Entity           | The request was well-formed but failed validation (e.g., missing or invalid fields). |
+| 429         | Too many requests          | Read more in <a href="/api-resources/rate">Rate Limit Section</a> |
+| 500         | Internal Server Error          | Something went wrong on Yasmina’s side.                                    |
+| 502         | Bad Gateway                    | A third-party service (e.g., an insurance company) failed to respond properly. |

@@ -45,7 +45,7 @@
                   "client_id": {
                     "type": "string",
                     "example": "your-client-key",
-                    "description": "The client key issued by the authorization server."
+                    "description": "The Client ID issued by the authorization server."
                   },
                   "client_secret": {
                     "type": "string",
@@ -53,7 +53,7 @@
                     "description": "The client secret issued by the authorization server."
                   }
                 },
-                "required": ["grant_type", "client_key", "client_secret"]
+                "required": ["grant_type", "client_id", "client_secret"]
               }
             }
           }
@@ -289,7 +289,7 @@
         "summary": "Upload travel documents",
         "description": "Uploads ID and passport documents for a specific travel quote.",
         "operationId": "uploadDocuments",
-        "tags": ["Quotes"],
+        "tags": ["Policies"],
         "requestBody": {
           "required": true,
           "content": {
@@ -372,7 +372,7 @@
     "/api/v1/yasmina-schengen-travel/purchase": {
       "post": {
         "tags": [
-          "Quotes"
+          "Policies"
         ],
         "summary": "Purchase",
         "requestBody": {
@@ -418,7 +418,7 @@
     "/api/v1/yasmina-schengen-travel/policies": {
       "get": {
         "tags": [
-          "Quotes"
+          "Policies"
         ],
         "summary": "List policies",
         "security": [

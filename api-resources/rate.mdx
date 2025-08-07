@@ -1,0 +1,49 @@
+---
+title: "Rate limiting"
+icon: "stopwatch"
+---
+
+To ensure fair usage and system stability, Yasmina APIs are rate-limited. Below are the current limits per endpoint.
+
+## Medical APIs
+
+| Endpoint                                         | Method | Limit                |
+|--------------------------------------------------|--------|-----------------------|
+| /medical/companies                               | GET    | 120 requests/minute   |
+| /medical/companies                               | POST   | 60 requets/minute                     |
+| /medical/companies/\{company\}/policy-cancellation | POST   | 30 requests/minute    |
+| /medical/companies/\{company\}/employees           | PUT    | 60 requets/minute                    |
+| /medical/request-policies                        | POST   | 30 requests/minute    |
+| /medical/policies/\{policy\}/claims                | POST   | 30 requets/minute                     |
+| /medical/policies/\{policy\}/claims/\{claim\}        | GET    | 120 requests/minute   |
+| /medical/medical-forms/fill                      | POST   | 60 requets/minute                     |
+| /medical/medical-forms/dispatch                  | POST   | 60 requets/minute                    |
+| /medical/medical-forms                           | GET    | 120 requests/minute   |
+| /medical/policies/\{policy\}/deletion              | POST   | 30 requests/minute    |
+| /medical/policies                                | GET    | 120 requests/minute   |
+| /medical/products/categories                     | GET    | 120 requests/minute   |
+| /medical/products/bupa-categories                | GET    | 120 requests/minute   |
+| /medical/payment-link                            | GET    | 120 requests/minute   |
+| /medical/payment-due                             | GET    | 120 requests/minute   |
+
+## Car APIs
+
+| Endpoint                                         | Method | Limit                |
+|--------------------------------------------------|--------|-----------------------|
+| /car/policies                                    | GET    | 120 requests/minute   |
+| /car/policies                                    | POST   | 30 requests/minute    |
+| /car/policies/\{carPolicy\}/cancellation           | POST   | 30 requests/minute    |
+| /car/policies/\{policy\}/claims                    | POST   | 30 requests/minute                     |
+| /car/policies/\{policy\}/claims/\{claim\}            | GET    | 120 requests/minute   |
+
+## OAuth
+
+| Endpoint         | Method | Limit               |
+|------------------|--------|----------------------|
+| /oauth/token     | POST   | 10 requests/minute   |
+
+## Payment APIs
+
+| Endpoint                                         | Method | Limit                |
+|--------------------------------------------------|--------|-----------------------|
+| /payments                                    | GET    | 120 requests/minute   |

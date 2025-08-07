@@ -1,0 +1,350 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI For Embedded Price Comparison",
+    "description": "Get different packages from insurance providers",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://staging.yasmina.ai"
+    },
+    {
+      "url": "https://sandbox.yasmina.ai"
+    },
+    {
+      "url": "https://portal.yasmina.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/oauth/token": {
+      "post": {
+        "security": [],
+        "summary": "Generate Token",
+        "description": "Generates an Oauth token to later use in our API's",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "enum": [
+                      "client_credentials"
+                    ],
+                    "default": "client_credentials",
+                    "description": "The type of OAuth grant being used."
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "example": "your-client-key",
+                    "description": "The Client ID issued by the authorization server."
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "example": "your-client-secret",
+                    "description": "The client secret issued by the authorization server."
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "client_id",
+                  "client_secret"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "invalid_client",
+                    "error_description": "Client authentication failed",
+                    "message": "Client authentication failed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/insurance-aggregator": {
+      "servers": [
+        {
+          "url": "https://staging.yasmina.ai/api/v1/car"
+        },
+        {
+          "url": "https://sandbox.yasmina.ai/api/v1/car"
+        },
+        {
+          "url": "https://portal.yasmina.ai/api/v1/car"
+        }
+      ],
+      "post": {
+        "description": "Get prices from different insurance companies",
+        "tags": ["Embedded Price Comparison"],
+        "summary": "Motor Insurance aggregator",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "owner_id",
+                  "car_year",
+                  "car_sequence_number",
+                  "car_price",
+                  "insurance_type"
+                ],
+                "properties": {
+                  "owner_id": {
+                    "type": "string",
+                    "pattern": "^\\d{10}$",
+                    "description": "Exactly 10 digits"
+                  },
+                  "car_year": {
+                    "type": "integer",
+                    "minimum": 1900,
+                    "maximum": 2025,
+                    "description": "Four-digit year, not in the future"
+                  },
+                  "car_sequence_number": {
+                    "type": "string",
+                    "pattern": "^\\d{9}$",
+                    "description": "Exactly 9 digits"
+                  },
+                  "car_price": {
+                    "type": "number",
+                    "minimum": 5000,
+                    "maximum": 10000000,
+                    "description": "Price in SAR between 5,000 and 10,000,000"
+                  },
+                  "insurance_type": {
+                    "type": "string",
+                    "enum": ["comp", "TPL"],
+                    "description": "Must be either “comp” or “TPL”"
+                  }
+                }
+              },
+              "example": {
+                "owner_id": "0123456789",
+                "car_year": 2020,
+                "car_sequence_number": "123456789",
+                "car_price": 150000,
+                "insurance_type": "comp"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/medical-insurance-aggregator": {
+      "servers": [
+        {
+          "url": "https://staging.yasmina.ai/api/v1/medical"
+        },
+        {
+          "url": "https://sandbox.yasmina.ai/api/v1/medical"
+        },
+        {
+          "url": "https://portal.yasmina.ai/api/v1/medical"
+        }
+      ],
+      "post": {
+        "description": "Get different providers for Property insurance",
+        "tags": ["Embedded Price Comparison"],
+        "summary": "Property Insurance aggregator",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "NotFound": {
+        "description": "Record not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "40401"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "40101"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthenticated"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Policy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "meta_data": {
+            "type": "object"
+          },
+          "start_date": {
+            "type": "string"
+          },
+          "provider_policy_id": {
+            "type": "integer"
+          },
+          "provider_policy": {
+            "type": "string"
+          },
+          "order_status": {
+            "type": "integer"
+          },
+          "approval_status": {
+            "type": "integer"
+          },
+          "end_date": {
+            "type": "string"
+          },
+          "is_claimed": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "canceled_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoice": {
+            "type": "string"
+          },
+          "cancellation_document": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

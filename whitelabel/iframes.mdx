@@ -1,0 +1,67 @@
+---
+title: "IFrames"
+icon: "window-restore"
+---
+
+Yasmina offers an easy-to-integrate IFrame solution for our clients. This allows your platform to provide seamless insurance prices and enrollment directly within your own interface.
+
+Currently we are offering this to SME Medical.
+
+## SME Medical IFrame Integration
+
+	<img
+	  src="/images/iframe.png"
+	  alt="SME Medical Iframe"
+	  width="600"
+	  className="rounded-lg"
+	/>
+
+### What is the IFrame?
+
+The IFrame is a plug & play widget that handles all the heavy UI lifting. It enables your clients to browse, compare, and request SME Medical insurance without leaving your platform.
+
+---
+
+### Prerequisites
+
+Before you embed the IFrame, make sure:
+
+- You have an active Yasmina business account
+- Your company’s employees have been added (via API)
+- You have access to the `client_id` provided by Yasmina
+- You are embedding the IFrame on an allowed domain (Can be set from <a href="https://portal.yasmina.ai">Portal</a>)
+
+---
+
+### How to embed it?
+
+- Simply put the following code to your website
+
+```html
+<iframe
+		src="https://staging.yasmina.ai/request-sme-policy"
+		style="max-width: 1300px; width: 100%"
+		height="800"
+		title="Bootstrap Insurance Demo"
+		sandbox="allow-forms allow-scripts allow-same-origin allow-modals allow-popups"
+></iframe>
+```
+
+
+
+
+### What Does the IFrame Do?
+
+- Displays a fully interactive SME Medical insurance price form
+- Handles price comparisons from available providers
+- Submits the policy request directly through Yasmina
+- Handles validations and form logic internally
+
+---
+
+
+### Testing
+
+You can test your integration using staging data. No real policies will be issued in Staging mode. The flow will be identical to production.
+
+---

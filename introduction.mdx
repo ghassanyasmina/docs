@@ -1,54 +1,99 @@
 ---
-title: Introduction
+title: Getting Started
 description: 'Welcome to Yasmina integration. Pioneering embedded insurance in Saudi Arabia  and the region by offering seamless coverage, delivered at the perfect moment to protect your customers.'
 icon: 'file-lines'
 ---
 
-## About this documentation
+### About Yasmina
 
-This documentation serves to provide you with a comprehensive guide of how to use Yasmina API integrations.
-All our products (Motor, Medical, Property, and Travel) are covered in different sections. You can click on any of the links below
-to jump straight to the Product that you are integrating with. Once the integration is done, your customers will start getting
-their insurance policies in no time!
+Yasmina makes it easy for online businesses to offer different insurance products to their customers through a fully integrated,
+API-first solution. Whether you're a tech platform, e-commerce store, or HR system, Yasmina gives you the tools to generate insurance quotes, issue policies, and manage claims — all through a simple, standard RESTful APIs.
 
-<CardGroup cols={2}>
-  <Card
-    title="Medical"
-    icon="users-medical"
-    href="integrations/medical"
-  >Facilitate efficient and automated insurance claims processes between Healthcare Providers and Insurance Companies.</Card>
-  <Card
-    title="Motor"
-    icon="car"
-    href="integrations/car"
-  >
-  	Seamless insurance for the cars you're selling and the drivers that are buying from you.
-  </Card>
-  <Card
-    title="Property"
-    icon="house"
-    href="property"
-  >Seamlessly embed property insurance into your platform, letting your customers insure their properties with just a click.</Card>
-  <Card
-    title="Travel"
-    icon="plane"
-    href="travel"
-  >Effortlessly integrate travel insurance into your platform, giving your customers peace of mind for their journeys.</Card>
-</CardGroup>
+Our platform sits in the middle of Insurance Providers and Businesses.
 
-## Other resources
+<img
+  src="/images/insurance-flow.png"
+  alt="Insurance flow"
+  width="600"
+  className="rounded-lg"
+/>
+💡 Yasmina is fully self-service, which means you can go live without waiting for manual onboarding or lengthy setup processes.
 
-<CardGroup cols={2}>
-  <Card
-    title="Yasmina iframe"
-    icon="file-code"
-    href="otherintegrations/iframe"
-  >
-	  You can place our white-labeled Iframe onto your website and your customers can purchase insurance directly from there!
-  </Card>
-  <Card
-    title="Portal"
-    icon="table-columns"
-    href="otherintegrations/portal"
-  >Not ready to integrate with our API's or Iframe into your platform yet? No problem, your own portal can assist in giving insurance to your customers.</Card>
-</CardGroup>
+### Onboarding
+
+<Steps>
+  <Step icon="user-plus" title="Signup">
+  	Signing up is quick. Just head up to https://portal.yasmina.ai/register and fill in the sign up form
+	<img
+	  src="/images/signup5.png"
+	  alt="Insurance flow"
+	  width="600"
+	  className="rounded-lg"
+	/>
+  </Step>
+  <Step icon="clipboard-list" title="Enrollment process">
+	  <Note>The enrollment process is only required for Live environment. Sandbox environment doesn't require it.</Note>
+	  Once you sign up, you need to click Enrollment from the sidebar.
+
+	<img
+	  src="/images/enrollment2.png"
+	  alt="Insurance flow"
+	  width="600"
+	  className="rounded-lg"
+	/>
+	 Once you click, you go through a simple guided wizard where you'll tell us more about your business and how you will use Yasmina.
+
+At the end of the process, you need to carefully review and accept our service agreement to complete your enrollment.
+
+
+<Tip>Made a mistake or missed something? You can reset your submission and update the details anytime.</Tip>
+
+  </Step>
+
+	<Step icon="clock" title="Wait for approval">
+
+Once submitted, our team will review your details and usually approve your account within 24 hours. After approval, your business will have full access to Yasmina, and you’ll be ready to start offering insurance services through your own platform.
+	<img
+	  src="/images/approval.png"
+	  alt="Insurance flow"
+	  width="600"
+	  className="rounded-lg"
+	/>
+	</Step>
+  <Step icon="plug" title="Integration">
+  You can now start integrating with our core products. Click on any of the products below to jump to its integration steps.
+  	<CardGroup cols={3}>
+      <Card
+        title="SME Medical Insurance"
+        icon="users-medical"
+        href="integrations/medical"
+      >Offer medical coverage to your SME clients, helping them protect their employees with access to essential healthcare services. Perfect for platforms serving small and medium-sized businesses.</Card>
+      <Card
+        title="Motor Insurance"
+        icon="car"
+        href="integrations/car"
+      >Enable your customers to insure their vehicles directly through your platform — covering accidents, theft, and third-party liability.</Card>
+      <Card
+        title="Property Insurance"
+        icon="house"
+        href="property"
+      >Let your customers or business clients protect their assets — from commercial buildings to physical inventory — against fire, theft, and natural disasters.</Card>
+      <Card
+        title="Travel Insurance"
+        icon="plane"
+        href="travel"
+      >Embed travel protection into your booking flow or travel-related services. Cover unexpected events like trip cancellations, medical emergencies, and lost luggage.</Card>
+            <Card
+              title="Life Insurance"
+              icon="shield-heart"
+              href="travel"
+            >Give your customers the ability to secure their family’s future by offering life insurance products through your platform.</Card>
+                <Card
+                  title="Livestock (Horse) Insurance"
+                  icon="horse"
+                  href="travel"
+                >If you work with farms, stables, or equestrian platforms, offer tailored coverage to protect horses from death, illness, or injury.</Card>
+    </CardGroup>
+
+  </Step>
+</Steps>

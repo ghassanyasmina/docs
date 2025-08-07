@@ -1,5 +1,5 @@
 ---
-title: 'Motor Insurance'
+title: 'Comprehensive Motor Insurance'
 description: "Seamless insurance for the cars you're selling and the drivers that are buying from you."
 icon: 'car'
 ---
@@ -13,19 +13,19 @@ Below is the basic journey to requesting your first insurance(s)
 	<Step title="Authorization">
 	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
 
-	Or go directly to [Authorization API](/car-api-reference/auth/generate-token)
+	Or go directly to [Authorization API](/auth-api-reference/oauth-20/generate-token)
 	</Step>
-	  <Step title="Request policies for your customers">
+	  <Step title="Issue policies for your customers">
       	Provide the car details such as VIN and Sequence number [Click for more details](#request-policies).
 
-      	Or go directly to [Request policies API](/car-api-reference/policies/request-policy)
+      	Or go directly to [Issue policies API](/car-api-reference/policies/issue-policy)
       </Step>
 </Steps>
 
 ### Authorization
 
 To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
-You will need `client_key` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
+You will need `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
 
 After making the request, you will get access_token in the response. Example
 ```
@@ -37,9 +37,37 @@ After making the request, you will get access_token in the response. Example
 ```
 Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
 
-Go to the following link to use the [Authorization API](/car-api-reference/auth/generate-token).
+Go to the following link to use the [Authorization API](/auth-api-reference/oauth-20/generate-token).
 
-<Warning>For security reasons. Do not make your client_key and client_secret public in your platform.</Warning>
+<Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
 
-### Request policies
-To issue policies, you need to execute the [Request policies API](/car-api-reference/policies/request-policy)).
+### Issue policies
+
+In order to Issue a policy. You can head to the <a href="/car-api-reference/policies/issue-policy" target="_blank">Issue Policy API </a>
+
+For issuing a policy, we need you to provide the following properties.
+
+| Property | Description                           |
+| -------- | ------------------------------------- |
+| VIN     | The car VIN number. Made from a length of 17 alphanumerical characters. You cannot have 2 active policies from the same VIN. Make sure you cancel an existing policy for a particular VIN before issuing the other.                     |
+| Car Sequence Number      | The sequence number of the car. Made out of 10 digits. You cannot have 2 active policies from the same VIN. Make sure you cancel an existing policy for a particular VIN before issuing the other.                      |
+| Current car owner   | The national ID of the current owner (if this is a new car purchased by your business, then you need to provide the national ID of someone registered to the company). |
+| New car owner   | The national ID of the new owner. |
+
+This is an example of the JSON payload that you might send.
+``````
+{
+  "vin": "1HG2H4131e3211GRR",
+  "car_sequence_number": "121236022",
+  "current_car_owner": "1234567890",
+  "new_owner_id": "1234567890"
+}
+``````
+To issue policies, you need to execute the [Issue policies API](/car-api-reference/policies/issue-policy)).
+
+### Claims
+
+You can issue a claim using our APIs. When you issue a claim, we communicate it with the Insurance provider, and giving them details of the incident.
+
+Go to the <a href="/car-api-reference/claims/issue-claim">Issue Claim API</a> in order to start the claim process for your customer.
+

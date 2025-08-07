@@ -1,0 +1,21 @@
+---
+title: Authentication
+icon: 'key'
+---
+The Yasmina Platform APIs use the <a href="https://oauth.net/2/grant-types/client-credentials/" target="_blank">OAuth 2.0 Client Credentials Grant flow</a>. This HTTP authentication scheme requires a valid token to be included with every API request. You will be provided with a unique Client ID and a private Client Secret, which you will use to generate a token to access the Yasmina Platform.
+
+To begin, your first step is to request a token from our Authentication Endpoint using your Client ID and Client Secret. This token will then be used in all subsequent API requests.
+
+To get your credentials, head over to <a href="https://portal.yasmina.ai/api-management" target="_blank">API Management</a>.
+	<img
+	  src="/images/credentials.png"
+	  alt="Insurance flow"
+	  width="600"
+	  className="rounded-lg"
+	/>
+In this page you can Generate a new client secret. Copy both the Client ID and Client Secret.
+
+Now you can get a secure JWT token from the <a href="/auth-api-reference/oauth-20/generate-token" target="_blank">
+Oauth 2.0 Client Credentials API</a>
+
+<Warning>When you generate a new client secret the old one will be invalid, so use the Generate button with care.</Warning>

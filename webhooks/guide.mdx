@@ -1,0 +1,93 @@
+---
+title: "Guide to using Webhooks"
+icon: "repeat"
+---
+
+Webhooks allow your system to receive real-time notifications from Yasmina whenever key events occur. This enables seamless integrations and automated workflows.
+
+You can manage Webhooks from <a href="https://portal.yasmina.ai/api-management">API Management</a>
+
+
+	<img
+	  src="/images/webhooks.png"
+	  alt="Webhooks"
+	  width="600"
+	  className="rounded-lg"
+	/>
+
+### Available Webhooks
+
+| Event              | Description                                                       |
+|--------------------|-------------------------------------------------------------------|
+| **Status Update**  | Triggered when the status of a policy changes. |
+| **Document Update**| Triggered when a document is uploaded to a policy.                 |
+
+Each webhook can be configured with a callback **URL** where you will receive the event payloads.
+
+---
+
+### Webhook Security
+
+To ensure the authenticity of incoming requests, Yasmina includes a **Webhook Key** in the header of every webhook request.
+
+- **Header**: `x-webhook-key`
+- **How to get it**: You can generate and manage your Webhook Key by clicking Edit and the refresh icon in the Webook key field
+
+Make sure to validate this key in your endpoint handler to confirm that the request originated from Yasmina.
+
+---
+
+### Testing the webhook
+
+Yasmina allows you to test your Webhook instantly. Simply Click on "Test call".
+
+---
+
+### Payload Structure
+
+Webhook requests are sent as `POST` requests with a JSON body. The payload will be the same object that you acquire when you create a policy, for example:
+
+```json
+{
+  "id": 641,
+  "user_id": 33,
+  "meta_data": {
+    "vin": "****MASKED_VIN****",
+    "new_owner_id": "****MASKED_ID****",
+    "current_car_owner": "****MASKED_ID****",
+    "car_sequence_number": "****MASKED_SEQ****"
+    "extra_fields": {}
+  },
+  "product_id": 1,
+  "client_id": "****MASKED_UUID****",
+  "canceled_at": null,
+  "provider_policy_id": "****MASKED_POLICY_ID****",
+  "provider_policy": null,
+  "cancellation_document": null,
+  "invoice": null,
+  "has_sent_cancellation_email": 0,
+  "created_at": "2025-08-05T08:29:39.000000Z",
+  "updated_at": "2025-08-05T08:29:39.000000Z",
+  "status": 0,
+  "transfer_date_at": null,
+  "cancellation_request_at": null,
+  "deleted_at": null,
+  "is_old_policy": 0,
+  "policy_url": "",
+  "invoice_url": "",
+  "client": {
+    "id": "****MASKED_UUID****",
+    "user_id": 33,
+    "name": "****MASKED_CLIENT_NAME****",
+    "provider": null,
+    "redirect": "",
+    "personal_access_client": false,
+    "password_client": false,
+    "revoked": false,
+    "created_at": "2025-07-23T11:13:22.000000Z",
+    "updated_at": "2025-07-23T11:19:55.000000Z",
+    "product_id": 1,
+    "is_policy_provider": 0,
+    "is_approved": 1
+  }
+}
