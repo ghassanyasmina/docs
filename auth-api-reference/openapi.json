@@ -28,9 +28,6 @@
     "/oauth/token": {
       "servers": [
         {
-          "url": "http://localhost:8000"
-        },
-        {
           "url": "https://staging.yasmina.ai"
         },
         {
