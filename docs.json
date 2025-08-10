@@ -60,14 +60,6 @@
             ]
           },
           {
-            "group": "Multi-Insurance Provider Pricing APIs",
-            "pages": [
-              "prices/overview",
-              "prices/motor",
-              "prices/property"
-            ]
-          },
-          {
             "group": "API Resources",
             "pages": [
               "api-resources/data",

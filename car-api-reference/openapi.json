@@ -26,20 +26,9 @@
   ],
   "paths": {
     "/products": {
-      "servers": [
-        {
-          "url": "https://staging.yasmina.ai/api/v1/car"
-        },
-        {
-          "url": "https://sandbox.yasmina.ai/api/v1/car"
-        },
-        {
-          "url": "https://portal.yasmina.ai/api/v1/car"
-        }
-      ],
       "post": {
-        "description": "Get prices from different insurance companies",
-        "tags": ["Embedded Price Comparison"],
+        "description": "Generates prices and benefits from multiple insurance companies, enabling you to present competitive offers to your customers.",
+        "tags": ["Products"],
         "summary": "Motor Insurance Products",
         "responses": {
           "200": {
