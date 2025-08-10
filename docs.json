@@ -134,13 +134,6 @@
               "source": "payments-api-reference/openapi.json",
               "directory": "payments-api-reference"
             }
-          },
-          {
-            "group": "Multi-Insurance Provider Pricing APIs",
-            "openapi": {
-              "source": "pricing-api-reference/openapi.json",
-              "directory": "pricing-api-reference"
-            }
           }
         ]
       },
