@@ -100,7 +100,7 @@
                   "email": {
                     "type": "string",
                     "format": "email",
-                    "example": "bashar@yasmina.ai"
+                    "example": "someone@example.com"
                   },
                   "multi_entry": {
                     "type": "boolean",
@@ -155,7 +155,7 @@
                         },
                         "full_name": {
                           "type": "string",
-                          "example": "Bashar Abalkhail"
+                          "example": ""
                         },
                         "passport_number": {
                           "type": "string",
@@ -232,7 +232,7 @@
                     "client_id": { "type": "string", "format": "uuid" },
                     "nationality_id": { "type": "string" },
                     "phone_number": { "type": "string" },
-                    "email": { "type": "string", "format": "email", "example": "bashar@yasmina.ai" },
+                    "email": { "type": "string", "format": "email", "example": "someone@example.com" },
                     "date_of_birth": { "type": "string", "format": "date" },
                     "type": { "type": "string", "example": "yasmina_schengen_travel_insurance" },
                     "quote_id": { "type": "string" },
@@ -264,7 +264,7 @@
                         "type": "object",
                         "properties": {
                           "nationality": { "type": "string", "example": "JO" },
-                          "full_name": { "type": "string", "example": "Bashar Abalkhail" },
+                          "full_name": { "type": "string", "example": "Yasmina Alex" },
                           "passport_number": { "type": "string" },
                           "gender": { "type": "string", "enum": ["m", "f"] },
                           "date_of_birth": { "type": "string", "format": "date" },

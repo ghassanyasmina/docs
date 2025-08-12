@@ -129,6 +129,13 @@
             }
           },
           {
+            "group": "Horse Insurance APIs",
+            "openapi": {
+              "source": "horse-api-reference/openapi.json",
+              "directory": "horse-api-reference"
+            }
+          },
+          {
             "group": "Payment",
             "openapi": {
               "source": "payments-api-reference/openapi.json",

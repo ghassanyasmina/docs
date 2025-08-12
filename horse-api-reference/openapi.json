@@ -1,0 +1,472 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI For Horse Insurance",
+    "description": "API's that you need to use to issue insurance policies to your clients",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://staging.yasmina.ai/api/v1/horse"
+    },
+    {
+      "url": "https://sandbox.yasmina.ai/api/v1/horse"
+    },
+    {
+      "url": "https://portal.yasmina.ai/api/v1/horse"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/policies": {
+      "post": {
+        "summary": "Create a horse policy",
+        "description": "Creates a new horse policy record with detailed horse information.",
+        "tags": ["Policies"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Thunderbolt"
+                  },
+                  "proposer_name": {
+                    "type": "string",
+                    "example": "Ahmed Al Saeed"
+                  },
+                  "owner_email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "ahmed@example.com"
+                  },
+                  "owner_phone": {
+                    "type": "string",
+                    "example": "+966512345678"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2018-05-20"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "enum": [
+                      "male",
+                      "female"
+                    ],
+                    "example": "female"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "Bay"
+                  },
+                  "breed": {
+                    "type": "string",
+                    "example": "other"
+                  },
+                  "breed_name": {
+                    "type": "string",
+                    "example": "Arabian Mix"
+                  },
+                  "microchip_number": {
+                    "type": "string",
+                    "example": "1234567890"
+                  },
+                  "purchased": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "purchase_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2023-07-15"
+                  },
+                  "purchase_place": {
+                    "type": "string",
+                    "example": "Riyadh"
+                  },
+                  "did_participate": {
+                    "type": "string",
+                    "enum": [
+                      "yes",
+                      "no"
+                    ],
+                    "example": "yes"
+                  },
+                  "participation_details": {
+                    "type": "string",
+                    "example": "Won first place in endurance race 2022"
+                  },
+                  "has_abortion": {
+                    "type": "string",
+                    "enum": [
+                      "yes",
+                      "no"
+                    ],
+                    "example": "yes"
+                  },
+                  "abortion_details": {
+                    "type": "string",
+                    "example": "Occurred in 2021 due to illness"
+                  },
+                  "has_embryo_transfers": {
+                    "type": "string",
+                    "enum": [
+                      "yes",
+                      "no"
+                    ],
+                    "example": "yes"
+                  },
+                  "embryo_transfers_details": {
+                    "type": "string",
+                    "example": "2 embryo transfers completed"
+                  },
+                  "recipient_or_donor": {
+                    "type": "string",
+                    "enum": [
+                      "recipient",
+                      "donor"
+                    ],
+                    "example": "donor"
+                  },
+                  "use": {
+                    "type": "string",
+                    "example": "racing"
+                  },
+                  "declaration": {
+                    "type": "string",
+                    "enum": [
+                      "yes",
+                      "no"
+                    ],
+                    "example": "yes"
+                  },
+                  "upload": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "name",
+                  "owner_name",
+                  "owner_email",
+                  "owner_phone",
+                  "date_of_birth",
+                  "sex",
+                  "color",
+                  "breed",
+                  "purchased",
+                  "did_participate",
+                  "has_abortion",
+                  "has_embryo_transfers",
+                  "use",
+                  "declaration"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Horse policy created successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/policies/{horsePolicy}/cancellation": {
+      "post": {
+        "description": "Cancel a policy",
+        "summary": "Cancel policy",
+        "tags": [
+          "Policies"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "name": "horsePolicy",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cancellation_document": {
+                    "type": "string",
+                    "description": "Supporting document of why policy was deleted. Could be resignation document.",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Cancellation success"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "40010",
+                  "message": "Policy is already canceled"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "40010"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Policy is already canceled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/policies/{policyId}/claims": {
+      "post": {
+        "tags": [
+          "Claims"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policyId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "summary": "Issue claim",
+        "description": "Issue a claim to your policy",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "requested_amount": {
+                      "type": "string"
+                    },
+                    "claim_status": {
+                      "type": "integer"
+                    },
+                    "policy_id": {
+                      "type": "integer"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "supporting_document": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requested_amount": {
+                    "type": "number",
+                    "description": "Value in SAR",
+                    "example": 1000
+                  },
+                  "description": {
+                    "description": "All details about what happened",
+                    "example": "",
+                    "type": "string"
+                  },
+                  "supporting_document": {
+                    "format": "binary",
+                    "type": "string",
+                    "description": "Could be used for uploading the invoice",
+                    "example": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "NotFound": {
+        "description": "Record not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "40401"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "40101"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthenticated"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Policy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "meta_data": {
+            "type": "object"
+          },
+          "start_date": {
+            "type": "string"
+          },
+          "provider_policy_id": {
+            "type": "integer"
+          },
+          "provider_policy": {
+            "type": "string"
+          },
+          "order_status": {
+            "type": "integer"
+          },
+          "approval_status": {
+            "type": "integer"
+          },
+          "end_date": {
+            "type": "string"
+          },
+          "is_claimed": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "canceled_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoice": {
+            "type": "string"
+          },
+          "cancellation_document": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
