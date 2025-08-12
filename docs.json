@@ -129,6 +129,13 @@
             }
           },
           {
+            "group": "Life (S&P) Insurance APIs",
+            "openapi": {
+              "source": "life-snp/openapi.json",
+              "directory": "life-snp"
+            }
+          },
+          {
             "group": "Horse Insurance APIs",
             "openapi": {
               "source": "horse-api-reference/openapi.json",

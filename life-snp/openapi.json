@@ -1,0 +1,448 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI For Life Savings & Protection (Bank)",
+    "description": "APIs used by a bank channel to quote, issue, cancel, and claim on Life Savings & Protection policies.",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    { "url": "https://staging.yasmina.ai/api/v1/life-snp" },
+    { "url": "https://sandbox.yasmina.ai/api/v1/life-snp" },
+    { "url": "https://portal.yasmina.ai/api/v1/life-snp" }
+  ],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/offers": {
+      "post": {
+        "description": "Generates Life S&P offers (premiums and benefits) from multiple insurers for a bank's customers.",
+        "tags": ["Offers"],
+        "summary": "Life S&P Products",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Offer" }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "applicant_id": {
+                    "type": "string",
+                    "pattern": "^\\d{10}$",
+                    "description": "Saudi National ID of the applicant (10 digits)."
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "YYYY-MM-DD"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "enum": ["male", "female"]
+                  },
+                  "smoker": { "type": "boolean" },
+                  "height_cm": { "type": "number", "minimum": 100, "maximum": 250 },
+                  "weight_kg": { "type": "number", "minimum": 30, "maximum": 300 },
+                  "occupation_class": {
+                    "type": "string",
+                    "description": "Insurer occupation class code or text."
+                  },
+                  "annual_income_sar": { "type": "number", "minimum": 0 },
+                  "policy_term_years": { "type": "integer", "minimum": 5, "maximum": 40 },
+                  "premium_frequency": {
+                    "type": "string",
+                    "enum": ["monthly", "quarterly", "semi_annual", "annual"]
+                  },
+                  "sum_assured": {
+                    "type": "number",
+                    "minimum": 10000,
+                    "description": "SAR. Required if target_premium is not provided."
+                  },
+                  "target_premium": {
+                    "type": "number",
+                    "minimum": 50,
+                    "description": "SAR per chosen frequency. Required if sum_assured is not provided."
+                  },
+                  "riders": {
+                    "type": "object",
+                    "properties": {
+                      "accidental_death": { "type": "boolean" },
+                      "critical_illness": { "type": "boolean" },
+                      "total_permanent_disability": { "type": "boolean" },
+                      "waiver_of_premium": { "type": "boolean" }
+                    }
+                  },
+                  "distribution_channel": {
+                    "type": "string",
+                    "enum": ["bank"],
+                    "default": "bank"
+                  },
+                  "extra_fields": {
+                    "type": "object",
+                    "description": "Optional key-value extras (max JSON-encoded size 255 chars).",
+                    "additionalProperties": true
+                  }
+                },
+                "required": [
+                  "applicant_id",
+                  "date_of_birth",
+                  "gender",
+                  "smoker",
+                  "policy_term_years",
+                  "premium_frequency"
+                ],
+                "oneOf": [
+                  { "required": ["sum_assured"] },
+                  { "required": ["target_premium"] }
+                ]
+              },
+              "example": {
+                "applicant_id": "0123456789",
+                "date_of_birth": "1990-06-15",
+                "gender": "male",
+                "smoker": false,
+                "height_cm": 178,
+                "weight_kg": 80,
+                "occupation_class": "A",
+                "annual_income_sar": 180000,
+                "policy_term_years": 20,
+                "premium_frequency": "monthly",
+                "target_premium": 250,
+                "riders": { "critical_illness": true, "waiver_of_premium": true },
+                "distribution_channel": "bank"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/policies": {
+      "get": {
+        "description": "List Life S&P policies created via the bank channel.",
+        "tags": ["Policies"],
+        "summary": "List policies",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Policy" }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "post": {
+        "description": "Issue a Life S&P policy based on a selected offer.",
+        "summary": "Issue policy",
+        "tags": ["Policies"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "offer_id": { "type": "string", "description": "Offer identifier returned by /offers." },
+                  "applicant_id": { "type": "string", "pattern": "^\\d{10}$" },
+                  "date_of_birth": { "type": "string", "format": "date" },
+                  "gender": { "type": "string", "enum": ["male", "female"] },
+                  "smoker": { "type": "boolean" },
+                  "policy_term_years": { "type": "integer", "minimum": 5, "maximum": 40 },
+                  "premium_frequency": { "type": "string", "enum": ["monthly", "quarterly", "semi_annual", "annual"] },
+                  "sum_assured": { "type": "number", "minimum": 10000 },
+                  "agreed_premium": { "type": "number", "minimum": 50 },
+                  "start_date": { "type": "string", "format": "date" },
+                  "iban": {
+                    "type": "string",
+                    "description": "Customer bank IBAN for premium collection.",
+                    "example": "SA0380000000608010167519"
+                  },
+                  "beneficiaries": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string" },
+                        "national_id": { "type": "string", "pattern": "^\\d{10}$" },
+                        "relationship": { "type": "string", "enum": ["spouse", "child", "parent", "sibling", "other"] },
+                        "share_percentage": { "type": "number", "minimum": 0, "maximum": 100 }
+                      },
+                      "required": ["name", "national_id", "relationship", "share_percentage"]
+                    }
+                  },
+                  "consent": { "type": "boolean", "description": "Customer consents to policy issuance and bank auto-debit." },
+                  "extra_fields": {
+                    "type": "object",
+                    "description": "Optional key-value extras (max JSON-encoded size 255 chars).",
+                    "additionalProperties": true
+                  }
+                },
+                "required": [
+                  "offer_id",
+                  "applicant_id",
+                  "date_of_birth",
+                  "gender",
+                  "smoker",
+                  "policy_term_years",
+                  "premium_frequency",
+                  "agreed_premium",
+                  "start_date",
+                  "beneficiaries",
+                  "consent"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Policy" } } }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "422": { "$ref": "#/components/responses/UnprocessableEntity" }
+        }
+      }
+    },
+
+    "/policies/{lifePolicy}/cancellation": {
+      "post": {
+        "description": "Cancel a Life S&P policy (e.g., within cooling-off period).",
+        "summary": "Cancel policy",
+        "tags": ["Policies"],
+        "parameters": [
+          { "required": true, "name": "lifePolicy", "in": "path", "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cancellation_document": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Supporting document stating reason for cancellation."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": { "description": "Cancellation success" },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string", "example": "40010" },
+                    "message": { "type": "string", "example": "Policy is already canceled" }
+                  }
+                },
+                "example": { "code": "40010", "message": "Policy is already canceled" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+
+    "/policies/{policyId}/claims": {
+      "post": {
+        "tags": ["Claims"],
+        "summary": "Submit claim",
+        "description": "Submit a Life S&P claim (death / critical illness / disability).",
+        "parameters": [
+          { "in": "path", "name": "policyId", "schema": { "type": "integer" }, "required": true }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "claim_id": { "type": "integer" },
+                    "claim_type": { "type": "string" },
+                    "requested_amount": { "type": "number" },
+                    "claim_status": { "type": "string" },
+                    "policy_id": { "type": "integer" },
+                    "created_at": { "type": "string" },
+                    "updated_at": { "type": "string" },
+                    "supporting_document": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "claim_type": {
+                    "type": "string",
+                    "enum": ["death", "critical_illness", "total_permanent_disability"]
+                  },
+                  "event_date": { "type": "string", "format": "date" },
+                  "requested_amount": { "type": "number", "description": "SAR (if applicable)", "example": 500000 },
+                  "description": { "type": "string", "description": "Details of the claim event." },
+                  "supporting_document": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Upload relevant claim evidence (e.g., medical report)."
+                  }
+                },
+                "required": ["claim_type", "event_date"]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "responses": {
+      "NotFound": {
+        "description": "Record not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": { "type": "string", "example": "40401" },
+                "message": { "type": "string", "example": "Not found" }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": { "type": "string", "example": "40101" },
+                "message": { "type": "string", "example": "Unauthenticated" }
+              }
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Offer": {
+        "type": "object",
+        "properties": {
+          "offer_id": { "type": "string" },
+          "insurer": { "type": "string" },
+          "sum_assured": { "type": "number" },
+          "premium": { "type": "number" },
+          "premium_frequency": { "type": "string" },
+          "policy_term_years": { "type": "integer" },
+          "riders_included": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "maturity_benefit": { "type": "boolean", "description": "Payout on maturity if applicable." },
+          "notes": { "type": "string" }
+        }
+      },
+
+      "Policy": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "client_id": { "type": "string" },
+          "provider_policy_id": { "type": "integer" },
+          "provider_policy": { "type": "string" },
+          "start_date": { "type": "string" },
+          "end_date": { "type": "string" },
+          "policy_term_years": { "type": "integer" },
+          "sum_assured": { "type": "number" },
+          "premium_amount": { "type": "number" },
+          "premium_frequency": { "type": "string" },
+          "approval_status": { "type": "integer" },
+          "order_status": { "type": "integer" },
+          "status": { "type": "string", "example": "active" },
+          "beneficiaries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "national_id": { "type": "string" },
+                "relationship": { "type": "string" },
+                "share_percentage": { "type": "number" }
+              }
+            }
+          },
+          "iban_masked": { "type": "string", "example": "SA03*****************519" },
+          "is_claimed": { "type": "boolean" },
+          "canceled_at": { "type": "string", "nullable": true },
+          "invoice": { "type": "string" },
+          "cancellation_document": { "type": "string" },
+          "meta_data": { "type": "object" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
