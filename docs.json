@@ -32,6 +32,11 @@
       "chatgpt"
     ]
   },
+  "integrations": {
+    "intercom": {
+      "appId": "yu8wo042"
+    }
+  },
   "navigation": {
     "tabs": [
       {
