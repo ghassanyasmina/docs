@@ -4,70 +4,230 @@ description: "Seamless insurance for the cars you're selling and the drivers tha
 icon: 'car'
 ---
 
-## Overview
-The API's in this documentation has been designed to seamlessly integrate with Yasmina's platform, enabling a smooth and efficient exchange of car insurance-related data and functionalities. Whether you're looking to request or manage policies, handle claims, or access customer information, this API provides a robust and secure interface. With clear endpoints and comprehensive support, our goal is to simplify the integration process and ensure that our client can leverage the full potential of our insurance services with minimal effort.
+## Introduction
+This guide describes the Motor Insurance APIs available on Yasmina’s platform. These APIs cover the core operations required for working with motor insurance, including requesting quotes, issuing and managing policies, generating payment link, and handling claims.
+Our APIs use the RESTful standard and is structured to provide consistent inputs and outputs, making it quick and easy to integrate, test, and maintain within your systems.
 
-### Steps
-Below is the basic journey to requesting your first insurance(s)
-<Steps>
-	<Step title="Authorization">
-	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
+## What you will learn
+- Requesting and managing quotes
+- Issuing and managing policies
+- Starting a claim
 
-	Or go directly to [Authorization API](/auth-api-reference/oauth-20/generate-token)
-	</Step>
-	  <Step title="Issue policies for your customers">
-      	Provide the car details such as VIN and Sequence number [Click for more details](#request-policies).
+## Quotes
 
-      	Or go directly to [Issue policies API](/car-api-reference/policies/issue-policy)
-      </Step>
-</Steps>
+Quotes are the different premiums, benefits, and deductibles offered by insurance providers. Before issuing Motor insurance policies you need to give the car details to get different quotes from insurance providers. These quotes are then used to issuing the policy.
 
-### Authorization
+### Request Quotes
 
-To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
-You will need `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
+In order to provide quotes for your customer you need to execute the <a href="/car-api-reference/quotes/request-quotes" target="_blank">Request Quotes API</a>. This API provides an array response from different insurance providers. Each item in this array, represents the name of the company, the different premiums and deductibles, and also the list of benefits (both free and paid).
 
-After making the request, you will get access_token in the response. Example
+<Note>The Request Quotes API may take longer to respond because it retrieves results from multiple insurance providers. Be sure to increase your timeout to at least 1 minute before making the request.</Note>
+
+You need to provider the following properties for the Request Quotes API
+
+| Field                | Example Value   | Description                                                                                   |
+|-----------------------|----------------|-----------------------------------------------------------------------------------------------|
+| `owner_id`            | `2234567890`   | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.              |
+| `birthdate`           | `1988-04-20`   | Date of birth of the owner in `YYYY-MM-DD` format. If the owner ID is a Saudi National, then you need to give Hijri date, otherwise you need to give a Gregorian birthdate.                             |
+| `phone`               | `05XXXXXXXX`   | Saudi mobile number. Must start with `05` and be exactly 10 digits.                           |
+| `car_sequence_number` | `52423810`     | The car’s sequence number (8–9 digits).                                                       |
+| `is_ownership_transfer` | `false`      | Boolean flag. `true` if the car is being transferred to a new owner, otherwise `false`.        |
+| `current_car_owner_id` | `1234567890`  | The current owner’s national ID. **Only required if** `is_ownership_transfer = true`.          |
+| `car_estimated_cost`  | `45000`        | Estimated market cost of the car in SAR.                                                      |
+| `car_model_year`      | `2026`         | Year of manufacture of the car. Must be between 1950 and the next year.                       |
+
+Example request
 ```
+POST /api/v1/car-comp/quote-requests HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: ••••••
+Content-Length: 226
+
 {
-    "token_type": "Bearer",
-    "expires_in": 31536000,
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YmEyOTNmNy01ZjYyLTRlODItYmU5Yi1kODA0Y2M5ZDM5MmMiLCJqdGkiOiJlZWJjMWM5MWEyZThkMTVmNTYxNjZjMjkwM2Q0NTZjM2IzYWM5MTU5ZTdkODQ2YTE5NmFlYjcxMWM5OTJlMjc2MzAzNjY3MDA1MDQzM2U0OSIsImlhdCI6MTczNTkwNTE5OC40NTg5MiwibmJmIjoxNzM1OTA1MTk4LjQ1ODkyMSwiZXhwIjoxNzY3NDQxMTk4LjQ1Njk0LCJzdWIiOiIiLCJzY29wZXMiOltdfQ.Dy6df9fr4eBMLtkjnzcBjrXSg2AZLrmrBBC1NF8wmQaIOjcNffiqMiL9MqdMPj43Dxt4fj9rT1_S8dfwEpSbxNuIweNLOa7iDYpqMQ2l-cKG_sn24G27exZ9shLG8p2FHa4SHxSByRw00aCJceiTzq12LLNfc14rGPKZOv5Pi-HuLAP6ms_NfyN-KafOFOjYym4PyHCuTX8jEkoImgpBUpPgdnq1qyQdrZxL4grp0P_ezkhTgHgWwuzjSYgm4l-Eyga65kua-pdgWbhJ7-I1W_hjWT2dKCivcmk6nR9wtTjWs9hBvZrOfoZmox4YPIjZ_pvImZbHcZui-7xs80dnoaTKRviR8aot0cPIKoqRwinBodjWRh3QEu5juT1b7T-m85Wo_JNRoarKD4pW2Lzq7v1u9Z6PMEeYXvuFchzZ6HPvthblfwbtu3AX6ij0ZGlZPdMRdEiRtZf3dt8nsWdI-E_J0GAD-9wexlpNL92Z-IfuwMXuUQs_j4l92fcfBC_NxlEUTNACyOWPrA3V6ZSLHrga6W4Iz6Por3txzCsxlwvEBQAM70VyGeSqFi0wMLg2V8wVYAEpiEe2dl4RpMbUaPzRNc_KsDUYM_4DqwMTo2v2x4AAPxWmWiRn4PeAXovraN6Ll-eW9zq5hUbt3c-yj0spVYhJADHodoHmAdQM9MA"
+    "owner_id": 2234567890,
+    "phone": "05XXXXXXXX",
+    "birthdate": "1982-04-20",
+    "car_sequence_number": 52423810,
+    "is_ownership_transfer": false,
+    "car_estimated_cost": 45000,
+    "car_model_year": 2024
 }
 ```
-Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
 
-Go to the following link to use the [Authorization API](/auth-api-reference/oauth-20/generate-token).
 
-<Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
+Once you execute this you will get a response that includes pricing and benefits from multiple insurance providers. This is an example of a response in json
 
-### Issue policies
+```
+{
+    "owner_id": 2234567890,
+    "phone": "05XXXXXXXX",
+    "birthdate": "1982-04-20",
+    "car_sequence_number": 52423810,
+    "is_ownership_transfer": false,
+    "car_estimated_cost": 45000,
+    "car_model_year": 2025,
+    "quotes": [
+        {
+            "company_name": "Al Rajhi Takaful",
+            "quote_reference_id": "da94ea3b-73d3-4b76-a831-e880d56397e4",
+            "prices": [
+                {
+                    "quote_price_id": "85ebb1d6-3867-4f4f-ab37-afec22994f4e",
+                    "deductible": 500,
+                    "subtotal": 2979.23,
+                    "vat_percentage": 15,
+                    "vat": 446.88,
+                    "total": 3426.11
+                },
+                {
+                    "quote_price_id": "d44485c7-e725-4e3f-9377-31341265375d",
+                    "deductible": 1000,
+                    "subtotal": 2934.95,
+                    "vat_percentage": 15,
+                    "vat": 440.24,
+                    "total": 3375.19
+                },
+                ...
+            ],
+            "benefits": [
+                {
+                    "quote_benefit_id": "ee387127-4521-403d-b7a0-92e38fbe3d78",
+                    "id": "1296",
+                    "name": "Natural Disasters",
+                    "amount": 0,
+                    "vat": 0,
+                    "url": null
+                },
+                {
+                    "quote_benefit_id": "faa941bf-a9dd-4a10-a4eb-51bd5d1e7884",
+                    "id": "601061",
+                    "name": "Replacement Car",
+                    "amount": 325,
+                    "vat": 48.75,
+                    "url": null
+                },
+                ...
+            ]
+        },
+        {
+            "company_name": "United Cooperative Assurance",
+            "quote_reference_id": "fc5533cb-dd52-4885-a7ce-4d81ff8f674f",
+            "prices": [
+                {
+                    "quote_price_id": "f547a59b-d197-4eca-8367-0c3dd8550810",
+                    "deductible": 2000,
+                    "subtotal": 2420,
+                    "vat_percentage": 15,
+                    "vat": 363,
+                    "total": 2783
+                },
+                ...
+            ],
+            "benefits": [
+                {
+                    "quote_benefit_id": "790623f6-ab25-4deb-94bf-49f4a2de2977",
+                    "id": "1757225845262350",
+                    "name": "Personal Accident (Drive only cover)",
+                    "amount": 40,
+                    "vat": 6,
+                    "url": null
+                },
+                ...
+            ]
+        }
+    ],
+    "current_car_owner_id": 2234567890,
+    "client_id": "9f757acd-1ab4-466f-8cb2-d65ddedb2374",
+    "updated_at": "2025-09-07T06:17:28.000000Z",
+    "created_at": "2025-09-07T06:17:28.000000Z",
+    "id": 9
+}
+```
+
+#### Explaining the Quotes Request response
+
+The ID value represents Yasmina's unique identifier for this quote request. You will later need to provide in the <a href="/car-api-reference/policies/issue-policy" target="_blank">Issue policy API</a>
+as `quote_id`
+
+The Quote reference ID must also be provided to the Issue Policy API as `quote_reference_id`. Each insurance provider has its own quote_reference_id.
+
+Each insurance provider gives a `prices` array. This represents different pricing options. Each has its own deductible and total. You will need to provide `quote_price_id` when issuing a policy.
+
+Finally we have the `benefits` array. We have two types. Some require an additional price and are optional (`amount` > 0), while others are considered free and are automatically added (`amount` = 0).
+
+For those that have a price, you need to provide the `quote_benefit_id` in the `benefits` array in the Issue Policy API.
+
+### List Quotes Requests
+
+You can list a paginated list of all the quote requests that your account has generated. In order to do so, you can use the
+<a href="/car-api-reference/quotes/list-quotes" target="_blank">List quote requests API</a>
+
+You can filter these by using `owner_id` in the query string. This may be useful in case your customer navigated from one page to another and you need to show the quote requests again (rather than making a new request)
+
+Example:
+GET /car-api-reference/quotes/list-quotes?page=2&per_page=1&owner_id=1234567890
+
+### Delete Quotes Requests
+
+You can delete some of the requests from the system using the <a href="/car-api-reference/quotes/delete-quote" target="_blank">Delete Quotes Requests API</a>.
+
+This is rarely used, but may be helpful if you'd like to reduce the items listed.
+
+## Issue policy
 
 In order to Issue a policy. You can head to the <a href="/car-api-reference/policies/issue-policy" target="_blank">Issue Policy API </a>
 
-For issuing a policy, we need you to provide the following properties.
+You need to use the fields that were retrieved in the Request Quotes API.
 
-| Property | Description                           |
-| -------- | ------------------------------------- |
-| VIN     | The car VIN number. Made from a length of 17 alphanumerical characters. You cannot have 2 active policies from the same VIN. Make sure you cancel an existing policy for a particular VIN before issuing the other.                     |
-| Car Sequence Number      | The sequence number of the car. Made out of 10 digits. You cannot have 2 active policies from the same VIN. Make sure you cancel an existing policy for a particular VIN before issuing the other.                      |
-| Current car owner   | The national ID of the current owner (if this is a new car purchased by your business, then you need to provide the national ID of someone registered to the company). |
-| New car owner   | The national ID of the new owner. |
+| Field               | Description                                                                                   |
+|----------------------|-----------------------------------------------------------------------------------------------|
+| `quote_request_id`   | Yasmina’s unique identifier for the quote request. This must match the `id` returned when creating a quote request. |
+| `quote_reference_id` | The unique reference ID provided by the insurance company. Required when issuing a policy.     |
+| `quote_price_id`     | The selected price option ID. Each quote has multiple prices with different deductibles.       |
+| `benefits`           | A list of selected benefit IDs. Only required if the benefit has a cost (`amount > 0`).        |
+| `extra_data`         | Optional JSON object to store additional metadata or custom values that can later be used in <a href="/webhooks/guide" target="_blank">webhooks</a>. Please keep minimal as it can't exceed 255 characters    |
+
+Example of a request
+```
+POST /api/v1/car-comp/policies HTTP/1.1
+Authorization: Bearer *****
+Content-Type: application/json
+Accept: application/json
+Content-Length: 212
+
+{
+  "quote_request_id": 11,
+  "quote_reference_id": "04486448-3433-43ef-a755-b07799d6580f",
+  "quote_price_id": "e059d28e-a519-43af-b9d4-e1cc5d97ecb7",
+  "benefits": [],
+  "extra_data": {
+      "extra_field": 1
+  }
+}
+```
+
 
 This is an example of the JSON payload that you might send.
 ``````
 {
-  "vin": "1HG2H4131e3211GRR",
-  "car_sequence_number": "121236022",
-  "current_car_owner": "1234567890",
-  "new_owner_id": "1234567890"
+  "quote_request_id": 4,
+  "quote_reference_id": "63c700d9-fd30-42a1-b914-5da099dafbbb",
+  "quote_price_id": "097116f9-99b1-491f-a2ab-f86b2c535cbe",
+  "benefits": [
+      "71be7e33-f1fb-4f95-898d-9d6cbe7794d1"
+  ],
+  "extra_data": {
+      "custom_field": 123
+  }
 }
 ``````
-To issue policies, you need to execute the [Issue policies API](/car-api-reference/policies/issue-policy)).
 
-### Claims
+To issue policies, you need to execute the <a href="/car-api-reference/policies/issue-policy" target="_blank">Issue policies API</a>
+
+## Claims
 
 You can issue a claim using our APIs. When you issue a claim, we communicate it with the Insurance provider, and giving them details of the incident.
 
-Go to the <a href="/car-api-reference/claims/issue-claim">Issue Claim API</a> in order to start the claim process for your customer.
+Go to the <a href="/car-api-reference/claims/issue-claim" target="_blank">Issue Claim API</a> in order to start the claim process for your customer.
 

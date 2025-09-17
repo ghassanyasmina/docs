@@ -4,46 +4,24 @@ description: 'Facilitate efficient and automated insurance claims processes betw
 icon: 'users-medical'
 ---
 
-## Overview
-The API's in this documentation has been designed to seamlessly integrate with Yasmina's platform, enabling a smooth and efficient exchange of medical insurance-related data and functionalities. Whether you're looking to request or manage policies, handle claims, or access customer information, this API provides a robust and secure interface. With clear endpoints and comprehensive support, our goal is to simplify the integration process and ensure that our client can leverage the full potential of our insurance services with minimal effort.
+### Overview
+This guide walks you through integrating Yasmina’s Medical Insurance API into your platform.
 
-### Steps
-Below is the basic journey to requesting your first insurance(s)
-<Steps>
-  <Step title="Authorization">
-  	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
+Using our secure and reliable endpoints, you’ll be able to request and manage policies, and issue claims. Everything you need to deliver insurance services seamlessly within your application.
 
-  	Or go directly to <a href="/auth-api-reference/oauth-20/generate-token" target="_blank">Authorization API</a>
-  </Step>
-  <Step title="Create a company">
-  	Create a company record. The company is the one that wants to give insurance for their employees. [Click for more details](#create-a-company-record). <br />
-
-  	Or go directly to <a href="/medical-api-reference/company/create-company" target="_blank">Create company API</a>
-  </Step>
-  <Step title="Choose a package">
-  	List and then choose the medical insurance package that you want the employees to get. [Click for more details](#list-available-packages).
-
-  	Or go directly to <a href="/medical-api-reference/products/list-categories" target="_blank">List categories</a>
-  </Step>
-  <Step title="Issue insurance for the employees">
-  	Select the employees of the company that are going to get insurances and pick a package for each. [Click for more details](#issue-insurance-policies).
-
-  	Or go directly to <a href="/medical-api-reference/policies/issue-policies" target="_blank">Issue policies API</a>
-  </Step>
-  <Step title="Health declaration">
-  	Here we have two approaches. Either the Company admins fills the medical declaration form, or we dispatch the health declaration to the employees for them to fill. [Click for more details](#health-declaration)
-
-  	Or go directly to <a href="/medical-api-reference/hr-forms/dispatch-hr-forms" target="_blank">Dispatch Medical Forms API</a>
-  </Step>
-  <Step title="Payment">
-  	Go the payment link. We will generate that for you.
-  </Step>
-</Steps>
+### Basic Journey
+1. **Authorize**: Get an access token to authenticate all API requests.
+2. **Create a Company**: Register the SME that will provide medical insurance for its employees.
+3. **Choose a Package**: Retrieve and review available medical insurance packages.
+4. **Issue Insurance**: Select the employees who will be covered and create their policies.
+5. **Health Declarations**: Complete forms on behalf of employees or send them directly for completion.
+6. **Payment**: Receive a secure payment link to finalize the purchase.
 
 ### Authorization
 
-To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
-You will need `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
+To access any of our API's. You need to authorize yourself using the <a href="/auth-api-reference/oauth-20/generate-token" target="_blank">Generate Token API</a>. We are using the standard <a href="https://oauth.net/2/grant-types/client-credentials" target="_blank">OAuth 2.0 client credentials</a>.<br />
+
+The Generate Token API requires `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br />
 
 After making the request, you will get access_token in the response. Example
 ```
@@ -53,9 +31,9 @@ After making the request, you will get access_token in the response. Example
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YmEyOTNmNy01ZjYyLTRlODItYmU5Yi1kODA0Y2M5ZDM5MmMiLCJqdGkiOiJlZWJjMWM5MWEyZThkMTVmNTYxNjZjMjkwM2Q0NTZjM2IzYWM5MTU5ZTdkODQ2YTE5NmFlYjcxMWM5OTJlMjc2MzAzNjY3MDA1MDQzM2U0OSIsImlhdCI6MTczNTkwNTE5OC40NTg5MiwibmJmIjoxNzM1OTA1MTk4LjQ1ODkyMSwiZXhwIjoxNzY3NDQxMTk4LjQ1Njk0LCJzdWIiOiIiLCJzY29wZXMiOltdfQ.Dy6df9fr4eBMLtkjnzcBjrXSg2AZLrmrBBC1NF8wmQaIOjcNffiqMiL9MqdMPj43Dxt4fj9rT1_S8dfwEpSbxNuIweNLOa7iDYpqMQ2l-cKG_sn24G27exZ9shLG8p2FHa4SHxSByRw00aCJceiTzq12LLNfc14rGPKZOv5Pi-HuLAP6ms_NfyN-KafOFOjYym4PyHCuTX8jEkoImgpBUpPgdnq1qyQdrZxL4grp0P_ezkhTgHgWwuzjSYgm4l-Eyga65kua-pdgWbhJ7-I1W_hjWT2dKCivcmk6nR9wtTjWs9hBvZrOfoZmox4YPIjZ_pvImZbHcZui-7xs80dnoaTKRviR8aot0cPIKoqRwinBodjWRh3QEu5juT1b7T-m85Wo_JNRoarKD4pW2Lzq7v1u9Z6PMEeYXvuFchzZ6HPvthblfwbtu3AX6ij0ZGlZPdMRdEiRtZf3dt8nsWdI-E_J0GAD-9wexlpNL92Z-IfuwMXuUQs_j4l92fcfBC_NxlEUTNACyOWPrA3V6ZSLHrga6W4Iz6Por3txzCsxlwvEBQAM70VyGeSqFi0wMLg2V8wVYAEpiEe2dl4RpMbUaPzRNc_KsDUYM_4DqwMTo2v2x4AAPxWmWiRn4PeAXovraN6Ll-eW9zq5hUbt3c-yj0spVYhJADHodoHmAdQM9MA"
 }
 ```
-Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
+The `access_token` must be used on all future Yasmina APIs and be supplied in the Authorization Header in the following form
 
-Go to the following link to use the [Authorization API](/medical-api-reference/auth/generate-token).
+Authorization: Bearer \{access_token\}
 
 <Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
 
@@ -63,7 +41,7 @@ Go to the following link to use the [Authorization API](/medical-api-reference/a
 
 After acquiring an access_token, you can begin using the APIs. Before you produce policies for a company, you must  create a company record. After creating the company record, you can request to issue policies to the employees of that company.
 
-The [POST companies API](/medical-api-reference/company/create-company), will require few fields that define details of the company such as Email, Phone etc...
+The <a href="/medical-api-reference/company/create-company" target="_blank">The Create Company API</a>, will require few fields that define details of the company such as Email, Phone etc...
 
 It will return a response with a unique identifier (id). Here is an example of the response from the POST companies API.
 ```
