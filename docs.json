@@ -60,8 +60,8 @@
               "integrations/cartpl",
               "integrations/property",
               "integrations/travel",
-              "integrations/lifeinsurance",
-              "integrations/livestock"
+              "integrations/life",
+              "integrations/horse"
             ]
           },
           {

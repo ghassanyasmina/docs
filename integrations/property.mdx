@@ -4,47 +4,25 @@ description: 'Seamlessly embed property insurance into your platform, letting yo
 icon: 'house'
 ---
 
-## Overview
-The APIs in this documentation are designed to integrate smoothly with Yasmina's platform, allowing efficient and secure handling of medical insurance-related data and actions. Whether you're managing policies, processing claims, or accessing customer details, these APIs offer a reliable and developer-friendly interface. With well-defined endpoints and comprehensive support, integration is simple and enables clients to take full advantage of our services with minimal effort.
+## Introduction
+This guide describes the Property Insurance APIs available on Yasmina’s platform. These APIs cover the core operations required for property insurance. This includes getting prices, issuing and managing policies, generating payment links, and handling claims.
+Our APIs follow the RESTful standard and are structured to provide consistent inputs and outputs, making them straightforward to integrate, test, and maintain within your systems.
 
-### Steps
-Below is the basic journey to requesting your first insurance(s)
-<Steps>
-	<Step title="Authorization">
-	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
+## What you will learn
+- Getting prices for property insurance
+- Issuing policies
+- Uploading images for your insured property
+- Starting a claim
 
-	Or go directly to [Authorization API](/property-api-reference/auth/generate-token)
-	</Step>
-	  <Step title="Issue policies for your customers">
-      	Provide the property details such as VIN and Sequence number [Click for more details](#request-policies).
-
-      	Or go directly to [Issue policies API](/property-api-reference/policies/request-policy)
-      </Step>
-</Steps>
-
-### Authorization
-
-To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
-You will need `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
-
-After making the request, you will get access_token in the response. Example
-```
-{
-    "token_type": "Bearer",
-    "expires_in": 31536000,
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YmEyOTNmNy01ZjYyLTRlODItYmU5Yi1kODA0Y2M5ZDM5MmMiLCJqdGkiOiJlZWJjMWM5MWEyZThkMTVmNTYxNjZjMjkwM2Q0NTZjM2IzYWM5MTU5ZTdkODQ2YTE5NmFlYjcxMWM5OTJlMjc2MzAzNjY3MDA1MDQzM2U0OSIsImlhdCI6MTczNTkwNTE5OC40NTg5MiwibmJmIjoxNzM1OTA1MTk4LjQ1ODkyMSwiZXhwIjoxNzY3NDQxMTk4LjQ1Njk0LCJzdWIiOiIiLCJzY29wZXMiOltdfQ.Dy6df9fr4eBMLtkjnzcBjrXSg2AZLrmrBBC1NF8wmQaIOjcNffiqMiL9MqdMPj43Dxt4fj9rT1_S8dfwEpSbxNuIweNLOa7iDYpqMQ2l-cKG_sn24G27exZ9shLG8p2FHa4SHxSByRw00aCJceiTzq12LLNfc14rGPKZOv5Pi-HuLAP6ms_NfyN-KafOFOjYym4PyHCuTX8jEkoImgpBUpPgdnq1qyQdrZxL4grp0P_ezkhTgHgWwuzjSYgm4l-Eyga65kua-pdgWbhJ7-I1W_hjWT2dKCivcmk6nR9wtTjWs9hBvZrOfoZmox4YPIjZ_pvImZbHcZui-7xs80dnoaTKRviR8aot0cPIKoqRwinBodjWRh3QEu5juT1b7T-m85Wo_JNRoarKD4pW2Lzq7v1u9Z6PMEeYXvuFchzZ6HPvthblfwbtu3AX6ij0ZGlZPdMRdEiRtZf3dt8nsWdI-E_J0GAD-9wexlpNL92Z-IfuwMXuUQs_j4l92fcfBC_NxlEUTNACyOWPrA3V6ZSLHrga6W4Iz6Por3txzCsxlwvEBQAM70VyGeSqFi0wMLg2V8wVYAEpiEe2dl4RpMbUaPzRNc_KsDUYM_4DqwMTo2v2x4AAPxWmWiRn4PeAXovraN6Ll-eW9zq5hUbt3c-yj0spVYhJADHodoHmAdQM9MA"
-}
-```
-Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
-
-Go to the following link to use the [Authorization API](/medical-api-reference/auth/generate-token).
-
-<Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
+## Prerequisites
+1. **Account in Yasmina** - See the <a href="/introduction#onboarding" target="_blank">Onboarding section</a> for details.
+2. **Authenticated Token** - Follow the <a href="/authentication" target="_blank">Authentication guide</a> to generate one.
+3. **Backend server** - Required to securely call Yasmina APIs.
 
 ### Get prices
-Yasmina works with multiple insurance providers. You can retrieve and compare offers to help your client choose the most suitable option.
+Yasmina works with multiple insurance providers. You can retrieve and compare prices using the <a href="/property-api-reference/prices/list-prices" target="_blank">List Prices API</a>. This helps your customers choose their most suitable option.
 
-Currently, we provide pricing from the following five providers:
+Currently, we are provide pricing from the following five providers:
 
 - Walaa
 - Medgulf
@@ -52,13 +30,40 @@ Currently, we provide pricing from the following five providers:
 - Takaful Al-Rajhi
 - Wataniya
 
-To get insurance prices, use the API below. You’ll need to provide either `property_cost`, `contents_cost`, or both:
-
-[Get Prices](/property-api-reference/prices/lists-prices)
-
 ### Issue policies
 
-To issue policies, use the [Issue Policies API](/property-api-reference/policies/request-policy).
+To issue policies, use the <a href="/property-api-reference/policies/issue-policy" target="_blank">Issue Policies API</a>.
+
+The following fields are required when creating a Property Insurance request.
+All requests must conform to these validation rules.
+
+| Field | Type | Rules | Description |
+|-------|------|-------|-------------|
+| `insurance_provider` | string | required, in: `walaa` | This comes from the prices API |
+| `personal_details` | object | required | Contains personal information of the policyholder. |
+| `personal_details.name` | string | required, max:255 | Full name of the policyholder. |
+| `personal_details.gender` | string | required, in: `M`, `F` | Gender of the policyholder. |
+| `personal_details.email` | string | required, max:255 | Email address of the policyholder. |
+| `personal_details.phone_number` | string | required, regex: `/^\+\d{10,15}$/` | Phone number in **international format** (e.g., `+966512345678`). |
+| `personal_details.birthdate` | date | required | Date of birth (ISO 8601 format recommended, e.g., `1990-05-20`). |
+| `personal_details.nationality` | string | required, in: list of supported countries | Country code of nationality (must match supported country codes). |
+| `personal_details.nationality_id` | string | required, max:20 | National ID, Iqama, or passport number. |
+| `building_details` | object | required | Details of the insured building. |
+| `building_details.building_age` | integer | required, min:0 | Age of the building in years. |
+| `building_details.building_type` | string | required, in: `apartment`, `villa`, `private_accommodation` | Type of property. |
+| `building_details.apartment_size` | integer | required, min:0 | Size of apartment in square meters (if applicable). |
+| `address` | object | required | Full address of the property. |
+| `address.street_name` | string | required, max:255 | Street name of the property. |
+| `address.building_number` | string | required, max:50 | Building number. |
+| `address.district_name` | string | required, max:255 | District/area name. |
+| `address.city_name` | string | required, in: availableCities config | City name (must match Yasmina’s supported cities list). |
+| `address.additional_number` | string | required, max:20 | Additional number (Saudi address standard). |
+| `address.zip_code` | string | required, max:20 | Zip/postal code. |
+| `address.unit_number` | string | required, max:20 | Unit/flat number. |
+| `property_cost` | numeric | nullable, required_without: `contents_cost` | Estimated value of the building/property. Required if `contents_cost` is not provided. |
+| `contents_cost` | numeric | nullable, required_without: `property_cost` | Estimated value of the home contents. Required if `property_cost` is not provided. |
+| `has_agreed_to_terms_and_conditions` | boolean | accepted (`true`, `1`, `yes`) | Must explicitly confirm acceptance of terms and conditions. |
+
 Choose from the providers listed in the prices section.
 
 ### Upload policies
