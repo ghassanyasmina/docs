@@ -64,7 +64,11 @@ All requests must conform to these validation rules.
 | `contents_cost` | numeric | nullable, required_without: `property_cost` | Estimated value of the home contents. Required if `property_cost` is not provided. |
 | `has_agreed_to_terms_and_conditions` | boolean | accepted (`true`, `1`, `yes`) | Must explicitly confirm acceptance of terms and conditions. |
 
-Choose from the providers listed in the prices section.
+You need to choose from the providers listed in the prices section.
+
+### Payment
+
+Once you make a request to the issue policy API. You will get a payment link in the respose. You must redirect the customer to this payment link. Once the customer pays, the policy will be generated.
 
 ### Upload policies
 
