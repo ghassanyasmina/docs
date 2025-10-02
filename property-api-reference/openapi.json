@@ -227,7 +227,8 @@
                 "properties": {
                   "insurance_provider": {
                     "type": "string",
-                    "example": "walaa"
+                    "example": "walaa",
+                    "enum": "walaa"
                   },
                   "personal_details": {
                     "type": "object",
@@ -282,7 +283,8 @@
                       },
                       "building_type": {
                         "type": "string",
-                        "example": "Apartment"
+                        "example": "Apartment",
+                        "enum": ["villa", "apartment", "private_accommodation"]
                       },
                       "apartment_size": {
                         "type": "integer",
