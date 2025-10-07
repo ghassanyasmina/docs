@@ -220,6 +220,7 @@
           "Policies"
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -228,7 +229,7 @@
                   "insurance_provider": {
                     "type": "string",
                     "example": "walaa",
-                    "enum": "walaa"
+                    "enum": ["walaa"]
                   },
                   "personal_details": {
                     "type": "object",

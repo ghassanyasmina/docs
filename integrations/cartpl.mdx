@@ -64,88 +64,49 @@ Once you execute this you will get a response that includes pricing and benefits
 
 ```
 {
-    "owner_id": 2234567890,
-    "phone": "05XXXXXXXX",
-    "birthdate": "1982-04-20",
-    "car_sequence_number": 52423810,
-    "is_ownership_transfer": false,
-    "car_estimated_cost": 45000,
-    "car_model_year": 2025,
-    "quotes": [
+  "owner_id": 1234567890,
+  "email": "someone@example.com",
+  "phone": "0555555555",
+  "birthdate": "1990-01-01",
+  "car_sequence_number": 1111111111,
+  "is_ownership_transfer": true,
+  "current_car_owner_id": "7000000000",
+  "car_estimated_cost": 45000,
+  "car_model_year": 2024,
+  "quotes": [
+    {
+      "type": "Comprehensive",
+      "fix_type": "workshop",
+      "vehicle_estimated_value": 45000,
+      "company_logo": "https://axjqy4nuifd8.compat.objectstorage.me-jeddah-1.oraclecloud.com/Yasmina-Dev-bucket/logos/takaful.png",
+      "company_name": "Al Rajhi Takaful",
+      "quote_reference_id": "6c7c18a7-ee89-49fe-9f7e-dde72ad809ce",
+      "prices": [
         {
-            "company_name": "Al Rajhi Takaful",
-            "quote_reference_id": "da94ea3b-73d3-4b76-a831-e880d56397e4",
-            "prices": [
-                {
-                    "quote_price_id": "85ebb1d6-3867-4f4f-ab37-afec22994f4e",
-                    "deductible": 500,
-                    "subtotal": 2979.23,
-                    "vat_percentage": 15,
-                    "vat": 446.88,
-                    "total": 3426.11
-                },
-                {
-                    "quote_price_id": "d44485c7-e725-4e3f-9377-31341265375d",
-                    "deductible": 1000,
-                    "subtotal": 2934.95,
-                    "vat_percentage": 15,
-                    "vat": 440.24,
-                    "total": 3375.19
-                },
-                ...
-            ],
-            "benefits": [
-                {
-                    "quote_benefit_id": "ee387127-4521-403d-b7a0-92e38fbe3d78",
-                    "id": "1296",
-                    "name": "Natural Disasters",
-                    "amount": 0,
-                    "vat": 0,
-                    "url": null
-                },
-                {
-                    "quote_benefit_id": "faa941bf-a9dd-4a10-a4eb-51bd5d1e7884",
-                    "id": "601061",
-                    "name": "Replacement Car",
-                    "amount": 325,
-                    "vat": 48.75,
-                    "url": null
-                },
-                ...
-            ]
-        },
+          "quote_price_id": "f5d52340-3661-48af-b81a-028f251ef6a9",
+          "deductible": 500,
+          "subtotal": 5232.12,
+          "vat_percentage": 15,
+          "vat": 784.82,
+          "total": 6016.94
+        }, ...
+      ],
+      "benefits": [
         {
-            "company_name": "United Cooperative Assurance",
-            "quote_reference_id": "fc5533cb-dd52-4885-a7ce-4d81ff8f674f",
-            "prices": [
-                {
-                    "quote_price_id": "f547a59b-d197-4eca-8367-0c3dd8550810",
-                    "deductible": 2000,
-                    "subtotal": 2420,
-                    "vat_percentage": 15,
-                    "vat": 363,
-                    "total": 2783
-                },
-                ...
-            ],
-            "benefits": [
-                {
-                    "quote_benefit_id": "790623f6-ab25-4deb-94bf-49f4a2de2977",
-                    "id": "1757225845262350",
-                    "name": "Personal Accident (Drive only cover)",
-                    "amount": 40,
-                    "vat": 6,
-                    "url": null
-                },
-                ...
-            ]
-        }
-    ],
-    "current_car_owner_id": 2234567890,
-    "client_id": "9f757acd-1ab4-466f-8cb2-d65ddedb2374",
-    "updated_at": "2025-09-07T06:17:28.000000Z",
-    "created_at": "2025-09-07T06:17:28.000000Z",
-    "id": 9
+          "quote_benefit_id": "f72846cb-98ed-4b78-b3b5-bb0d587f8da5",
+          "id": "1296",
+          "name": "Natural Disasters",
+          "amount": 0,
+          "vat": 0,
+          "url": null
+        }, ...
+      ]
+    }
+  ],
+  "client_id": "9f757acd-1ab4-466f-8cb2-d65ddedb2374",
+  "updated_at": "2025-10-06T22:03:56.000000Z",
+  "created_at": "2025-10-06T22:03:56.000000Z",
+  "id": 25
 }
 ```
 
@@ -211,7 +172,6 @@ Content-Length: 212
 }
 ```
 
-
 This is an example of the JSON payload that you might send.
 ``````
 {
@@ -227,7 +187,50 @@ This is an example of the JSON payload that you might send.
 }
 ``````
 
-To issue policies, you need to execute the <a href="/car-api-reference/policies/issue-policy" target="_blank">Issue policies API</a>
+Once you make a request to the Issue Policy API, you will get the Policy object with a `201` HTTP response code. Here is an example of the Policy object.
+
+```
+{
+    "id": 700,
+    "meta_data": {
+        "extra_data": null,
+        "new_owner_id": "2528297837",
+        "quote_price_id": "f5d52340-3661-48af-b81a-028f251ef6a9",
+        "quote_request_id": 25,
+        "previous_owner_id": "7001364939",
+        "car_sequence_number": 723787810
+    },
+    "provider_policy_id": null,
+    "provider_policy": null,
+    "created_at": "2025-10-06T23:31:17.000000Z",
+    "status": 0,
+    "payment_link": "http://localhost:8000/short/wVln4",
+    "price": 6016
+}
+```
+
+This is a summary of the fields returned in the policy object
+
+| Field               | Description                                                                                   |
+|----------------------|-----------------------------------------------------------------------------------------------|
+| `id`   | Yasmina’s unique identifier for the policy.  |
+| `meta_data` | A JSON object that contains information about the fields that were used to generate this policy. `extra_data` will also be returned here.   |
+| `provider_policy_id`     | The policy ID that is returned by the policy provider.       |
+| `provider_policy`           | A URL that contains the policy in PDF format.      |
+| `created_at` | When was the policy issued. |
+| `status` | 0 = Pending, 1 = Issued. |
+| `payment_link | A secure payment link generated by Yasmina |
+| `price` | The price of the policy in Saudi Riyal |
+
+### Understanding Payment and Policy activation
+
+When you first make a request to the Issue Policy API. The Policy is not yet activated and the `status` is `0` (which means pending).
+
+Also the `provider_policy` and `provider_policy_id` will both be `null`.
+
+In order for the policy to be activated, the customer needs to make the purchase from the payment link. Once the customer successfully pays. The policy will be activated.
+
+<Note>Although the payment page is provided by Yasmina, it does not display the Yasmina logo or have any mention of Yasmina. <br /><br />Yasmina does not receive credit card information, instead the payment page sends card information directly to the payment vendor.</Note>
 
 ## Claims
 
