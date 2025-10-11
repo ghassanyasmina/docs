@@ -158,6 +158,11 @@
                     "pattern": "^(1|2|7)\\d{9}$",
                     "description": "Owner ID must be 10 digits starting with 1, 2, or 7"
                   },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email address must be valid and belongs to the customer"
+                  },
                   "phone": {
                     "type": "string",
                     "pattern": "^05\\d{8}$",
