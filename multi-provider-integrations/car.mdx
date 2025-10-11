@@ -5,8 +5,8 @@ icon: 'car'
 ---
 
 ## Introduction
-This guide describes the Motor Insurance APIs available on Yasmina’s platform. These APIs cover the core operations required for working with Comprehensive motor insurance, including requesting quotes, issuing and managing policies, generating payment link, and handling claims.
-Our APIs use the RESTful standard and is structured to provide consistent inputs and outputs, making it quick and easy to integrate, test, and maintain within your systems.
+This guide describes Yasmina’s Motor Insurance APIs for Multiple Insurance Providers (for single insurance provider, [click here](/integrations/car)). These APIs cover all essential operations for Comprehensive motor insurance — including requesting quotes, issuing and managing policies, generating payment links, and handling claims.
+Our APIs follow RESTful principles and are designed with consistent input and output structures, making them easy to integrate, test, and maintain within your systems.
 
 ## What you will learn
 - Requesting and managing quotes
@@ -59,7 +59,6 @@ Content-Length: 226
     "car_model_year": 2024
 }
 ```
-
 
 Once you execute this you will get a response that includes pricing and benefits from multiple insurance providers. This is an example of a response in json
 
@@ -232,6 +231,49 @@ Also the `provider_policy` and `provider_policy_id` will both be `null`.
 In order for the policy to be activated, the customer needs to make the purchase from the payment link. Once the customer successfully pays. The policy will be activated.
 
 <Note>Although the payment page is provided by Yasmina, it does not display the Yasmina logo or have any mention of Yasmina. <br /><br />Yasmina does not receive credit card information, instead the payment page sends card information directly to the payment vendor.</Note>
+
+<Tip>On Staging and Sandbox, you can use a testing card with the following information: <br /> Card number: 4111 1111 1111 1111 <br /> Expiry: 02/27 <br /> CVV: 123 <br />Card owner: Yasmina test</Tip>
+
+#### Showing a policy
+
+In order to get a status of a policy, you can use the <a href="/car-api-reference/policies/show-policy" target="_blank">Show Policy API</a>. This API, takes a Yasmina Policy `id` and will return the policy object
+This API is ideal when you want to re-fetch a specific policy after the PDF gets generated.
+
+Example of a request
+```
+GET /api/v1/car-comp/policies/123 HTTP/1.1
+Host: portal.yasmina.ai
+Authorization: Bearer <token>
+Content-Type: application/json
+Accept: application/json
+```
+
+Example a response
+```
+{
+    "id": 659,
+    "meta_data": {
+        "extra_data": {
+        },
+        "new_owner_id": "2467701575",
+        "quote_price_id": "097116f9-99b1-491f-a2ab-f86b2c535cbe",
+        "quote_request_id": 4,
+        "previous_owner_id": "2467701575",
+        "car_sequence_number": 52423810
+    },
+    "product_id": 4,
+    "provider_policy_id": "53018c24-b246-4bef-866f-4a54c2367196",
+    "provider_policy": "policy.pdf",
+    "created_at": "2025-09-07T07:53:55.000000Z",
+    "status": 1,
+    "payment_link": null,
+    "price": null
+}
+```
+
+### Listing policies
+
+You can also use the <a href="/car-api-reference/policies/list-policies" target="_blank">List Policies API</a> to get a list of all policies that were generated from our system. You might use this on your admin interface, or if you just want to check what has been generated.
 
 ## Claims
 

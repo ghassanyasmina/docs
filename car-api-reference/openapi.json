@@ -206,6 +206,35 @@
         }
       }
     },
+    "/policies/{carPolicy}": {
+      "get": {
+        "description": "Show a specific policy",
+        "tags": ["Policies"],
+        "summary": "Show policy",
+        "parameters": [
+          {
+            "required": true,
+            "name": "carPolicy",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Policy"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/policies": {
       "get": {
         "description": "Listing requested policies",

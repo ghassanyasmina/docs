@@ -45,6 +45,7 @@
         "groups": [
           {
             "group": "Getting Started",
+            "expanded": true,
             "pages": [
               "introduction",
               "environments",
@@ -54,14 +55,29 @@
           },
           {
             "group": "Insurance Integration Guides",
+            "expanded": true,
             "pages": [
-              "integrations/medical",
-              "integrations/car",
-              "integrations/cartpl",
-              "integrations/property",
-              "integrations/travel",
-              "integrations/life",
-              "integrations/horse"
+              {
+                "group": "Single Insurance Provider",
+                "expanded": true,
+                "pages": [
+                  "single-provider-integrations/medical",
+                  "single-provider-integrations/car",
+                  "single-provider-integrations/cartpl",
+                  "single-provider-integrations/property",
+                  "single-provider-integrations/travel",
+                  "single-provider-integrations/life",
+                  "single-provider-integrations/horse"
+                ]
+              },
+              {
+                "group": "Multiple Insurance Providers",
+                "expanded": true,
+                "pages": [
+                  "multi-provider-integrations/car",
+                  "multi-provider-integrations/property"
+                ]
+              }
             ]
           },
           {
@@ -238,5 +254,11 @@
         ]
       }
     ]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/integrations/property",
+      "destination": "/multi-provider-integrations/property"
+    }
+  ]
 }

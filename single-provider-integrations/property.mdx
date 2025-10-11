@@ -1,0 +1,77 @@
+---
+title: 'Property Insurance'
+description: 'Seamlessly embed property insurance into your platform, letting your customers insure their properties with just a click.'
+icon: 'house'
+---
+
+## Introduction
+This guide describes the Property Insurance APIs available on Yasmina’s platform. These APIs cover the core operations required for property insurance. This includes getting prices, issuing and managing policies, generating payment links, and handling claims.
+Our APIs follow the RESTful standard and are structured to provide consistent inputs and outputs, making them straightforward to integrate, test, and maintain within your systems.
+
+## What you will learn
+- Getting prices for property insurance
+- Issuing policies
+- Uploading images for your insured property
+- Starting a claim
+
+## Prerequisites
+1. **Account in Yasmina** - See the <a href="/introduction#onboarding" target="_blank">Onboarding section</a> for details.
+2. **Authenticated Token** - Follow the <a href="/authentication" target="_blank">Authentication guide</a> to generate one.
+3. **Backend server** - Required to securely call Yasmina APIs.
+
+### Get prices
+Yasmina works with multiple insurance providers. You can retrieve and compare prices using the <a href="/property-api-reference/prices/list-prices" target="_blank">List Prices API</a>. This helps your customers choose their most suitable option.
+
+Currently, we are provide pricing from the following five providers:
+
+- Walaa
+- Medgulf
+- Tawuniya
+- Takaful Al-Rajhi
+- Wataniya
+
+### Issue policies
+
+To issue policies, use the <a href="/property-api-reference/policies/issue-policy" target="_blank">Issue Policies API</a>.
+
+The following fields are required when creating a Property Insurance request.
+All requests must conform to these validation rules.
+
+| Field | Type | Rules | Description |
+|-------|------|-------|-------------|
+| `insurance_provider` | string | required, in: `walaa` | This comes from the prices API |
+| `personal_details` | object | required | Contains personal information of the policyholder. |
+| `personal_details.name` | string | required, max:255 | Full name of the policyholder. |
+| `personal_details.gender` | string | required, in: `M`, `F` | Gender of the policyholder. |
+| `personal_details.email` | string | required, max:255 | Email address of the policyholder. |
+| `personal_details.phone_number` | string | required, regex: `/^\+\d{10,15}$/` | Phone number in **international format** (e.g., `+966512345678`). |
+| `personal_details.birthdate` | date | required | Date of birth (ISO 8601 format recommended, e.g., `1990-05-20`). |
+| `personal_details.nationality` | string | required, in: list of supported countries | Country code of nationality (must match supported country codes). |
+| `personal_details.nationality_id` | string | required, max:20 | National ID, Iqama, or passport number. |
+| `building_details` | object | required | Details of the insured building. |
+| `building_details.building_age` | integer | required, min:0 | Age of the building in years. |
+| `building_details.building_type` | string | required, in: `apartment`, `villa`, `private_accommodation` | Type of property. |
+| `building_details.apartment_size` | integer | required, min:0 | Size of apartment in square meters (if applicable). |
+| `address` | object | required | Full address of the property. |
+| `address.street_name` | string | required, max:255 | Street name of the property. |
+| `address.building_number` | string | required, max:50 | Building number. |
+| `address.district_name` | string | required, max:255 | District/area name. |
+| `address.city_name` | string | required, in: availableCities config | City name (must match Yasmina’s supported cities list). |
+| `address.additional_number` | string | required, max:20 | Additional number (Saudi address standard). |
+| `address.zip_code` | string | required, max:20 | Zip/postal code. |
+| `address.unit_number` | string | required, max:20 | Unit/flat number. |
+| `property_cost` | numeric | nullable, required_without: `contents_cost` | Estimated value of the building/property. Required if `contents_cost` is not provided. |
+| `contents_cost` | numeric | nullable, required_without: `property_cost` | Estimated value of the home contents. Required if `property_cost` is not provided. |
+| `has_agreed_to_terms_and_conditions` | boolean | accepted (`true`, `1`, `yes`) | Must explicitly confirm acceptance of terms and conditions. |
+
+You need to choose from the providers listed in the prices section.
+
+### Payment
+
+Once you make a request to the issue policy API. You will get a payment link in the respose. You must redirect the customer to this payment link. Once the customer pays, the policy will be generated.
+
+### Upload policies
+
+Supporting documents are required from your clients. These can include home photos, images of valuable contents, or surrounding areas.
+
+You can upload these documents using the <a href="/property-api-reference/policies/upload-documents" target="_blank">Upload Document API</a>
