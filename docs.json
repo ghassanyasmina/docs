@@ -259,6 +259,10 @@
     {
       "source": "/integrations/property",
       "destination": "/multi-provider-integrations/property"
+    },
+    {
+      "source": "/integrations/car",
+      "destination": "/multi-provider-integrations/car"
     }
   ]
 }
