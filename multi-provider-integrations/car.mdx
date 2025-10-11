@@ -5,8 +5,8 @@ icon: 'car'
 ---
 
 ## Introduction
-This guide describes Yasmina’s Motor Insurance APIs for Multiple Insurance Providers (for single insurance provider, [click here](/single-provider-integrations/car)). These APIs cover all essential operations for Comprehensive motor insurance — including requesting quotes, issuing and managing policies, generating payment links, and handling claims.
-Our APIs follow RESTful principles and are designed with consistent input and output structures, making them easy to integrate, test, and maintain within your systems.
+This guide introduces **Yasmina’s Motor Insurance APIs for Multiple Insurance Providers** (for the single-provider version, [click here](/single-provider-integrations/car)). These APIs enable you to retrieve quotes from several insurance companies before issuing a policy to your customer. The guide covers all key operations, including requesting quotes, issuing and managing policies, generating payment links, and handling claims.
+Our APIs are built on **RESTful principles** and follow consistent input and output structures, making them simple to integrate, test, and maintain within your systems
 
 ## What you will learn
 - Requesting and managing quotes
@@ -14,25 +14,26 @@ Our APIs follow RESTful principles and are designed with consistent input and ou
 - Starting a claim
 
 ## Prerequisites
-1. **Account in Yasmina** - See the <a href="/introduction#onboarding" target="_blank">Onboarding section</a> for details.
+1. **Account in Yasmina** - See the <a href="/introduction#onboarding" target="_blank">Onboarding section</a> for details. You need to add "Comprehensive Motor Insurance (Multi-Providers)" in the products field.
 2. **Authenticated Token** - Follow the <a href="/authentication" target="_blank">Authentication guide</a> to generate one.
 3. **Backend server** - Required to securely call Yasmina APIs.
 
 ## Quotes
 
-Quotes are the different premiums, benefits, and deductibles offered by insurance providers. Before issuing a Comprehensive Motor insurance policies you need to give the car details to get different quotes from insurance providers. These quotes are then used to issuing the policy.
+Quotes represent the different premiums, benefits, and deductibles offered by insurance providers. Before issuing a Comprehensive Motor Insurance policy, you need to provide the car details to retrieve quotes from various insurance providers. These quotes are then used when issuing the policy.
 
 ### Request Quotes
 
-In order to provide quotes for your customer you need to execute the <a href="/car-api-reference/quotes/request-quotes" target="_blank">Request Quotes API</a>. This API provides an array response from different insurance providers. Each item in this array, represents the name of the company, the different premiums and deductibles, and also the list of benefits (both free and paid).
+In order to provide quotes for your customer you need to execute the <a href="/car-api-reference/quotes/request-quotes" target="_blank">Request Quotes API</a>. This API provides an array response from different insurance providers. Each item in this array, represents the name of the company, the logo, the different premiums and deductibles, and also the list of benefits (both free and paid).
 
-<Note>The Request Quotes API may take longer to respond because it retrieves results from multiple insurance providers. Be sure to increase your timeout to at least 1 minute before making the request.</Note>
+<Note>The Request Quotes API may take longer to respond because it retrieves results from multiple insurance providers. Be sure to increase your timeout to at least 2 minutes before making the request.</Note>
 
 You need to provider the following properties for the Request Quotes API
 
 | Field                | Example Value   | Description                                                                                   |
 |-----------------------|----------------|-----------------------------------------------------------------------------------------------|
 | `owner_id`            | `2234567890`   | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.              |
+| `email`            | `someone@example.com`   | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).              |
 | `birthdate`           | `1988-04-20`   | Date of birth of the owner in `YYYY-MM-DD` format. If the owner ID is a Saudi National, then you need to give Hijri date, otherwise you need to give a Gregorian birthdate.                             |
 | `phone`               | `05XXXXXXXX`   | Saudi mobile number. Must start with `05` and be exactly 10 digits.                           |
 | `car_sequence_number` | `52423810`     | The car’s sequence number (8–9 digits).                                                       |
@@ -51,6 +52,7 @@ Content-Length: 226
 
 {
     "owner_id": 2234567890,
+    "email": "someone@example.com",
     "phone": "05XXXXXXXX",
     "birthdate": "1982-04-20",
     "car_sequence_number": 52423810,
@@ -172,21 +174,6 @@ Content-Length: 212
 }
 ```
 
-This is an example of the JSON payload that you might send.
-``````
-{
-  "quote_request_id": 4,
-  "quote_reference_id": "63c700d9-fd30-42a1-b914-5da099dafbbb",
-  "quote_price_id": "097116f9-99b1-491f-a2ab-f86b2c535cbe",
-  "benefits": [
-      "71be7e33-f1fb-4f95-898d-9d6cbe7794d1"
-  ],
-  "extra_data": {
-      "custom_field": 123
-  }
-}
-``````
-
 Once you make a request to the Issue Policy API, you will get the Policy object with a `201` HTTP response code. Here is an example of the Policy object.
 
 ```
@@ -228,7 +215,7 @@ When you first make a request to the Issue Policy API. The Policy is not yet act
 
 Also the `provider_policy` and `provider_policy_id` will both be `null`.
 
-In order for the policy to be activated, the customer needs to make the purchase from the payment link. Once the customer successfully pays. The policy will be activated.
+In order for the policy to be activated, the customer needs to make the purchase from the payment link. Once the customer successfully pays. The policy will be activated and the `status` becomes `1`.
 
 <Note>Although the payment page is provided by Yasmina, it does not display the Yasmina logo or have any mention of Yasmina. <br /><br />Yasmina does not receive credit card information, instead the payment page sends card information directly to the payment vendor.</Note>
 
@@ -280,4 +267,3 @@ You can also use the <a href="/car-api-reference/policies/list-policies" target=
 You can issue a claim using our APIs. When you issue a claim, we communicate it with the Insurance provider, and giving them details of the incident.
 
 Go to the <a href="/car-api-reference/claims/issue-claim" target="_blank">Issue Claim API</a> in order to start the claim process for your customer.
-
