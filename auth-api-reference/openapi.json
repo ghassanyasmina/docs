@@ -217,9 +217,16 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "Oauth2": {
+        "description": "JWT Authorization header using the Bearer scheme",
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "http://localhost:8000/oauth/token",
+            "scopes": {
+            }
+          }
+        }
       }
     }
   }

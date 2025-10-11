@@ -21,7 +21,7 @@
   ],
   "security": [
     {
-      "bearerAuth": []
+      "Oauth2": []
     }
   ],
   "paths": {
@@ -755,9 +755,16 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "Oauth2": {
+        "description": "JWT Authorization header using the Bearer scheme",
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "/oauth/token",
+            "scopes": {
+            }
+          }
+        }
       }
     }
   }
