@@ -75,6 +75,7 @@
                 "expanded": true,
                 "pages": [
                   "multi-provider-integrations/car",
+                  "multi-provider-integrations/cartpl",
                   "multi-provider-integrations/property"
                 ]
               }
@@ -122,7 +123,7 @@
             }
           },
           {
-            "group": "Comprehensive Motor Insurance APIs",
+            "group": "Motor Insurance APIs (Multiple Providers)",
             "openapi": {
               "source": "car-api-reference/openapi.json",
               "directory": "car-api-reference"

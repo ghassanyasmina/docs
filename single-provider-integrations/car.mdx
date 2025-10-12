@@ -5,15 +5,16 @@ icon: 'car'
 ---
 
 ## Introduction
-This guide describes the Motor Insurance APIs for Single Insurance Provider (for Multiple Insurance Providers with Price comparison, [click here](/multi-provider-integrations/car)) available on Yasmina’s platform. These APIs cover the core operations required for working with Comprehensive motor insurance, including requesting quotes, issuing and managing policies, generating payment link, and handling claims.
+This guide describes the Yasmina's **Comprehensive Motor Insurance APIs for Single Insurance Provider** (for Multiple Insurance Providers with Price comparison, [click here](/multi-provider-integrations/car)) available on Yasmina’s platform. These APIs cover the core operations required for working with Comprehensive motor insurance, including issuing and managing policies, generating payment link, and handling claims.
 Our APIs use the RESTful standard and is structured to provide consistent inputs and outputs, making it quick and easy to integrate, test, and maintain within your systems.
 
 ## What you will learn
 - Issuing and managing policies
+- Payment link
 - Starting a claim
 
 ## Prerequisites
-1. **Account in Yasmina** - See the <a href="/introduction#onboarding" target="_blank">Onboarding section</a> for details.
+1. **Account in Yasmina** - See the <a href="/introduction#onboarding" target="_blank">Onboarding section</a> for details. You need to add "Comprehensive Motor Insurance (Single Provider)" in the products field.
 2. **Authenticated Token** - Follow the <a href="/authentication" target="_blank">Authentication guide</a> to generate one.
 3. **Backend server** - Required to securely call Yasmina APIs.
 
@@ -21,15 +22,19 @@ Our APIs use the RESTful standard and is structured to provide consistent inputs
 
 In order to Issue a policy. You can head to the <a href="/car-api-reference/policies/issue-policy" target="_blank">Issue Policy API </a>
 
-You need to use the fields that were retrieved in the Request Quotes API.
+These are the fields that you need to provide:
 
-| Field               | Description                                                                                   |
-|----------------------|-----------------------------------------------------------------------------------------------|
-| `quote_request_id`   | Yasmina’s unique identifier for the quote request. This must match the `id` returned when creating a quote request. |
-| `quote_reference_id` | The unique reference ID provided by the insurance company. Required when issuing a policy.     |
-| `quote_price_id`     | The selected price option ID. Each quote has multiple prices with different deductibles.       |
-| `benefits`           | A list of selected benefit IDs. Only required if the benefit has a cost (`amount > 0`).        |
-| `extra_data`         | Optional JSON object to store additional metadata or custom values that can later be used in <a href="/webhooks/guide" target="_blank">webhooks</a>. Please keep minimal as it can't exceed 255 characters    |
+| Field                | Example Value   | Description                                                                                   |
+|-----------------------|----------------|-----------------------------------------------------------------------------------------------|
+| `owner_id`            | `2234567890`   | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.              |
+| `email`            | `someone@example.com`   | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).              |
+| `birthdate`           | `1988-04-20`   | Date of birth of the owner in `YYYY-MM-DD` format. If the owner ID is a Saudi National, then you need to give Hijri date, otherwise you need to give a Gregorian birthdate.                             |
+| `phone`               | `05XXXXXXXX`   | Saudi mobile number. Must start with `05` and be exactly 10 digits.                           |
+| `car_sequence_number` | `52423810`     | The car’s sequence number (8–9 digits).                                                       |
+| `is_ownership_transfer` | `false`      | Boolean flag. `true` if the car is being transferred to a new owner, otherwise `false`.        |
+| `current_car_owner_id` | `1234567890`  | The current owner’s national ID. **Only required if** `is_ownership_transfer = true`.          |
+| `car_estimated_cost`  | `45000`        | Estimated market cost of the car in SAR.                                                      |
+| `car_model_year`      | `2026`         | Year of manufacture of the car. Must be between 1950 and the next year.                       |
 
 Example of a request
 ```
@@ -40,13 +45,14 @@ Accept: application/json
 Content-Length: 212
 
 {
-  "quote_request_id": 11,
-  "quote_reference_id": "04486448-3433-43ef-a755-b07799d6580f",
-  "quote_price_id": "e059d28e-a519-43af-b9d4-e1cc5d97ecb7",
-  "benefits": [],
-  "extra_data": {
-      "extra_field": 1
-  }
+    "owner_id": 2234567890,
+    "email": "someone@example.com",
+    "phone": "05XXXXXXXX",
+    "birthdate": "1982-04-20",
+    "car_sequence_number": 52423810,
+    "is_ownership_transfer": false,
+    "car_estimated_cost": 45000,
+    "car_model_year": 2024
 }
 ```
 
@@ -58,8 +64,6 @@ Once you make a request to the Issue Policy API, you will get the Policy object 
     "meta_data": {
         "extra_data": null,
         "new_owner_id": "2528297837",
-        "quote_price_id": "f5d52340-3661-48af-b81a-028f251ef6a9",
-        "quote_request_id": 25,
         "previous_owner_id": "7001364939",
         "car_sequence_number": 723787810
     },
@@ -91,9 +95,52 @@ When you first make a request to the Issue Policy API. The Policy is not yet act
 
 Also the `provider_policy` and `provider_policy_id` will both be `null`.
 
-In order for the policy to be activated, the customer needs to make the purchase from the payment link. Once the customer successfully pays. The policy will be activated.
+In order for the policy to be activated, the customer needs to make the purchase from the payment link. Once the customer successfully pays. The policy will be activated and the `status` becomes `1`.
 
 <Note>Although the payment page is provided by Yasmina, it does not display the Yasmina logo or have any mention of Yasmina. <br /><br />Yasmina does not receive credit card information, instead the payment page sends card information directly to the payment vendor.</Note>
+
+<Tip>On Staging and Sandbox, you can use a testing card with the following information: <br /> Card number: 4111 1111 1111 1111 <br /> Expiry: 02/27 <br /> CVV: 123 <br />Card owner: Yasmina test</Tip>
+
+#### Showing a policy
+
+In order to get a status of a policy, you can use the <a href="/car-api-reference/policies/show-policy" target="_blank">Show Policy API</a>. This API, takes a Yasmina Policy `id` and will return the policy object
+This API is ideal when you want to re-fetch a specific policy after the PDF gets generated.
+
+Example of a request
+```
+GET /api/v1/car-comp/policies/123 HTTP/1.1
+Host: portal.yasmina.ai
+Authorization: Bearer <token>
+Content-Type: application/json
+Accept: application/json
+```
+
+Example a response
+```
+{
+    "id": 659,
+    "meta_data": {
+        "extra_data": {
+        },
+        "new_owner_id": "2467701575",
+        "quote_price_id": "097116f9-99b1-491f-a2ab-f86b2c535cbe",
+        "quote_request_id": 4,
+        "previous_owner_id": "2467701575",
+        "car_sequence_number": 52423810
+    },
+    "product_id": 4,
+    "provider_policy_id": "53018c24-b246-4bef-866f-4a54c2367196",
+    "provider_policy": "policy.pdf",
+    "created_at": "2025-09-07T07:53:55.000000Z",
+    "status": 1,
+    "payment_link": null,
+    "price": null
+}
+```
+
+### Listing policies
+
+You can also use the <a href="/car-api-reference/policies/list-policies" target="_blank">List Policies API</a> to get a list of all policies that were generated from our system. You might use this on your admin interface, or if you just want to check what has been generated.
 
 ## Claims
 
