@@ -5,11 +5,10 @@ icon: 'house'
 ---
 
 ## Introduction
-This guide describes the Property Insurance APIs available on Yasmina’s platform. These APIs cover the core operations required for property insurance. This includes getting prices, issuing and managing policies, generating payment links, and handling claims.
+This guide describes the Property Insurance APIs available on Yasmina’s platform. These APIs cover the core operations required for property insurance. This includes issuing and managing policies, generating payment links, and handling claims.
 Our APIs follow the RESTful standard and are structured to provide consistent inputs and outputs, making them straightforward to integrate, test, and maintain within your systems.
 
 ## What you will learn
-- Getting prices for property insurance
 - Issuing policies
 - Uploading images for your insured property
 - Starting a claim
@@ -18,17 +17,6 @@ Our APIs follow the RESTful standard and are structured to provide consistent in
 1. **Account in Yasmina** - See the <a href="/introduction#onboarding" target="_blank">Onboarding section</a> for details.
 2. **Authenticated Token** - Follow the <a href="/authentication" target="_blank">Authentication guide</a> to generate one.
 3. **Backend server** - Required to securely call Yasmina APIs.
-
-### Get prices
-Yasmina works with multiple insurance providers. You can retrieve and compare prices using the <a href="/property-api-reference/prices/list-prices" target="_blank">List Prices API</a>. This helps your customers choose their most suitable option.
-
-Currently, we are provide pricing from the following five providers:
-
-- Walaa
-- Medgulf
-- Tawuniya
-- Takaful Al-Rajhi
-- Wataniya
 
 ### Issue policies
 
@@ -39,7 +27,6 @@ All requests must conform to these validation rules.
 
 | Field | Type | Rules | Description |
 |-------|------|-------|-------------|
-| `insurance_provider` | string | required, in: `walaa` | This comes from the prices API |
 | `personal_details` | object | required | Contains personal information of the policyholder. |
 | `personal_details.name` | string | required, max:255 | Full name of the policyholder. |
 | `personal_details.gender` | string | required, in: `M`, `F` | Gender of the policyholder. |
@@ -64,13 +51,19 @@ All requests must conform to these validation rules.
 | `contents_cost` | numeric | nullable, required_without: `property_cost` | Estimated value of the home contents. Required if `property_cost` is not provided. |
 | `has_agreed_to_terms_and_conditions` | boolean | accepted (`true`, `1`, `yes`) | Must explicitly confirm acceptance of terms and conditions. |
 
-You need to choose from the providers listed in the prices section.
+### Understanding Payment and Policy activation
 
-### Payment
+When you first make a request to the Issue Policy API. The Policy is not yet activated and the `status` is `0` (which means pending).
 
-Once you make a request to the issue policy API. You will get a payment link in the respose. You must redirect the customer to this payment link. Once the customer pays, the policy will be generated.
+Also the `provider_policy` and `provider_policy_id` will both be `null`.
 
-### Upload policies
+In order for the policy to be activated, the customer needs to make the purchase from the payment link. Once the customer successfully pays. The policy will be activated and the `status` becomes `1`.
+
+<Note>Although the payment page is provided by Yasmina, it does not display the Yasmina logo or have any mention of Yasmina. <br /><br />Yasmina does not receive credit card information, instead the payment page sends card information directly to the payment vendor.</Note>
+
+<Tip>On Staging and Sandbox, you can use a testing card with the following information: <br /> Card number: 4111 1111 1111 1111 <br /> Expiry: 02/27 <br /> CVV: 123 <br />Card owner: Yasmina test</Tip>
+
+### Upload Images
 
 Supporting documents are required from your clients. These can include home photos, images of valuable contents, or surrounding areas.
 
