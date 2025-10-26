@@ -28,6 +28,36 @@
     "/policies": {
       "get": {
         "description": "Listing requested policies",
+        "parameters": [
+          {
+            "name": "vin",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "car_sequence_number",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "current_car_owner",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "tags": ["Policies"],
         "summary": "List policies",
         "responses": {
@@ -83,7 +113,12 @@
                     }
                   }
                 },
-                "required": ["vin", "car_sequence_number", "current_car_owner", "new_owner_id"]
+                "required": [
+                  "vin",
+                  "car_sequence_number",
+                  "current_car_owner",
+                  "new_owner_id"
+                ]
               }
             }
           }
@@ -112,15 +147,11 @@
                     "code": "42201",
                     "message": "The vin must be 17 characters. (and 3 more errors)",
                     "details": {
-                      "vin": [
-                        "The vin must be 17 characters."
-                      ],
+                      "vin": ["The vin must be 17 characters."],
                       "car_sequence_number": [
                         "The car sequence number must be 9 digits."
                       ],
-                      "new_owner_id": [
-                        "The new owner id must be 10 digits."
-                      ],
+                      "new_owner_id": ["The new owner id must be 10 digits."],
                       "current_car_owner": [
                         "The current owner id field cannot be empty."
                       ]
