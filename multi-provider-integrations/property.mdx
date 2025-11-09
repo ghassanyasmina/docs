@@ -66,7 +66,7 @@ All requests must conform to these validation rules.
 
 You need to choose from the providers listed in the prices section.
 
-### Understanding Payment and Policy activation
+### Payment and Policy activation
 
 When you first make a request to the Issue Policy API. The Policy is not yet activated and the `status` is `0` (which means pending).
 
@@ -77,6 +77,26 @@ In order for the policy to be activated, the customer needs to make the purchase
 <Note>Although the payment page is provided by Yasmina, it does not display the Yasmina logo or have any mention of Yasmina. <br /><br />Yasmina does not receive credit card information, instead the payment page sends card information directly to the payment vendor.</Note>
 
 <Tip>On Staging and Sandbox, you can use a testing card with the following information: <br /> Card number: 4111 1111 1111 1111 <br /> Expiry: 02/27 <br /> CVV: 123 <br />Card owner: Yasmina test</Tip>
+
+### Redirect URL
+
+You can supply the payload a `redirect_url`. This is used to redirect the customer to any page or deep link you need. You can also include a query string with policyID and it will automatically replace it with the actual `id` of the policy object.
+
+Example for policy `id` 123
+```
+	{
+		...,
+		redirect_url: "https://www.example.com?yasmina_policy_id=policyID"
+	}
+```
+Will become on the response
+```
+	{
+		redirect_url: "https://www.example.com?yasmina_policy_id=123"
+	}
+```
+And the customer that purchased the policy will be redirected to
+https://www.example.com?yasmina_policy_id=123
 
 ### Upload Images
 
