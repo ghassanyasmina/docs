@@ -617,60 +617,6 @@
         }
       }
     },
-    "/policies/{propertyPolicy}/cancellation": {
-      "post": {
-        "description": "Cancel a policy",
-        "summary": "Cancel policy",
-        "tags": [
-          "Policies"
-        ],
-        "parameters": [
-          {
-            "required": true,
-            "name": "propertyPolicy",
-            "in": "path",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Cancellation success"
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "code": "40010",
-                  "message": "Policy is already canceled"
-                },
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "example": "40010"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Policy is already canceled"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
     "/policies/{propertyPolicy}/claims": {
       "post": {
         "tags": [
