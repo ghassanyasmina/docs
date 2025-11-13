@@ -30,6 +30,34 @@ Currently, we are provide pricing from the following five providers:
 - Takaful Al-Rajhi
 - Wataniya
 
+### Address from Short Code
+
+The <a href="/property-api-reference/addresses/get-full-address-from-short-address-code" target="_blank">GET Address Endpoint</a> allows you to retrieve the **full property address** by providing only a short address code (e.g., Saudi Post short code). It is especially useful when users enter or scan their short address, and you need to automatically fill in the property details in the form.
+
+Example of a request
+```
+GET /api/v1/property/address-from-short?short_address=RRRC7866 HTTP/1.1
+Host: portal.yasmina.ai
+Authorization: Bearer <token>
+Accept: application/json
+```
+
+Example of a response
+```
+{
+    "building_number": "7866",
+    "zip_code": "13342",
+    "additional_number": "2641",
+    "street_name": "Ahmad Al Gazali",
+    "district_name": "Al Arid Dist.",
+    "city_name": "Riyadh"
+}
+```
+
+
+<Note>Please note that the short address API does not provide *unit_number*. This needs to be supplied separately to the Issue Policy API</Note>
+
+
 ### Issue policies
 
 To issue policies, use the <a href="/property-api-reference/policies/issue-policy" target="_blank">Issue Policies API</a>.

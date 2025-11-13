@@ -229,7 +229,9 @@
                   "insurance_provider": {
                     "type": "string",
                     "example": "walaa",
-                    "enum": ["walaa"]
+                    "enum": [
+                      "walaa"
+                    ]
                   },
                   "personal_details": {
                     "type": "object",
@@ -255,7 +257,271 @@
                       "nationality": {
                         "type": "string",
                         "example": "SA",
-                        "enum": ["SA","AF","AL","DZ","AS","AD","AO","AI","AQ","AG","AR","AM","AW","AU","AT","AZ","BS","BH","BD","BB","BY","BE","BZ","BJ","BM","BT","BO","BA","BW","BV","BR","BQ","IO","VG","BN","BG","BF","BI","KH","CM","CA","CT","CV","KY","CF","TD","CL","CN","CX","CC","CO","KM","CG","CD","CK","CR","HR","CU","CY","CZ","CI","DK","DJ","DM","DO","NQ","DD","EC","EG","SV","GQ","ER","EE","ET","FK","FO","FJ","FI","FR","GF","PF","TF","FQ","GA","GM","GE","DE","GH","GI","GR","GL","GD","GP","GU","GT","GG","GN","GW","GY","HT","HM","HN","HK","HU","IS","IN","ID","IR","IQ","IE","IM","IT","JM","JP","JE","JT","JO","KZ","KE","KI","KW","KG","LA","LV","LB","LS","LR","LY","LI","LT","LU","MO","MK","MG","MW","MY","MV","ML","MT","MH","MQ","MR","MU","YT","FX","MX","FM","MI","MD","MC","MN","ME","MS","MA","MZ","MM","NA","NR","NP","NL","AN","NT","NC","NZ","NI","NE","NG","NU","NF","KP","VD","MP","NO","OM","PC","PK","PW","PS","PA","PZ","PG","PY","YD","PE","PH","PN","PL","PT","PR","QA","RO","RU","RW","RE","BL","SH","KN","LC","MF","PM","VC","WS","SM","SN","RS","CS","SC","SL","SG","SK","SI","SB","SO","ZA","GS","KR","ES","LK","SD","SR","SJ","SZ","SE","CH","SY","ST","TW","TJ","TZ","TH","TL","TG","TK","TO","TT","TN","TR","TM","TC","TV","UM","PU","VI","UG","UA","SU","AE","GB","US","ZZ","UY","UZ","VU","VA","VE","VN","WK","WF","EH","YE","ZM","ZW","AX"]
+                        "enum": [
+                          "SA",
+                          "AF",
+                          "AL",
+                          "DZ",
+                          "AS",
+                          "AD",
+                          "AO",
+                          "AI",
+                          "AQ",
+                          "AG",
+                          "AR",
+                          "AM",
+                          "AW",
+                          "AU",
+                          "AT",
+                          "AZ",
+                          "BS",
+                          "BH",
+                          "BD",
+                          "BB",
+                          "BY",
+                          "BE",
+                          "BZ",
+                          "BJ",
+                          "BM",
+                          "BT",
+                          "BO",
+                          "BA",
+                          "BW",
+                          "BV",
+                          "BR",
+                          "BQ",
+                          "IO",
+                          "VG",
+                          "BN",
+                          "BG",
+                          "BF",
+                          "BI",
+                          "KH",
+                          "CM",
+                          "CA",
+                          "CT",
+                          "CV",
+                          "KY",
+                          "CF",
+                          "TD",
+                          "CL",
+                          "CN",
+                          "CX",
+                          "CC",
+                          "CO",
+                          "KM",
+                          "CG",
+                          "CD",
+                          "CK",
+                          "CR",
+                          "HR",
+                          "CU",
+                          "CY",
+                          "CZ",
+                          "CI",
+                          "DK",
+                          "DJ",
+                          "DM",
+                          "DO",
+                          "NQ",
+                          "DD",
+                          "EC",
+                          "EG",
+                          "SV",
+                          "GQ",
+                          "ER",
+                          "EE",
+                          "ET",
+                          "FK",
+                          "FO",
+                          "FJ",
+                          "FI",
+                          "FR",
+                          "GF",
+                          "PF",
+                          "TF",
+                          "FQ",
+                          "GA",
+                          "GM",
+                          "GE",
+                          "DE",
+                          "GH",
+                          "GI",
+                          "GR",
+                          "GL",
+                          "GD",
+                          "GP",
+                          "GU",
+                          "GT",
+                          "GG",
+                          "GN",
+                          "GW",
+                          "GY",
+                          "HT",
+                          "HM",
+                          "HN",
+                          "HK",
+                          "HU",
+                          "IS",
+                          "IN",
+                          "ID",
+                          "IR",
+                          "IQ",
+                          "IE",
+                          "IM",
+                          "IT",
+                          "JM",
+                          "JP",
+                          "JE",
+                          "JT",
+                          "JO",
+                          "KZ",
+                          "KE",
+                          "KI",
+                          "KW",
+                          "KG",
+                          "LA",
+                          "LV",
+                          "LB",
+                          "LS",
+                          "LR",
+                          "LY",
+                          "LI",
+                          "LT",
+                          "LU",
+                          "MO",
+                          "MK",
+                          "MG",
+                          "MW",
+                          "MY",
+                          "MV",
+                          "ML",
+                          "MT",
+                          "MH",
+                          "MQ",
+                          "MR",
+                          "MU",
+                          "YT",
+                          "FX",
+                          "MX",
+                          "FM",
+                          "MI",
+                          "MD",
+                          "MC",
+                          "MN",
+                          "ME",
+                          "MS",
+                          "MA",
+                          "MZ",
+                          "MM",
+                          "NA",
+                          "NR",
+                          "NP",
+                          "NL",
+                          "AN",
+                          "NT",
+                          "NC",
+                          "NZ",
+                          "NI",
+                          "NE",
+                          "NG",
+                          "NU",
+                          "NF",
+                          "KP",
+                          "VD",
+                          "MP",
+                          "NO",
+                          "OM",
+                          "PC",
+                          "PK",
+                          "PW",
+                          "PS",
+                          "PA",
+                          "PZ",
+                          "PG",
+                          "PY",
+                          "YD",
+                          "PE",
+                          "PH",
+                          "PN",
+                          "PL",
+                          "PT",
+                          "PR",
+                          "QA",
+                          "RO",
+                          "RU",
+                          "RW",
+                          "RE",
+                          "BL",
+                          "SH",
+                          "KN",
+                          "LC",
+                          "MF",
+                          "PM",
+                          "VC",
+                          "WS",
+                          "SM",
+                          "SN",
+                          "RS",
+                          "CS",
+                          "SC",
+                          "SL",
+                          "SG",
+                          "SK",
+                          "SI",
+                          "SB",
+                          "SO",
+                          "ZA",
+                          "GS",
+                          "KR",
+                          "ES",
+                          "LK",
+                          "SD",
+                          "SR",
+                          "SJ",
+                          "SZ",
+                          "SE",
+                          "CH",
+                          "SY",
+                          "ST",
+                          "TW",
+                          "TJ",
+                          "TZ",
+                          "TH",
+                          "TL",
+                          "TG",
+                          "TK",
+                          "TO",
+                          "TT",
+                          "TN",
+                          "TR",
+                          "TM",
+                          "TC",
+                          "TV",
+                          "UM",
+                          "PU",
+                          "VI",
+                          "UG",
+                          "UA",
+                          "SU",
+                          "AE",
+                          "GB",
+                          "US",
+                          "ZZ",
+                          "UY",
+                          "UZ",
+                          "VU",
+                          "VA",
+                          "VE",
+                          "VN",
+                          "WK",
+                          "WF",
+                          "EH",
+                          "YE",
+                          "ZM",
+                          "ZW",
+                          "AX"
+                        ]
                       },
                       "nationality_id": {
                         "type": "string",
@@ -263,7 +529,10 @@
                       },
                       "gender": {
                         "type": "string",
-                        "enum": ["M","F"]
+                        "enum": [
+                          "M",
+                          "F"
+                        ]
                       }
                     },
                     "required": [
@@ -285,7 +554,11 @@
                       "building_type": {
                         "type": "string",
                         "example": "Apartment",
-                        "enum": ["villa", "apartment", "private_accommodation"]
+                        "enum": [
+                          "villa",
+                          "apartment",
+                          "private_accommodation"
+                        ]
                       },
                       "apartment_size": {
                         "type": "integer",
@@ -700,6 +973,95 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/address-from-short": {
+      "get": {
+        "tags": [
+          "Addresses"
+        ],
+        "summary": "Get full address from short address code",
+        "description": "This endpoint retrieves the full address details based on the provided short address code. Useful for auto-filling property address information when only the short code is available.",
+        "parameters": [
+          {
+            "name": "short_address",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "RRRC7866",
+            "description": "Short address code provided by Saudi Post or similar systems"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved address information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "street_name": {
+                      "type": "string",
+                      "example": "King Abdulaziz Road"
+                    },
+                    "building_number": {
+                      "type": "string",
+                      "example": "345"
+                    },
+                    "district_name": {
+                      "type": "string",
+                      "example": "Al Olaya"
+                    },
+                    "city_name": {
+                      "type": "string",
+                      "example": "Riyadh"
+                    },
+                    "additional_number": {
+                      "type": "string",
+                      "example": "1234"
+                    },
+                    "zip_code": {
+                      "type": "string",
+                      "example": "12233"
+                    },
+                    "unit_number": {
+                      "type": "string",
+                      "example": "12B"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing short address parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "40001"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid short address"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
