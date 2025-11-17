@@ -27,14 +27,18 @@
   "paths": {
     "/quote-requests/{id}": {
       "get": {
-        "tags": ["Quotes"],
+        "tags": [
+          "Quotes"
+        ],
         "summary": "Show quote",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "integer" }
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -42,7 +46,9 @@
             "description": "Single quote details",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/QuoteResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteResponse"
+                }
               }
             }
           },
@@ -53,13 +59,17 @@
       },
       "delete": {
         "summary": "Delete quote",
-        "tags": ["Quotes"],
+        "tags": [
+          "Quotes"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "integer" }
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -70,7 +80,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": { "type": "string", "example": "Quote deleted successfully." }
+                    "message": {
+                      "type": "string",
+                      "example": "Quote deleted successfully."
+                    }
                   }
                 }
               }
@@ -84,7 +97,9 @@
     },
     "/quote-requests": {
       "get": {
-        "tags": ["Quotes"],
+        "tags": [
+          "Quotes"
+        ],
         "summary": "List quotes",
         "responses": {
           "200": {
@@ -94,32 +109,64 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "current_page": { "type": "integer" },
+                    "current_page": {
+                      "type": "integer"
+                    },
                     "data": {
                       "type": "array",
-                      "items": { "$ref": "#/components/schemas/QuoteResponse" }
+                      "items": {
+                        "$ref": "#/components/schemas/QuoteResponse"
+                      }
                     },
-                    "first_page_url": { "type": "string" },
-                    "from": { "type": "integer", "nullable": true },
-                    "last_page": { "type": "integer" },
-                    "last_page_url": { "type": "string" },
+                    "first_page_url": {
+                      "type": "string"
+                    },
+                    "from": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "last_page": {
+                      "type": "integer"
+                    },
+                    "last_page_url": {
+                      "type": "string"
+                    },
                     "links": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "url": { "type": "string" },
-                          "label": { "type": "string" },
-                          "active": { "type": "boolean" }
+                          "url": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "active": {
+                            "type": "boolean"
+                          }
                         }
                       }
                     },
-                    "next_page_url": { "type": "string" },
-                    "path": { "type": "string" },
-                    "per_page": { "type": "integer" },
-                    "prev_page_url": { "type": "string" },
-                    "to": { "type": "integer", "nullable": true },
-                    "total": { "type": "integer" }
+                    "next_page_url": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "per_page": {
+                      "type": "integer"
+                    },
+                    "prev_page_url": {
+                      "type": "string"
+                    },
+                    "to": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
                   }
                 }
               }
@@ -129,7 +176,9 @@
       },
       "post": {
         "description": "For getting prices with benefits. \nThe Quote IDs can be used later to issue a policy",
-        "tags": ["Quotes"],
+        "tags": [
+          "Quotes"
+        ],
         "summary": "Request quotes",
         "responses": {
           "200": {
@@ -199,7 +248,13 @@
                     "description": "Car model year between 1950 and next year"
                   }
                 },
-                "required": ["owner_id", "phone", "birthdate", "car_sequence_number", "car_estimated_cost"]
+                "required": [
+                  "owner_id",
+                  "phone",
+                  "birthdate",
+                  "car_sequence_number",
+                  "car_estimated_cost"
+                ]
               }
             }
           }
@@ -209,7 +264,9 @@
     "/policies/{carPolicy}": {
       "get": {
         "description": "Show a specific policy",
-        "tags": ["Policies"],
+        "tags": [
+          "Policies"
+        ],
         "summary": "Show policy",
         "parameters": [
           {
@@ -238,7 +295,9 @@
     "/policies": {
       "get": {
         "description": "Listing requested policies",
-        "tags": ["Policies"],
+        "tags": [
+          "Policies"
+        ],
         "summary": "List policies",
         "responses": {
           "200": {
@@ -262,7 +321,9 @@
       "post": {
         "description": "For issuing a new policy",
         "summary": "Issue policy",
-        "tags": ["Policies"],
+        "tags": [
+          "Policies"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -367,7 +428,9 @@
       "post": {
         "description": "Cancel a policy",
         "summary": "Cancel policy",
-        "tags": ["Policies"],
+        "tags": [
+          "Policies"
+        ],
         "parameters": [
           {
             "required": true,
@@ -427,6 +490,174 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/quote-otp": {
+      "post": {
+        "tags": [
+          "OTPs"
+        ],
+        "summary": "Request OTP for quote verification",
+        "description": "This endpoint sends a one-time password (OTP) to the provided email and phone number for quote verification. It should be called before creating a quote request.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "someone@example.com",
+                    "description": "Email address of the car owner"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "pattern": "^05\\d{8}$",
+                    "example": "0501234567",
+                    "description": "Phone number starting with 05 and containing 10 digits"
+                  },
+                  "owner_id": {
+                    "type": "string",
+                    "pattern": "^(1|2|7)\\d{9}$",
+                    "example": "1012345678",
+                    "description": "National ID or Iqama ID of the car owner (10 digits)"
+                  }
+                },
+                "required": [
+                  "email",
+                  "phone",
+                  "owner_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "OTP sent successfully",
+            "content": {
+            }
+          },
+          "400": {
+            "description": "Invalid request or missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "40000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Mobile is registered with different ID number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/issue-otp": {
+      "post": {
+        "tags": [
+          "OTPs"
+        ],
+        "summary": "Request OTP for Issuing Policy",
+        "description": "This endpoint sends a one-time password (OTP). It should be called before issuing a policy.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "someone@example.com",
+                    "description": "Email address of the car owner"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "pattern": "^05\\d{8}$",
+                    "example": "0501234567",
+                    "description": "Phone number starting with 05 and containing 10 digits"
+                  },
+                  "owner_id": {
+                    "type": "string",
+                    "pattern": "^(1|2|7)\\d{9}$",
+                    "example": "1012345678",
+                    "description": "National ID or Iqama ID of the car owner (10 digits)"
+                  },
+                  "quote_request_id": {
+                    "type": "integer",
+                    "description": "ID of the car quote request",
+                    "example": 123
+                  },
+                  "quote_reference_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Unique identifier for the quote reference ID (coming from POST /quote-requests)",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "quote_price_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Unique identifier for the quote price ID that exists inside a quote item (coming from POST /quote-requests)",
+                    "example": "550e8400-e29b-41d4-a716-446655440001"
+                  }
+                },
+                "required": [
+                  "email",
+                  "phone",
+                  "owner_id",
+                  "quote_request_id",
+                  "quote_reference_id",
+                  "quote_price_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "OTP sent successfully",
+            "content": {
+            }
+          },
+          "400": {
+            "description": "Invalid request or missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "40000"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Mobile is registered with different ID number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       }
@@ -705,8 +936,7 @@
         "flows": {
           "clientCredentials": {
             "tokenUrl": "/oauth/token",
-            "scopes": {
-            }
+            "scopes": {}
           }
         }
       }
