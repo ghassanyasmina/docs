@@ -113,7 +113,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Plant deleted",
+            "description": "Success",
             "content": {}
           },
           "400": {

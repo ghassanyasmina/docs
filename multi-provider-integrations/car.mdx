@@ -9,6 +9,7 @@ This guide introduces Yasmina’s **Comprehensive Motor Insurance APIs for Multi
 Our APIs are built on RESTful principles and follow consistent input and output structures, making them simple to integrate, test, and maintain within your systems
 
 ## What you will learn
+- Request OTPs
 - Requesting and managing quotes
 - Issuing and managing policies
 - Starting a claim
@@ -22,13 +23,44 @@ Our APIs are built on RESTful principles and follow consistent input and output 
 
 Quotes represent the different premiums, benefits, and deductibles offered by insurance providers. Before issuing a Comprehensive Motor Insurance policy, you need to provide the car details to retrieve quotes from various insurance providers. These quotes are then used when issuing the policy.
 
-### Request Quotes
+### OTP for quotations
 
+Before requesting quotations, we need to verify the Phone number of the customer through an OTP. You can do that using the <a href="/car-api-reference/otps/request-otp-for-quote-verification" target="_blank">Quote OTP API</a>
+
+You need to provide the following properties for the Quote OTP API:
+
+| Field                | Example Value   | Description                                                                                   |
+|-----------------------|----------------|-----------------------------------------------------------------------------------------------|
+| `owner_id`            | `2234567890`   | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.              |
+| `email`            | `someone@example.com`   | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).              |
+| `phone`               | `05XXXXXXXX`   | Saudi mobile number. Must start with `05` and be exactly 10 digits.                           |
+
+Example Payload
+```
+POST /api/v1/car-comp/quote-otp HTTP/1.1
+Host: sandbox.yasmina.ai
+Accept: application/json
+Authorization: Bearer token
+Content-Type: application/json
+Content-Length: 93
+
+{
+    "email": "someone@example.com",
+    "phone": "0512345678",
+    "owner_id": "1234567890"
+}
+```
+
+The customer should then get an OTP. The API itself will simply return 204 No Content.
+
+Afterwards you will be ready to Request Quotations.
+
+### Request Quotes
 In order to provide quotes for your customer you need to execute the <a href="/car-api-reference/quotes/request-quotes" target="_blank">Request Quotes API</a>. This API provides an array response from different insurance providers. Each item in this array, represents the name of the company, the logo, the different premiums and deductibles, and also the list of benefits (both free and paid).
 
 <Note>The Request Quotes API may take longer to respond because it retrieves results from multiple insurance providers. Be sure to increase your timeout to at least 2 minutes before making the request.</Note>
 
-You need to provider the following properties for the Request Quotes API
+You need to provider the following properties for the Request Quotes API:
 
 | Field                | Example Value   | Description                                                                                   |
 |-----------------------|----------------|-----------------------------------------------------------------------------------------------|
@@ -141,8 +173,46 @@ You can delete some of the requests from the system using the <a href="/car-api-
 
 This is rarely used, but may be helpful if you'd like to reduce the items listed.
 
-## Issue policy
+## Issuing policies
 
+### Issue Policy OTP
+
+When a customer selects a quotation, they need to go through another OTP check. This time you need to request it through the <a href="/car-api-reference/otps/request-otp-for-quote-verification" target="_blank">Issue OTP API</a>
+
+The Issue Policy OTP requires the following fields:
+
+| Field                | Example Value   | Description                                                                                   |
+|-----------------------|----------------|-----------------------------------------------------------------------------------------------|
+| `quote_request_id`   | Yasmina’s unique identifier for the quote request. This must match the `id` returned when creating a quote request. |
+| `quote_reference_id` | The unique reference ID provided by the insurance company. Required when issuing a policy.     |
+| `quote_price_id`     | The selected price option ID. Each quote has multiple prices with different deductibles.       |
+| `owner_id`            | `2234567890`   | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.              |
+| `email`            | `someone@example.com`   | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).              |
+| `phone`               | `05XXXXXXXX`   | Saudi mobile number. Must start with `05` and be exactly 10 digits.                           |
+
+Example request:
+```
+POST /api/v1/car-comp/issue-otp HTTP/1.1
+Host: sandbox.yasmina.ai
+Accept: application/json
+Authorization: Bearer token
+Content-Type: application/json
+Content-Length: 249
+
+{
+    "email": "someone@example.com",
+    "phone": "0512345678",
+    "owner_id": "2234567890",
+    "quote_request_id": 62,
+    "quote_reference_id": "feb9e0ec-d71c-4c60-99d4-22ad9a5c97ec",
+    "quote_price_id": "f0a13788-92c3-f011-972d-005056a9891a"
+}
+```
+
+Similar to the request OTP API. The customer will receive another OTP and the API will return `204 - No Content` on success.
+The OTP must be supplied to the Issue Policy API
+
+### Issuing a policy
 In order to Issue a policy. You can head to the <a href="/car-api-reference/policies/issue-policy" target="_blank">Issue Policy API </a>
 
 You need to use the fields that were retrieved in the Request Quotes API.
@@ -155,6 +225,7 @@ You need to use the fields that were retrieved in the Request Quotes API.
 | `benefits`           | A list of selected benefit IDs. Only required if the benefit has a cost (`amount > 0`).        |
 | `extra_data`         | Optional JSON object to store additional metadata or custom values that can later be used in <a href="/webhooks/guide" target="_blank">webhooks</a>. Please keep minimal as it can't exceed 255 characters    |
 | `redirect_url`         | Optional URL that the customer gets redirected to once a successful purchase is made |
+| `otp`         | The OTP that you got from the issue-otp API |
 
 Example of a request
 ```
