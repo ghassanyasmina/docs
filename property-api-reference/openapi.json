@@ -181,6 +181,37 @@
         }
       }
     },
+    "/policies/{propertyPolicy}": {
+      "get": {
+        "description": "Show a specific policy",
+        "tags": [
+          "Policies"
+        ],
+        "summary": "Show policy",
+        "parameters": [
+          {
+            "required": true,
+            "name": "propertyPolicy",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Policy"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/policies": {
       "get": {
         "description": "Listing requested policies",
@@ -195,14 +226,6 @@
               "format": "email"
             }
           },
-          {
-            "name": "name",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-
           {
             "name": "nationality",
             "in": "query",
@@ -1313,6 +1336,37 @@
                       ]
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policies/{propertyPolicy}/cancellation-status": {
+      "get": {
+        "description": "Get an updated cancellation status on the policy",
+        "tags": [
+          "Policies"
+        ],
+        "summary": "Cancellation status",
+        "parameters": [
+          {
+            "required": true,
+            "name": "propertyPolicy",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "active"
                 }
               }
             }

@@ -1,0 +1,88 @@
+---
+title: "Travel Insurance"
+icon: "plane"
+---
+
+## ✨ Overview
+
+Yasmina provides Schengen Travel Insurance with flexible duration and multi-traveller options. You can easily integrate this product into your platform and let your customers purchase policies seamlessly.
+
+
+### Authorization
+
+To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
+You will need `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
+
+After making the request, you will get access_token in the response. Example
+```
+{
+    "token_type": "Bearer",
+    "expires_in": 31536000,
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YmEyOTNmNy01ZjYyLTRlODItYmU5Yi1kODA0Y2M5ZDM5MmMiLCJqdGkiOiJlZWJjMWM5MWEyZThkMTVmNTYxNjZjMjkwM2Q0NTZjM2IzYWM5MTU5ZTdkODQ2YTE5NmFlYjcxMWM5OTJlMjc2MzAzNjY3MDA1MDQzM2U0OSIsImlhdCI6MTczNTkwNTE5OC40NTg5MiwibmJmIjoxNzM1OTA1MTk4LjQ1ODkyMSwiZXhwIjoxNzY3NDQxMTk4LjQ1Njk0LCJzdWIiOiIiLCJzY29wZXMiOltdfQ.Dy6df9fr4eBMLtkjnzcBjrXSg2AZLrmrBBC1NF8wmQaIOjcNffiqMiL9MqdMPj43Dxt4fj9rT1_S8dfwEpSbxNuIweNLOa7iDYpqMQ2l-cKG_sn24G27exZ9shLG8p2FHa4SHxSByRw00aCJceiTzq12LLNfc14rGPKZOv5Pi-HuLAP6ms_NfyN-KafOFOjYym4PyHCuTX8jEkoImgpBUpPgdnq1qyQdrZxL4grp0P_ezkhTgHgWwuzjSYgm4l-Eyga65kua-pdgWbhJ7-I1W_hjWT2dKCivcmk6nR9wtTjWs9hBvZrOfoZmox4YPIjZ_pvImZbHcZui-7xs80dnoaTKRviR8aot0cPIKoqRwinBodjWRh3QEu5juT1b7T-m85Wo_JNRoarKD4pW2Lzq7v1u9Z6PMEeYXvuFchzZ6HPvthblfwbtu3AX6ij0ZGlZPdMRdEiRtZf3dt8nsWdI-E_J0GAD-9wexlpNL92Z-IfuwMXuUQs_j4l92fcfBC_NxlEUTNACyOWPrA3V6ZSLHrga6W4Iz6Por3txzCsxlwvEBQAM70VyGeSqFi0wMLg2V8wVYAEpiEe2dl4RpMbUaPzRNc_KsDUYM_4DqwMTo2v2x4AAPxWmWiRn4PeAXovraN6Ll-eW9zq5hUbt3c-yj0spVYhJADHodoHmAdQM9MA"
+}
+```
+Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
+
+Go to the following link to use the [Authorization API](/auth-api-reference/oauth-20/generate-token).
+
+<Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
+
+### Request a quote
+
+In this step, your customer provides information about the trip and you present them with the price of the insurance.
+
+In order to request a quote, you need to execute the following <a href="/yasmina-schengen-travel-insurance/quotes/request-quote" target="_blank">Request Quote API</a>.
+
+You need to provide the following details
+
+| Property              | Description                                                                                   |
+|-------------------|-----------------------------------------------------------------------------------------------|
+| Nationality ID     | ID of the main applicant’s nationality.                                                      |
+| Phone Number       | Contact phone number (e.g. +966...).                                                          |
+| Email Address      | Contact email address.                                                                        |
+| Multi Entry        | Set to `true` for multi-entry trips (defaults duration to 180), `false` otherwise.           |
+| Duration           | Duration in days (e.g. 7, 10, 15...). Only required if multi-entry is set to `false`.         |
+| Start Date         | Start date of the policy (format: `YYYY-MM-DD`).                                              |
+| Date of Birth      | Date of birth of the main applicant (format: `YYYY-MM-DD`).                                   |
+| Travellers         | List of travellers with their nationality, full name, passport number, gender, date of birth, relation, and passport expiry date. |
+
+Here is a sample request
+
+```
+{
+  "nationality_id": "1234567890",
+  "phone_number": "+966501234567",
+  "email": "someone@example.com",
+  "multi_entry": false,
+  "duration": 10,
+  "start_date": "2025-07-27",
+  "date_of_birth": "1988-04-20",
+  "travellers": [
+    {
+      "nationality": "SA",
+      "full_name": "Yasmina Alex",
+      "passport_number": "G12345678",
+      "gender": "m",
+      "date_of_birth": "1982-04-20",
+      "relation": "self",
+      "passport_expiry_date": "2025-10-30"
+    }
+  ]
+}
+```
+
+Once you execute the request quote API. You get a quote ID that you later need to use for issuing a policy.
+
+For example.
+```
+{
+  "quote_id": "Q-L5ELL0WU"
+}
+```
+
+### Purchase a policy
+
+In order to Issue a policy, you need to execute the <a href="/yasmina-schengen-travel-insurance/policies/purchase" target="_blank">Purchase Policy API</a>
+
+Simply provide the Quote ID in the payload. We don't need more than this.
+

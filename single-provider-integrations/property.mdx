@@ -18,6 +18,33 @@ Our APIs follow the RESTful standard and are structured to provide consistent in
 2. **Authenticated Token** - Follow the <a href="/authentication" target="_blank">Authentication guide</a> to generate one.
 3. **Backend server** - Required to securely call Yasmina APIs.
 
+## Address from Short Code
+
+The <a href="/property-api-reference/addresses/get-full-address-from-short-address-code" target="_blank">GET Address Endpoint</a> allows you to retrieve the **full property address** by providing only a short address code (e.g., Saudi Post short code). It is especially useful when users enter or scan their short address, and you need to automatically fill in the property details in the form.
+
+Example of a request
+```
+GET /api/v1/property/address-from-short?short_address=RRRC7866 HTTP/1.1
+Host: portal.yasmina.ai
+Authorization: Bearer <token>
+Accept: application/json
+```
+
+Example of a response
+```
+{
+    "building_number": "7866",
+    "zip_code": "13342",
+    "additional_number": "2641",
+    "street_name": "Ahmad Al Gazali",
+    "district_name": "Al Arid Dist.",
+    "city_name": "Riyadh"
+}
+```
+
+<Note>Please note that the short address API does not provide *unit_number*. This needs to be supplied separately to the Issue Policy API</Note>
+
+## Policies
 ### Issue policies
 
 To issue policies, use the <a href="/property-api-reference/policies/issue-policy" target="_blank">Issue Policies API</a>.
@@ -51,6 +78,129 @@ All requests must conform to these validation rules.
 | `contents_cost` | numeric | nullable, required_without: `property_cost` | Estimated value of the home contents. Required if `property_cost` is not provided. |
 | `has_agreed_to_terms_and_conditions` | boolean | accepted (`true`, `1`, `yes`) | Must explicitly confirm acceptance of terms and conditions. |
 
+Example request:
+```
+POST /api/v1/property/policies HTTP/1.1
+Host: localhost:8000
+Accept: application/json
+Content-Type: application/json
+Authorization: ••••••
+Content-Length: 868
+
+{
+    "insurance_provider": "walaa",
+    "personal_details": {
+        "email": "someone@example.com",
+        "gender": "M",
+        "name": "Customer Name",
+        "phone_number": "+9665XXXXXXX",
+        "birthdate": "1990-01-01",
+        "nationality": "JO",
+        "nationality_id": "**********"
+    },
+    "building_details": {
+        "building_age": 20,
+        "building_type": "villa",
+        "apartment_size": 200
+    },
+    "address": {
+        "street_name": "Street Name",
+        "district_name": "District Name",
+        "city_name": "Riyadh",
+        "additional_number": "X",
+        "zip_code": "XXXXX",
+        "unit_number": "X",
+        "building_number": "X"
+    },
+    "property_cost": 500000,
+    "content_cost": 100000,
+    "has_agreed_to_terms_and_conditions": true,
+    "redirect_url": "https://www.example.com?policy_id=XXXXXX"
+}
+```
+
+Example Response
+```
+{
+    "id": 874,
+    "meta_data": {
+        "address": {
+            "zip_code": "11193",
+            "city_name": "Riyadh",
+            "street_name": "Street Name",
+            "unit_number": "X",
+            "district_name": "District Name",
+            "building_number": "X",
+            "additional_number": "X"
+        },
+        "property_cost": 500000,
+        "building_details": {
+            "building_age": 20,
+            "building_type": "villa",
+            "apartment_size": 200
+        },
+        "personal_details": {
+            "name": "Customer Name",
+            "email": "someone@example.com",
+            "gender": "M",
+            "birthdate": "1990-01-01",
+            "nationality": "JO",
+            "phone_number": "+96279XXXXXXX",
+            "nationality_id": "**********"
+        },
+        "insurance_provider": "walaa",
+        "has_agreed_to_terms_and_conditions": true
+    },
+    "created_at": "2025-11-20T12:06:09.000000Z",
+    "canceled_at": null,
+    "status": 0,
+    "provider_policy": null,
+    "provider_policy_id": null,
+    "client_id": "********-****-****-****-************",
+    "payment_link": "http://localhost:8000/short/XXXXX",
+    "price": 603.75,
+    "redirect_url": "https://www.google.com?policy_id=874",
+    "policy_url": null
+}
+```
+
+### Retrieving the policy object again
+
+You can retrieve the policy objects that were created by you any time by either using the <a href="/property-api-reference/policies/list-policies" target="_blank">Listing policies API</a> or the <a href="/property-api-reference/policies/show-policy" target="_blank">Show policy API</a>
+
+The Listing policy API can take some filters to retrieve only specific policies. This might be helpful if you have your own internal system and want to list policies by different values.
+Example Request
+```
+GET /api/v1/property/policies?nationality_id=9881052027 HTTP/1.1
+Accept: application/json
+Authorization: ••••••
+```
+
+The Show Policy API will retrieves a specific policy object based on path ID
+Example Request
+```
+GET /api/v1/property/policies/875 HTTP/1.1
+Accept: application/json
+Authorization: ••••••
+```
+
+### Cancellation Status
+
+The <a href="/property-api-reference/policies/cancellation-status" target="_blank">Cancellation Status API</a> gets you an updated status of your policy. Yasmina makes a call to the insurance provider to inquire about the policy, and will return a response with updated status.
+
+Example Request
+```
+GET /api/v1/property/policies/849/cancellation-status HTTP/1.1
+Accept: application/json
+Authorization: ••••••
+```
+
+Example Response
+```
+{
+    "status": "active"
+}
+```
 ### Understanding Payment and Policy activation
 
 When you first make a request to the Issue Policy API. The Policy is not yet activated and the `status` is `0` (which means pending).
