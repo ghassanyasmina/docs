@@ -205,57 +205,6 @@
       "href": "https://portal.yasmina.ai"
     }
   },
-  "footer": {
-    "socials": {
-      "linkedin": "https://www.linkedin.com/company/yasminaai",
-      "x": "https://x.com/YasminaIns",
-      "instagram": "https://www.instagram.com/yasminainsurance/"
-    },
-    "links": [
-      {
-        "header": "Yasmina Website",
-        "items": [
-          {
-            "label": "Home",
-            "href": "https://www.yasmina.ai"
-          },
-          {
-            "label": "AI Cover",
-            "href": "https://www.yasmina.ai/yasminacover"
-          },
-          {
-            "label": "AI Claim",
-            "href": "https://www.yasmina.ai/yasmina-claims"
-          },
-          {
-            "label": "Blog",
-            "href": "https://www.yasmina.ai/yasminainsights"
-          },
-          {
-            "label": "Contact us",
-            "href": "https://www.yasmina.ai/contactus"
-          },
-          {
-            "label": "Portal",
-            "href": "https://portal.yasmina.ai"
-          }
-        ]
-      },
-      {
-        "header": "Yasmina Home",
-        "items": [
-          {
-            "label": "Home",
-            "href": "https://home-insurance.yasmina.ai"
-          },
-          {
-            "label": "Who are we",
-            "href": "https://home-insurance.yasmina.ai/ar/who-we-are"
-          }
-        ]
-      }
-    ]
-  },
   "redirects": [
     {
       "source": "/integrations/property",
