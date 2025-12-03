@@ -1,0 +1,106 @@
+---
+title: Yasmina iOS SDK
+description: Integrate Yasmina embedded insurance services into your native iOS apps with the YasminaSDKKit package.
+---
+
+# YasminaSDKKit for iOS
+
+YasminaSDKKit is the official iOS client for embedding Yasmina insurance experiences into native apps. It is distributed as a prebuilt `.xcframework` and works with Swift Package Manager or CocoaPods.
+
+## Requirements
+
+- iOS 13.0 or later
+- Xcode 15 or later
+- Swift 5.9 or later
+
+## Installation
+
+### Swift Package Manager
+
+Add the package from `https://github.com/YasminaAI/Yasmina-iOS.git` and select version `0.0.1` (or newer).
+
+```swift Package.swift
+.dependencies: [
+    .package(url: "https://github.com/YasminaAI/Yasmina-iOS.git", from: "0.0.1")
+]
+```
+
+### CocoaPods
+
+Use the Git repository and tag `0.0.1` from your `Podfile`.
+
+```ruby Podfile
+pod 'YasminaSDKKit', :git => 'https://github.com/YasminaAI/Yasmina-iOS.git', :tag => '0.0.1'
+```
+
+Then install:
+
+```bash Terminal
+pod install
+```
+
+## Quick Start
+
+1. Import the SDK and configure it for your environment.
+
+```swift Swift
+import YasminaSDKKit
+
+let config = YasminaConfig(
+  environment: .sandbox, // or .production
+  authorization: "<YOUR_AUTH_TOKEN>",
+  enableLogging: true,
+  logLevel: .all,
+  apiVersion: "v1"
+)
+
+YasminaSdk.Companion.shared.doInit(config: config)
+```
+
+2. Request an OTP to validate the flow.
+
+```swift Swift
+YasminaSdk.Companion.shared.get().OTPforQuoteVerification(
+  ownerId: "<OWNER_ID>",
+  email: "<EMAIL>",
+  phone: "<PHONE>"
+) { response, error in
+  if let error = error {
+    print("Error: \(error.message)")
+    return
+  }
+  print("OTP requested successfully")
+}
+```
+
+3. After validating the OTP, request multi-provider quotes.
+
+```swift Swift
+YasminaSdk.Companion.shared.get().requestMultiProvidersCarQuotes(
+  ownerId: "<OWNER_ID>",
+  email: "<EMAIL>",
+  phone: "<PHONE>",
+  birthdate: "<YYYY-MM-DD>",
+  carSequenceNumber: "<CAR_SEQUENCE_NUMBER>",
+  isOwnershipTransfer: true,
+  currentCarOwnerId: "<CURRENT_OWNER_ID>",
+  carEstimatedCost: 45000,
+  carModelYear: 2025,
+  otp: "<OTP>"
+) { response, error in
+  if let error = error {
+    print("Error: \(error.message)")
+    return
+  }
+  print("Response \(String(describing: response))")
+}
+```
+
+## Support
+
+- GitHub issues: [Yasmina-iOS](https://github.com/YasminaAI/Yasmina-iOS/issues)
+- Email: [support@yasmina.ai](mailto:support@yasmina.ai)
+
+## License
+
+Distributed under the MIT License. See the `LICENSE` file in the SDK repository for details.

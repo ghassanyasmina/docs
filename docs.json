@@ -3,7 +3,7 @@
   "styling": {
     "eyebrows": "breadcrumbs"
   },
-  "theme": "maple",
+  "theme": "linden",
   "name": "Yasmina embedded insurance",
   "colors": {
     "primary": "#16A34A",
@@ -13,6 +13,9 @@
   "logo": {
     "dark": "/logo/Vector-1.png",
     "light": "/logo/Vector.png"
+  },
+  "fonts": {
+    "family": "Inter, sans-serif"
   },
   "favicon": "/favicon.svg",
   "api": {
@@ -39,6 +42,14 @@
   },
   "navigation": {
     "tabs": [
+      {
+        "tab": "Home",
+        "icon": "home",
+        "active": true,
+        "pages": [
+          "home"
+        ]
+      },
       {
         "tab": "Guide",
         "icon": "book",
@@ -174,6 +185,18 @@
         ]
       },
       {
+        "tab": "SDKs",
+        "icon": "brackets-curly",
+        "groups": [
+          {
+            "group": "Front-End SDKs",
+            "pages": [
+              "sdks/ios"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Changelog",
         "icon": "clock-rotate-left",
         "groups": [
@@ -184,21 +207,16 @@
             ]
           }
         ]
-      },
-      {
-        "tab": "Portal",
-        "icon": "user-gear",
-        "href": "https://portal.yasmina.ai"
       }
     ]
   },
+  "background": {
+    "color": {
+      "light": "#FFF",
+      "dark": "#000"
+    }
+  },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:ghassan@yasmina.ai"
-      }
-    ],
     "primary": {
       "type": "button",
       "label": "Portal",
