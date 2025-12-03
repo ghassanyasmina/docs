@@ -232,7 +232,7 @@ body.dark,
 
 .yasmina-try {
     padding-top: 3.5rem;
-    background: var(--yasmina-surface-background);
+    background: var(--yasmina-surface-elevated);
 }
 
 .yasmina-try-wrapper {
