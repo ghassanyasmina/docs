@@ -173,9 +173,9 @@ mode: 'custom'
           aria-labelledby="yasmina-try-auth"
           data-try-id="auth"
         >
-          <h3>Authenticate</h3>
-          <p>You can exchange your API Keys with an Access token. This access token will then be used to access all our APIs</p>
-          <CodeGroup>
+          <Card title="Authenticate" className="yasmina-try-card">
+            <p>You can exchange your API Keys with an Access token. This access token will then be used to access all our APIs</p>
+            <CodeGroup>
 ```bash cURL
 curl -X POST https://sandbox.yasmina.ai/oauth/token \
   -u "9f757acd-1ab4-466f-8cb2-d65ddedb2374:tQraH8lXWnU5uZmnIrHazAyf8of0Jm3vYlh7Nyzo" \
@@ -197,8 +197,9 @@ const response = await fetch("https://sandbox.yasmina.ai/oauth/token", {
 const { access_token: accessToken } = await response.json();
 console.log(accessToken);
 ```
-          </CodeGroup>
-          <p class="yasmina-try-footnote mt-auto not-prose">If tokens expire, you need to regenerate a new one using this API.</p>
+            </CodeGroup>
+            <p class="yasmina-try-footnote mt-auto not-prose">If tokens expire, you need to regenerate a new one using this API.</p>
+          </Card>
         </div>
         <div
           class="yasmina-try-panel"
@@ -208,8 +209,8 @@ console.log(accessToken);
           aria-labelledby="yasmina-try-quote"
           data-try-id="quote"
         >
-          <h3>Request a quote OTP</h3>
-          <CodeGroup>
+          <Card title="Request a quote OTP" className="yasmina-try-card">
+            <CodeGroup>
 ```bash cURL expandable=true
 curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/quote-otp' \
   --header 'Accept: application/json' \
@@ -221,8 +222,9 @@ curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/quote-otp' \
     "owner_id": "10XXXXXXXX"
 }'
 ```
-          </CodeGroup>
-          <p class="yasmina-try-footnote">This endpoint sends an OTP to the provided phone number.</p>
+            </CodeGroup>
+            <p class="yasmina-try-footnote mt-auto">This endpoint sends an OTP to the provided phone number.</p>
+          </Card>
         </div>
         <div
           class="yasmina-try-panel"
@@ -232,8 +234,8 @@ curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/quote-otp' \
           aria-labelledby="yasmina-try-request"
           data-try-id="request"
         >
-          <h3>Request multi-provider quotes</h3>
-          <CodeGroup>
+          <Card title="Request multi-provider quotes" className="yasmina-try-card">
+            <CodeGroup>
 ```bash cURL expandable=true
 curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/quote-requests' \
   --header 'Accept: application/json' \
@@ -252,8 +254,9 @@ curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/quote-requests' \
     "car_model_year": 2023
 }'
 ```
-          </CodeGroup>
-          <p class="yasmina-try-footnote">Use the OTP and customer data from the previous step to retrieve prices from multiple insurers.</p>
+            </CodeGroup>
+            <p class="yasmina-try-footnote mt-auto">Use the OTP and customer data from the previous step to retrieve prices from multiple insurers.</p>
+          </Card>
         </div>
         <div
           class="yasmina-try-panel"
@@ -263,8 +266,8 @@ curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/quote-requests' \
           aria-labelledby="yasmina-try-issue-otp"
           data-try-id="issue-otp"
         >
-          <h3>Request a policy issue OTP</h3>
-          <CodeGroup>
+          <Card title="Request a policy issue OTP" className="yasmina-try-card">
+            <CodeGroup>
 ```bash cURL expandable=true
 curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/issue-otp' \
   --header 'Accept: application/json' \
@@ -279,8 +282,9 @@ curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/issue-otp' \
     "quote_price_id": "3adc577e-4dc4-f011-972d-005056a9891a"
 }'
 ```
-          </CodeGroup>
-          <p class="yasmina-try-footnote">Trigger an OTP confirmation to authorize issuance before moving forward.</p>
+            </CodeGroup>
+            <p class="yasmina-try-footnote mt-auto">Trigger an OTP confirmation to authorize issuance before moving forward.</p>
+          </Card>
         </div>
         <div
           class="yasmina-try-panel"
@@ -290,8 +294,8 @@ curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/issue-otp' \
           aria-labelledby="yasmina-try-policy"
           data-try-id="policy"
         >
-          <h3>Generate a policy and payment link</h3>
-          <CodeGroup>
+          <Card title="Generate a policy and payment link" className="yasmina-try-card">
+            <CodeGroup>
 ```bash cURL expandable=true
 curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/policies' \
   --header 'Accept: application/json' \
@@ -304,8 +308,9 @@ curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/policies' \
     "benefits": []
 }'
 ```
-          </CodeGroup>
-          <p class="yasmina-try-footnote">The response returns a policy draft and `payment_link` you can surface to the customer.</p>
+            </CodeGroup>
+            <p class="yasmina-try-footnote mt-auto">The response returns a policy draft and `paymentLink` you can surface to the customer.</p>
+          </Card>
         </div>
       </div>
     </div>
