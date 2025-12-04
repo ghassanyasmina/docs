@@ -302,10 +302,11 @@ curl --location 'https://sandbox.yasmina.ai/api/v1/car-comp/policies' \
   --header 'Content-Type: application/json' \
   --header 'Authorization: Bearer $ACCESS_TOKEN' \
   --data '{
+    "benefits": [],
+    "otp": "1234",
     "quote_request_id": 64,
     "quote_reference_id": "6237e1aa-cec2-440e-acb5-20bcb8e99750",
-    "quote_price_id": "3adc577e-4dc4-f011-972d-005056a9891a",
-    "benefits": []
+    "quote_price_id": "3adc577e-4dc4-f011-972d-005056a9891a"
 }'
 ```
             </CodeGroup>
