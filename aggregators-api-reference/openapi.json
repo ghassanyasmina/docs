@@ -16,7 +16,7 @@
       "url": "https://sandbox.yasmina.ai"
     },
     {
-      "url": "https://portal.yasmina.ai"
+      "url": "https://production.yasmina.ai"
     }
   ],
   "security": [
@@ -97,7 +97,7 @@
           "url": "https://sandbox.yasmina.ai/api/v1/medical"
         },
         {
-          "url": "https://portal.yasmina.ai/api/v1/medical"
+          "url": "https://production.yasmina.ai/api/v1/medical"
         }
       ],
       "post": {

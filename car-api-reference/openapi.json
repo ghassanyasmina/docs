@@ -16,7 +16,7 @@
       "url": "https://sandbox.yasmina.ai/api/v1/car-comp"
     },
     {
-      "url": "https://portal.yasmina.ai/api/v1/car-comp"
+      "url": "https://production.yasmina.ai/api/v1/car-comp"
     }
   ],
   "security": [

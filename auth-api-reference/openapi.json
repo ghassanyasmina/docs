@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://portal.yasmina.ai"
+      "url": "https://production.yasmina.ai"
     },
     {
       "url": "https://sandbox.yasmina.ai"
@@ -34,7 +34,7 @@
           "url": "https://sandbox.yasmina.ai"
         },
         {
-          "url": "https://portal.yasmina.ai"
+          "url": "https://production.yasmina.ai"
         }
       ],
       "post": {

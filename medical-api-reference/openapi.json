@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://portal.yasmina.ai/api/v1/medical"
+      "url": "https://production.yasmina.ai/api/v1/medical"
     },
     {
       "url": "https://staging.yasmina.ai/api/v1/medical"
@@ -701,7 +701,7 @@
                 "schema": {
                   "type": "object",
                   "example":{
-                    "payment": "https://portal.yasmina.ai/checkoutPage?hash=eyJpdiI6ImZZVU1pN2NsbGxUOEtjNGlkQzVJanc9PSIsInZhbHVlIjoiV2Z6S2ljczQ4b3JmREFnNkVPa1phL0xZSTFGZ2dQRXZhcFo1K0pSaEE2ND0iLCJtYWMiOiJjNGRmMWM3ODQyZGEyZTA2M2JlOWYzZTA3NTc2NDcyNzk3M2E2ZGVhOWE3YjNjODQxNWU1MjU3ODA3ZDc3MjMzIiwidGFnIjoiIn0="
+                    "payment": "https://production.yasmina.ai/checkoutPage?hash=eyJpdiI6ImZZVU1pN2NsbGxUOEtjNGlkQzVJanc9PSIsInZhbHVlIjoiV2Z6S2ljczQ4b3JmREFnNkVPa1phL0xZSTFGZ2dQRXZhcFo1K0pSaEE2ND0iLCJtYWMiOiJjNGRmMWM3ODQyZGEyZTA2M2JlOWYzZTA3NTc2NDcyNzk3M2E2ZGVhOWE3YjNjODQxNWU1MjU3ODA3ZDc3MjMzIiwidGFnIjoiIn0="
                   }
                 }
               }
