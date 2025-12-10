@@ -3,6 +3,10 @@ body {
     --yasmina-surface-background: rgb(var(--gray-950, 15 23 42) / 0.03);
 }
 
+#content-area {
+    max-width: 70rem;
+}
+
 :root {
     --yasmina-surface-elevated: #ffffff;
     --yasmina-border-color: rgba(15, 23, 42, 0.08);
