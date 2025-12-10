@@ -62,18 +62,18 @@ In order to provide quotes for your customer you need to execute the <a href="/c
 
 You need to provider the following properties for the Request Quotes API:
 
-| Field                | Example Value   | Description                                                                                   |
-|-----------------------|----------------|-----------------------------------------------------------------------------------------------|
-| `owner_id`            | `2234567890`   | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.              |
-| `email`            | `someone@example.com`   | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).              |
-| `birthdate`           | `1988-04-20`   | Date of birth of the owner in `YYYY-MM-DD` format. If the owner ID is a Saudi National, then you need to give Hijri date, otherwise you need to give a Gregorian birthdate.                             |
-| `phone`               | `05XXXXXXXX`   | Saudi mobile number. Must start with `05` and be exactly 10 digits.                           |
-| `car_sequence_number` | `52423810`     | The car’s sequence number (8–9 digits).                                                       |
-| `is_ownership_transfer` | `false`      | Boolean flag. `true` if the car is being transferred to a new owner, otherwise `false`.        |
-| `current_car_owner_id` | `1234567890`  | The current owner’s national ID. **Only required if** `is_ownership_transfer = true`.          |
-| `car_estimated_cost`  | `45000`        | Estimated market cost of the car in SAR.                                                      |
-| `car_model_year`      | `2026`         | Year of manufacture of the car. Must be between 1950 and the next year.                       |
-| `start_date`      | `2025-12-01`         | Start date of the policy (format: `YYYY-MM-DD`). Must be between the next day and 28 days from today (inclusive). Yasmina validates this range server-side.                       |
+| Field                | Example Value   | Is Required        | Description                                                                                   |
+|-----------------------|----------------|--------------------|-----------------------------------------------------------------------------------------------|
+| `owner_id`            | `2234567890`   | Yes                | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.              |
+| `email`            | `someone@example.com`   | Yes                | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).              |
+| `birthdate`           | `1988-04-20`   | Yes                | Date of birth of the owner in `YYYY-MM-DD` format. If the owner ID is a Saudi National, then you need to give Hijri date, otherwise you need to give a Gregorian birthdate.                             |
+| `phone`               | `05XXXXXXXX`   | Yes                | Saudi mobile number. Must start with `05` and be exactly 10 digits.                           |
+| `car_sequence_number` | `52423810`     | Yes                | The car’s sequence number (8–9 digits).                                                       |
+| `is_ownership_transfer` | `false`      | No                 | Boolean flag. `true` if the car is being transferred to a new owner, otherwise `false`. Defaults to `false` when omitted.        |
+| `current_car_owner_id` | `1234567890`  | Yes (if transfer)  | The current owner’s national ID. **Only required if** `is_ownership_transfer = true`.          |
+| `car_estimated_cost`  | `45000`        | Yes                | Estimated market cost of the car in SAR.                                                      |
+| `car_model_year`      | `2026`         | Yes                 | Year of manufacture of the car. Must be between 1950 and the next year.                       |
+| `start_date`      | `2025-12-01`         | No                 | Start date of the policy (format: `YYYY-MM-DD`). Must be between the next day and 28 days from today (inclusive). Yasmina validates this range server-side.                       |
 
 Example request
 ```
