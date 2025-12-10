@@ -73,6 +73,7 @@ You need to provider the following properties for the Request Quotes API:
 | `current_car_owner_id` | `1234567890`  | The current owner’s national ID. **Only required if** `is_ownership_transfer = true`.          |
 | `car_estimated_cost`  | `45000`        | Estimated market cost of the car in SAR.                                                      |
 | `car_model_year`      | `2026`         | Year of manufacture of the car. Must be between 1950 and the next year.                       |
+| `start_date`      | `2025-12-01`         | Start date of the policy (format: `YYYY-MM-DD`). Must be between the next day and 28 days from today (inclusive). Yasmina validates this range server-side.                       |
 
 Example request
 ```

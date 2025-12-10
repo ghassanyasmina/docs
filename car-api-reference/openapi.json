@@ -247,6 +247,13 @@
                     "maximum": 2026,
                     "description": "Car model year between 1950 and next year"
                   }
+                  ,
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Desired policy start date in YYYY-MM-DD. Must be between tomorrow and 28 days from today (inclusive). The platform validates this range server-side.",
+                    "example": "2025-12-11"
+                  }
                 },
                 "required": [
                   "owner_id",
@@ -750,6 +757,11 @@
           "car_model_year": {
             "type": "integer",
             "description": "The car model year"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Requested policy start date in YYYY-MM-DD. Returned if provided in the quote request."
           },
           "quotes": {
             "description": "An array representing each insurance company quote. Each item has the company name, the prices, and the benefits.",
