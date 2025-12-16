@@ -11,6 +11,12 @@
   "servers": [
     {
       "url": "https://staging.yasmina.ai/api/v1/property"
+    },
+    {
+      "url": "https://sandbox.yasmina.ai/api/v1/property"
+    },
+    {
+      "url": "https://production.yasmina.ai/api/v1/property"
     }
   ],
   "security": [
