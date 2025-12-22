@@ -27,9 +27,7 @@
   "paths": {
     "/quote-requests/{id}": {
       "get": {
-        "tags": [
-          "Quotes"
-        ],
+        "tags": ["Quotes"],
         "summary": "Show quote",
         "parameters": [
           {
@@ -59,9 +57,7 @@
       },
       "delete": {
         "summary": "Delete quote",
-        "tags": [
-          "Quotes"
-        ],
+        "tags": ["Quotes"],
         "parameters": [
           {
             "name": "id",
@@ -97,9 +93,7 @@
     },
     "/quote-requests": {
       "get": {
-        "tags": [
-          "Quotes"
-        ],
+        "tags": ["Quotes"],
         "summary": "List quotes",
         "responses": {
           "200": {
@@ -176,9 +170,7 @@
       },
       "post": {
         "description": "For getting prices with benefits. \nThe Quote IDs can be used later to issue a policy",
-        "tags": [
-          "Quotes"
-        ],
+        "tags": ["Quotes"],
         "summary": "Request quotes",
         "responses": {
           "200": {
@@ -246,13 +238,53 @@
                     "minimum": 1950,
                     "maximum": 2026,
                     "description": "Car model year between 1950 and next year"
-                  }
-                  ,
+                  },
                   "start_date": {
                     "type": "string",
                     "format": "date",
                     "description": "Desired policy start date in YYYY-MM-DD. Must be between tomorrow and 28 days from today (inclusive). The platform validates this range server-side.",
                     "example": "2025-12-11"
+                  },
+                  "drivers": {
+                    "type": "array",
+                    "description": "List of drivers for the vehicle. When provided, the sum of all driving_percentage values must equal 100, and the owner must be included among the drivers.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "owner_id",
+                        "birthdate",
+                        "driving_percentage"
+                      ],
+                      "properties": {
+                        "owner_id": {
+                          "type": "string",
+                          "pattern": "^(1|2|7)\\d{9}$",
+                          "description": "Driver's national ID. Must be 10 digits starting with 1, 2, or 7."
+                        },
+                        "birthdate": {
+                          "type": "string",
+                          "format": "date",
+                          "description": "Driver's birthdate in YYYY-MM-DD format."
+                        },
+                        "driving_percentage": {
+                          "type": "integer",
+                          "enum": [25, 50, 75, 100],
+                          "description": "Percentage of driving for this driver. Valid values are 25, 50, 75, or 100. The sum of all drivers' percentages must equal 100."
+                        }
+                      }
+                    },
+                    "example": [
+                      {
+                        "owner_id": "1234567890",
+                        "birthdate": "1990-01-15",
+                        "driving_percentage": 50
+                      },
+                      {
+                        "owner_id": "2345678901",
+                        "birthdate": "1985-06-20",
+                        "driving_percentage": 50
+                      }
+                    ]
                   }
                 },
                 "required": [
@@ -271,9 +303,7 @@
     "/policies/{carPolicy}": {
       "get": {
         "description": "Show a specific policy",
-        "tags": [
-          "Policies"
-        ],
+        "tags": ["Policies"],
         "summary": "Show policy",
         "parameters": [
           {
@@ -302,9 +332,7 @@
     "/policies": {
       "get": {
         "description": "Listing requested policies",
-        "tags": [
-          "Policies"
-        ],
+        "tags": ["Policies"],
         "summary": "List policies",
         "parameters": [
           {
@@ -404,9 +432,7 @@
       "post": {
         "description": "For issuing a new policy",
         "summary": "Issue policy",
-        "tags": [
-          "Policies"
-        ],
+        "tags": ["Policies"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -505,9 +531,7 @@
     },
     "/quote-otp": {
       "post": {
-        "tags": [
-          "OTPs"
-        ],
+        "tags": ["OTPs"],
         "summary": "Request OTP for quote verification",
         "description": "This endpoint sends a one-time password (OTP) to the provided email and phone number for quote verification. It should be called before creating a quote request.",
         "requestBody": {
@@ -536,11 +560,7 @@
                     "description": "National ID or Iqama ID of the car owner (10 digits)"
                   }
                 },
-                "required": [
-                  "email",
-                  "phone",
-                  "owner_id"
-                ]
+                "required": ["email", "phone", "owner_id"]
               }
             }
           }
@@ -548,8 +568,7 @@
         "responses": {
           "204": {
             "description": "OTP sent successfully",
-            "content": {
-            }
+            "content": {}
           },
           "400": {
             "description": "Invalid request or missing parameters",
@@ -579,9 +598,7 @@
     },
     "/issue-otp": {
       "post": {
-        "tags": [
-          "OTPs"
-        ],
+        "tags": ["OTPs"],
         "summary": "Request OTP for Issuing Policy",
         "description": "This endpoint sends a one-time password (OTP). It should be called before issuing a policy.",
         "requestBody": {
@@ -642,8 +659,7 @@
         "responses": {
           "204": {
             "description": "OTP sent successfully",
-            "content": {
-            }
+            "content": {}
           },
           "400": {
             "description": "Invalid request or missing parameters",
@@ -762,6 +778,28 @@
             "type": "string",
             "format": "date",
             "description": "Requested policy start date in YYYY-MM-DD. Returned if provided in the quote request."
+          },
+          "drivers": {
+            "type": "array",
+            "description": "List of drivers associated with this quote request. Returned if drivers were provided in the request.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "owner_id": {
+                  "type": "string",
+                  "description": "Driver's national ID (10 digits starting with 1, 2, or 7)"
+                },
+                "birthdate": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Driver's birthdate in YYYY-MM-DD format"
+                },
+                "driving_percentage": {
+                  "type": "integer",
+                  "description": "Percentage of driving for this driver (25, 50, 75, or 100)"
+                }
+              }
+            }
           },
           "quotes": {
             "description": "An array representing each insurance company quote. Each item has the company name, the prices, and the benefits.",
