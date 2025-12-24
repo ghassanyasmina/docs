@@ -219,6 +219,11 @@
                     "pattern": "^\\d{8,9}$",
                     "description": "Car sequence number must be 8 or 9 digits"
                   },
+                  "custom_number": {
+                    "type": "string",
+                    "pattern": "^[1-9]\\d{6,9}$",
+                    "description": "Custom car number between 1000000 and 9999999999 (for newly imported cars)"
+                  },
                   "is_ownership_transfer": {
                     "type": "boolean",
                     "default": false,
@@ -291,8 +296,11 @@
                   "owner_id",
                   "phone",
                   "birthdate",
-                  "car_sequence_number",
                   "car_estimated_cost"
+                ],
+                "oneOf": [
+                  {"required": ["car_sequence_number"]},
+                  {"required": ["custom_number"]}
                 ]
               }
             }
@@ -761,6 +769,10 @@
           "car_sequence_number": {
             "type": "integer",
             "description": "The car sequence number from 9 digits"
+          },
+          "custom_number": {
+            "type": "string",
+            "description": "Custom car number for newly imported cars (present when `custom_number` was used in the request)"
           },
           "is_ownership_transfer": {
             "type": "boolean",

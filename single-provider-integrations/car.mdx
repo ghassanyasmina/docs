@@ -30,7 +30,8 @@ These are the fields that you need to provide:
 | `email`            | `someone@example.com`   | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).              |
 | `birthdate`           | `1988-04-20`   | Date of birth of the owner in `YYYY-MM-DD` format. If the owner ID is a Saudi National, then you need to give Hijri date, otherwise you need to give a Gregorian birthdate.                             |
 | `phone`               | `05XXXXXXXX`   | Saudi mobile number. Must start with `05` and be exactly 10 digits.                           |
-| `car_sequence_number` | `52423810`     | The car’s sequence number (8–9 digits).                                                       |
+| `car_sequence_number` | `52423810`     | The car’s sequence number (8–9 digits). Use this OR `custom_number` — one is required.         |
+| `custom_number`       | `1234567890`| Custom car number for newly imported cars. Use this OR `car_sequence_number`. |
 | `is_ownership_transfer` | `false`      | Boolean flag. `true` if the car is being transferred to a new owner, otherwise `false`.        |
 | `current_car_owner_id` | `1234567890`  | The current owner’s national ID. **Only required if** `is_ownership_transfer = true`.          |
 | `car_estimated_cost`  | `45000`        | Estimated market cost of the car in SAR.                                                      |
@@ -49,7 +50,7 @@ Content-Length: 212
     "email": "someone@example.com",
     "phone": "05XXXXXXXX",
     "birthdate": "1982-04-20",
-    "car_sequence_number": 52423810,
+    "custom_number": "1234567890",
     "is_ownership_transfer": false,
     "car_estimated_cost": 45000,
     "car_model_year": 2024
