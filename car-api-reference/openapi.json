@@ -297,10 +297,6 @@
                   "phone",
                   "birthdate",
                   "car_estimated_cost"
-                ],
-                "oneOf": [
-                  {"required": ["car_sequence_number"]},
-                  {"required": ["custom_number"]}
                 ]
               }
             }
