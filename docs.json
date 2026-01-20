@@ -43,14 +43,6 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Home",
-        "icon": "home",
-        "active": true,
-        "pages": [
-          "home"
-        ]
-      },
-      {
         "tab": "Guide",
         "icon": "book",
         "groups": [
