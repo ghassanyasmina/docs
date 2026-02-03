@@ -10,9 +10,6 @@
   },
   "servers": [
     {
-      "url": "https://staging.yasmina.ai"
-    },
-    {
       "url": "https://sandbox.yasmina.ai"
     },
     {
@@ -90,9 +87,6 @@
 
     "/medical-insurance-aggregator": {
       "servers": [
-        {
-          "url": "https://staging.yasmina.ai/api/v1/medical"
-        },
         {
           "url": "https://sandbox.yasmina.ai/api/v1/medical"
         },
