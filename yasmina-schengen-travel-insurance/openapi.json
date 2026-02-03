@@ -13,7 +13,7 @@
     }
   ],
   "paths": {
-    "/request-quote": {
+    "/quotes": {
       "post": {
         "tags": [
           "Quotes"
