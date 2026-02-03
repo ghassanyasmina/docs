@@ -526,100 +526,6 @@
         }
       }
     },
-    "/upload-documents": {
-      "post": {
-        "summary": "Upload travel documents",
-        "description": "Uploads ID and passport documents for a specific travel quote.",
-        "operationId": "uploadDocuments",
-        "tags": [
-          "Policies"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "quote_id": {
-                    "type": "string",
-                    "example": "Q-HVI7GMGM"
-                  },
-                  "id_document": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "passport_document": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "quote_id",
-                  "id_document",
-                  "passport_document"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Documents uploaded successfully"
-          },
-          "400": {
-            "description": "Documents already uploaded"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "example": "42201"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "The quote id field cannot be empty. (and 2 more errors)"
-                    },
-                    "details": {
-                      "type": "object",
-                      "example": {
-                        "quote_id": [
-                          "The quote id field cannot be empty."
-                        ],
-                        "id_document": [
-                          "The id document field cannot be empty."
-                        ],
-                        "passport_document": [
-                          "The passport document must be a file."
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "code",
-                    "message",
-                    "details"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
     "/policies/{travelPolicy}": {
       "get": {
         "description": "Show a specific policy",
@@ -666,6 +572,12 @@
                   "quote_id": {
                     "type": "string",
                     "example": "Q-L5ELL0WU"
+                  },
+                  "redirect_url": {
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1,
+                    "description": "Optional URL to redirect the customer after completing payment. If provided, it must not be empty."
                   }
                 }
               }
