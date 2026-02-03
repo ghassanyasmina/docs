@@ -9,6 +9,7 @@
     "version": "1.0.0"
   },
   "servers": [
+    { "url": "https://staging.yasmina.ai/api/v1/life-snp" },
     { "url": "https://sandbox.yasmina.ai/api/v1/life-snp" },
     { "url": "https://production.yasmina.ai/api/v1/life-snp" }
   ],

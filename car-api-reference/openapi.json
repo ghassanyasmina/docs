@@ -10,6 +10,9 @@
   },
   "servers": [
     {
+      "url": "https://staging.yasmina.ai/api/v1/car-comp"
+    },
+    {
       "url": "https://sandbox.yasmina.ai/api/v1/car-comp"
     },
     {

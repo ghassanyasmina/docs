@@ -14,6 +14,9 @@
     },
     {
       "url": "https://sandbox.yasmina.ai"
+    },
+    {
+      "url": "https://staging.yasmina.ai"
     }
   ],
   "security": [
@@ -24,6 +27,9 @@
   "paths": {
     "/oauth/token": {
       "servers": [
+        {
+          "url": "https://staging.yasmina.ai"
+        },
         {
           "url": "https://sandbox.yasmina.ai"
         },

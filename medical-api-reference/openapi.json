@@ -13,6 +13,9 @@
       "url": "https://production.yasmina.ai/api/v1/medical"
     },
     {
+      "url": "https://staging.yasmina.ai/api/v1/medical"
+    },
+    {
       "url": "https://sandbox.yasmina.ai/api/v1/medical"
     }
   ],
