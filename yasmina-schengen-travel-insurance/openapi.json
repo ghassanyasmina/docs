@@ -393,7 +393,8 @@
             "name": "Accept",
             "in": "header",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": "application/json"
             },
             "example": "application/json"
           }
@@ -681,7 +682,8 @@
             "name": "Accept",
             "in": "header",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": "application/json"
             },
             "example": "application/json"
           }
@@ -714,7 +716,8 @@
             "name": "Accept",
             "in": "header",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": "application/json"
             },
             "example": "application/json"
           }
