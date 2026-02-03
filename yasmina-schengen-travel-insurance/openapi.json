@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "Schengen Travel Insurance",
     "version": "1.0.0"
@@ -10,6 +10,11 @@
     },
     {
       "url": "https:/production.yasmina.ai/api/v1/yasmina-schengen-travel"
+    }
+  ],
+  "security": [
+    {
+      "Oauth2": []
     }
   ],
   "paths": {
