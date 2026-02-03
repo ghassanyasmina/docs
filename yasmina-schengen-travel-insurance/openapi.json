@@ -6,7 +6,10 @@
   },
   "servers": [
     {
-      "url": "https://staging.yasmina.ai/api/v1/yasmina-schengen-travel"
+      "url": "https://sandbox.yasmina.ai/api/v1/yasmina-schengen-travel"
+    },
+    {
+      "url": "https://production.yasmina.ai/api/v1/yasmina-schengen-travel"
     }
   ],
   "components": {
@@ -21,7 +24,10 @@
     "/oauth/token": {
       "servers": [
         {
-          "url": "https://staging.yasmina.ai"
+          "url": "https://sandbox.yasmina.ai"
+        },
+        {
+          "url": "https://production.yasmina.ai"
         }
       ],
       "post": {

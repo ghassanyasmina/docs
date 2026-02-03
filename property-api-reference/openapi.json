@@ -10,9 +10,6 @@
   },
   "servers": [
     {
-      "url": "https://staging.yasmina.ai/api/v1/property"
-    },
-    {
       "url": "https://sandbox.yasmina.ai/api/v1/property"
     },
     {
@@ -97,7 +94,7 @@
                     "tawuniya": {
                       "name": "Tawuniya",
                       "name_ar": "التعاونية",
-                      "logo": "https://staging.yasmina.ai/images/tawuniya-logo.png",
+                      "logo": "https://sandbox.yasmina.ai/images/tawuniya-logo.png",
                       "coverages": [
                         "fires",
                         "explosion",
@@ -114,7 +111,7 @@
                     "medgulf": {
                       "name": "Medgulf",
                       "name_ar": "ميدغلف",
-                      "logo": "https://staging.yasmina.ai/images/medgulf-logo.png",
+                      "logo": "https://sandbox.yasmina.ai/images/medgulf-logo.png",
                       "benefits": [
                         "fires",
                         "explosion",
@@ -130,7 +127,7 @@
                     "walaa": {
                       "name": "Walaa",
                       "name_ar": "ولاء",
-                      "logo": "https://staging.yasmina.ai/images/walaa-logo.jpeg",
+                      "logo": "https://sandbox.yasmina.ai/images/walaa-logo.jpeg",
                       "benefits": [
                         "fires",
                         "explosion",
