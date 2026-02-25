@@ -4,39 +4,252 @@ description: "Life Insurance – S&P Financial Strength Ratings Integration Guid
 icon: 'user-shield'
 ---
 
-### Steps
-Below is the basic journey to requesting your first insurance(s)
-<Steps>
-	<Step title="Authorization">
-	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
+## Introduction
+This guide describes the Life Savings & Protection (Life S&P) APIs available on Yasmina’s platform for bank channel integrations.
+These APIs cover the core operations required for life insurance workflows, including generating offers, issuing policies, listing policies, canceling policies, and submitting claims.
+Our APIs follow the RESTful standard and are designed with consistent request and response structures to make integration, testing, and maintenance easier.
 
-	Or go directly to <a href="/auth-api-reference/oauth-20/generate-token" target="_blank">Generate Token API</a>
-	</Step>
-	  <Step title="Issue policies for your customers">
-      	Provide the customer details such as age, name etc... [Click for more details](#request-policies).
+## What you will learn
+- Generating Life S&P offers
+- Issuing life policies based on selected offers
+- Retrieving created policies
+- Canceling policies
+- Submitting claims
 
-      	Or go directly to <a target="_blank" href="/life-snp/policies/issue-policy">Issue policies API</a>
-      </Step>
-</Steps>
+## Prerequisites
+1. **Account in Yasmina** - See the <a href="/introduction#onboarding" target="_blank">Onboarding section</a> for details.
+2. **Authenticated Token** - Follow the <a href="/authentication" target="_blank">Authentication guide</a> to generate one.
+3. **Backend server** - Required to securely call Yasmina APIs.
 
-### Authorization
+## Offers
+### Generate offers
 
-To access any of our API's. You need to authorize yourself. We are using [OAuth 2.0 client credentials](https://oauth.net/2/grant-types/client-credentials/) to achieve that. <br />
-You will need `client_id` and `client_secret`. You can get these from your [portal](https://portal.yasmina.ai/api-management).<br /><br />
+To generate offers, use the <a href="/life-snp/offers/life-s&p-products" target="_blank">Life S&P Products API</a>.
+This endpoint (`POST /api/v1/life-snp/offers`) returns premium and coverage options for a customer.
 
-After making the request, you will get access_token in the response. Example
+The following fields are used when requesting offers.
+
+| Field | Type | Rules | Description |
+|-------|------|-------|-------------|
+| `applicant_id` | string | required, regex: `^\d{10}$` | Saudi National ID of the applicant (10 digits). |
+| `date_of_birth` | string (date) | required, format: `YYYY-MM-DD` | Applicant date of birth. |
+| `gender` | string | required, in: `male`, `female` | Applicant gender. |
+| `smoker` | boolean | required | Indicates if applicant is a smoker. |
+| `policy_term_years` | integer | required, min:5, max:40 | Policy term in years. |
+| `premium_frequency` | string | required, in: `monthly`, `quarterly`, `semi_annual`, `annual` | Billing frequency for premium. |
+| `sum_assured` | number | required if `target_premium` is missing, min:10000 | Desired life coverage amount in SAR. |
+| `target_premium` | number | required if `sum_assured` is missing, min:50 | Desired premium amount in SAR for selected frequency. |
+| `height_cm` | number | optional, min:100, max:250 | Applicant height in centimeters. |
+| `weight_kg` | number | optional, min:30, max:300 | Applicant weight in kilograms. |
+| `occupation_class` | string | optional | Occupation class code/text. |
+| `annual_income_sar` | number | optional, min:0 | Annual income in SAR. |
+| `riders` | object | optional | Optional rider flags such as `critical_illness`, `accidental_death`, etc. |
+| `distribution_channel` | string | optional, in: `bank`, default:`bank` | Distribution channel. |
+
+Example request:
 ```
+POST /api/v1/life-snp/offers HTTP/1.1
+Host: sandbox.yasmina.ai
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+
 {
-    "token_type": "Bearer",
-    "expires_in": 31536000,
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YmEyOTNmNy01ZjYyLTRlODItYmU5Yi1kODA0Y2M5ZDM5MmMiLCJqdGkiOiJlZWJjMWM5MWEyZThkMTVmNTYxNjZjMjkwM2Q0NTZjM2IzYWM5MTU5ZTdkODQ2YTE5NmFlYjcxMWM5OTJlMjc2MzAzNjY3MDA1MDQzM2U0OSIsImlhdCI6MTczNTkwNTE5OC40NTg5MiwibmJmIjoxNzM1OTA1MTk4LjQ1ODkyMSwiZXhwIjoxNzY3NDQxMTk4LjQ1Njk0LCJzdWIiOiIiLCJzY29wZXMiOltdfQ.Dy6df9fr4eBMLtkjnzcBjrXSg2AZLrmrBBC1NF8wmQaIOjcNffiqMiL9MqdMPj43Dxt4fj9rT1_S8dfwEpSbxNuIweNLOa7iDYpqMQ2l-cKG_sn24G27exZ9shLG8p2FHa4SHxSByRw00aCJceiTzq12LLNfc14rGPKZOv5Pi-HuLAP6ms_NfyN-KafOFOjYym4PyHCuTX8jEkoImgpBUpPgdnq1qyQdrZxL4grp0P_ezkhTgHgWwuzjSYgm4l-Eyga65kua-pdgWbhJ7-I1W_hjWT2dKCivcmk6nR9wtTjWs9hBvZrOfoZmox4YPIjZ_pvImZbHcZui-7xs80dnoaTKRviR8aot0cPIKoqRwinBodjWRh3QEu5juT1b7T-m85Wo_JNRoarKD4pW2Lzq7v1u9Z6PMEeYXvuFchzZ6HPvthblfwbtu3AX6ij0ZGlZPdMRdEiRtZf3dt8nsWdI-E_J0GAD-9wexlpNL92Z-IfuwMXuUQs_j4l92fcfBC_NxlEUTNACyOWPrA3V6ZSLHrga6W4Iz6Por3txzCsxlwvEBQAM70VyGeSqFi0wMLg2V8wVYAEpiEe2dl4RpMbUaPzRNc_KsDUYM_4DqwMTo2v2x4AAPxWmWiRn4PeAXovraN6Ll-eW9zq5hUbt3c-yj0spVYhJADHodoHmAdQM9MA"
+	"applicant_id": "0123456789",
+	"date_of_birth": "1990-06-15",
+	"gender": "male",
+	"smoker": false,
+	"height_cm": 178,
+	"weight_kg": 80,
+	"occupation_class": "A",
+	"annual_income_sar": 180000,
+	"policy_term_years": 20,
+	"premium_frequency": "monthly",
+	"target_premium": 250,
+	"riders": {
+		"critical_illness": true,
+		"waiver_of_premium": true
+	},
+	"distribution_channel": "bank"
 }
 ```
-Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
 
-Go to the following link to use the <a href="/auth-api-reference/oauth-20/generate-token" target="_blank">Generate Token API</a>.
+Example response:
+```
+[
+	{
+		"offer_id": "offer_01J8XYZ123",
+		"insurer": "Insurer A",
+		"sum_assured": 500000,
+		"premium": 250,
+		"premium_frequency": "monthly",
+		"policy_term_years": 20,
+		"riders_included": ["critical_illness", "waiver_of_premium"],
+		"maturity_benefit": false,
+		"notes": "Sample offer"
+	}
+]
+```
 
-<Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
-
+## Policies
 ### Issue policies
-To issue policies, you need to execute the <a target="_blank" href="/life-snp/policies/issue-policy">Issue policies API</a>.
+
+To issue policies, use the <a href="/life-snp/policies/issue-policy" target="_blank">Issue Policy API</a>.
+This endpoint (`POST /api/v1/life-snp/policies`) issues a policy from a selected offer.
+
+The following fields are required when creating a Life S&P policy.
+
+| Field | Type | Rules | Description |
+|-------|------|-------|-------------|
+| `offer_id` | string | required | Offer identifier returned by offers API. |
+| `applicant_id` | string | required, regex: `^\d{10}$` | Saudi National ID of the applicant. |
+| `date_of_birth` | string (date) | required, format: `YYYY-MM-DD` | Applicant date of birth. |
+| `gender` | string | required, in: `male`, `female` | Applicant gender. |
+| `smoker` | boolean | required | Indicates if applicant is a smoker. |
+| `policy_term_years` | integer | required, min:5, max:40 | Policy term in years. |
+| `premium_frequency` | string | required, in: `monthly`, `quarterly`, `semi_annual`, `annual` | Premium collection frequency. |
+| `agreed_premium` | number | required, min:50 | Final agreed premium. |
+| `start_date` | string (date) | required, format: `YYYY-MM-DD` | Requested policy start date. |
+| `beneficiaries` | array | required, min items:1 | Beneficiary list for payout distribution. |
+| `beneficiaries[].name` | string | required | Beneficiary full name. |
+| `beneficiaries[].national_id` | string | required, regex: `^\d{10}$` | Beneficiary national ID. |
+| `beneficiaries[].relationship` | string | required, in: `spouse`, `child`, `parent`, `sibling`, `other` | Relationship with applicant. |
+| `beneficiaries[].share_percentage` | number | required, min:0, max:100 | Share of total claim amount. |
+| `consent` | boolean | required | Applicant consent for issuance and auto-debit. |
+| `iban` | string | optional | Customer IBAN for premium collection. |
+| `sum_assured` | number | optional, min:10000 | Coverage amount in SAR. |
+
+Example request:
+```
+POST /api/v1/life-snp/policies HTTP/1.1
+Host: sandbox.yasmina.ai
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+	"offer_id": "offer_01J8XYZ123",
+	"applicant_id": "0123456789",
+	"date_of_birth": "1990-06-15",
+	"gender": "male",
+	"smoker": false,
+	"policy_term_years": 20,
+	"premium_frequency": "monthly",
+	"sum_assured": 500000,
+	"agreed_premium": 250,
+	"start_date": "2026-03-01",
+	"iban": "SA0380000000608010167519",
+	"beneficiaries": [
+		{
+			"name": "Jane Doe",
+			"national_id": "1234567890",
+			"relationship": "spouse",
+			"share_percentage": 100
+		}
+	],
+	"consent": true
+}
+```
+
+Example response:
+```
+{
+	"id": 1201,
+	"client_id": "9f7db0ed-0783-4654-9b18-47c316809204",
+	"provider_policy_id": 88321,
+	"provider_policy": "Insurer A",
+	"start_date": "2026-03-01",
+	"end_date": "2046-03-01",
+	"policy_term_years": 20,
+	"sum_assured": 500000,
+	"premium_amount": 250,
+	"premium_frequency": "monthly",
+	"status": "active",
+	"beneficiaries": [
+		{
+			"name": "Jane Doe",
+			"national_id": "1234567890",
+			"relationship": "spouse",
+			"share_percentage": 100
+		}
+	],
+	"iban_masked": "SA03*****************519",
+	"is_claimed": false,
+	"canceled_at": null,
+	"created_at": "2026-02-20T10:12:00Z",
+	"updated_at": "2026-02-20T10:12:00Z"
+}
+```
+
+### Retrieving the policy object again
+
+You can retrieve previously created policies at any time using the <a href="/life-snp/policies/list-policies" target="_blank">List Policies API</a>.
+
+Example request:
+```
+GET /api/v1/life-snp/policies HTTP/1.1
+Accept: application/json
+Authorization: Bearer <token>
+```
+
+## Policy cancellation
+
+Use the <a href="/life-snp/policies/cancel-policy" target="_blank">Cancel Policy API</a> to request cancellation.
+This endpoint is `POST /api/v1/life-snp/policies/{lifePolicy}/cancellation`.
+You can optionally upload a supporting file as `cancellation_document`.
+
+Example request:
+```
+POST /api/v1/life-snp/policies/1201/cancellation HTTP/1.1
+Accept: application/json
+Content-Type: multipart/form-data
+Authorization: Bearer <token>
+
+cancellation_document: <file>
+```
+
+Example successful response:
+```
+HTTP/1.1 204 No Content
+```
+
+## Claims
+
+Use the <a href="/life-snp/claims/submit-claim" target="_blank">Submit Claim API</a> to submit a life claim.
+This endpoint is `POST /api/v1/life-snp/policies/{policyId}/claims`.
+
+| Field | Type | Rules | Description |
+|-------|------|-------|-------------|
+| `claim_type` | string | required, in: `death`, `critical_illness`, `total_permanent_disability` | Type of claim being submitted. |
+| `event_date` | string (date) | required, format: `YYYY-MM-DD` | Date of incident/event. |
+| `requested_amount` | number | optional | Requested claim amount in SAR. |
+| `description` | string | optional | Additional event details. |
+| `supporting_document` | file | optional | Evidence document (medical report, etc.). |
+
+Example request:
+```
+POST /api/v1/life-snp/policies/1201/claims HTTP/1.1
+Accept: application/json
+Content-Type: multipart/form-data
+Authorization: Bearer <token>
+
+claim_type: death
+event_date: 2026-01-10
+requested_amount: 500000
+description: Natural causes
+supporting_document: <file>
+```
+
+Example response:
+```
+{
+	"claim_id": 782,
+	"claim_type": "death",
+	"requested_amount": 500000,
+	"claim_status": "submitted",
+	"policy_id": 1201,
+	"created_at": "2026-02-20T11:02:00Z",
+	"updated_at": "2026-02-20T11:02:00Z",
+	"supporting_document": "claims/782/death-certificate.pdf"
+}
+```
