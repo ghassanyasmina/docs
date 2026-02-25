@@ -10,12 +10,12 @@ Below is the basic journey to requesting your first insurance(s)
 	<Step title="Authorization">
 	Get a an authorization token to use all our API's. [Click for more details](#authorization). <br />
 
-	Or go directly to [Authorization API](/life-api-reference/auth/generate-token)
+	Or go directly to <a href="/auth-api-reference/oauth-20/generate-token" target="_blank">Generate Token API</a>
 	</Step>
 	  <Step title="Issue policies for your customers">
       	Provide the customer details such as age, name etc... [Click for more details](#request-policies).
 
-      	Or go directly to [Issue policies API](/life-api-reference/policies/request-policy)
+      	Or go directly to <a target="_blank" href="/life-snp/policies/issue-policy">Issue policies API</a>
       </Step>
 </Steps>
 
@@ -34,9 +34,9 @@ After making the request, you will get access_token in the response. Example
 ```
 Use the access_token and supply in the headers like this `Authorization: Bearer <access_token>`
 
-Go to the following link to use the [Authorization API](/life-api-reference/auth/generate-token).
+Go to the following link to use the <a href="/auth-api-reference/oauth-20/generate-token" target="_blank">Generate Token API</a>.
 
 <Warning>For security reasons. Do not make your client_id and client_secret public in your platform.</Warning>
 
 ### Issue policies
-To issue policies, you need to execute the [Issue policies API](/life-api-reference/policies/request-policy)).
+To issue policies, you need to execute the <a target="_blank" href="/life-snp/policies/issue-policy">Issue policies API</a>.
