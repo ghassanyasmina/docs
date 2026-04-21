@@ -1294,6 +1294,12 @@
                     "type": "number",
                     "example": 100000
                   },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Desired policy start date in YYYY-MM-DD format. Must be tomorrow or later.",
+                    "example": "2025-12-11"
+                  },
                   "has_agreed_to_terms_and_conditions": {
                     "type": "boolean",
                     "example": true
@@ -1304,6 +1310,7 @@
                   "personal_details",
                   "building_details",
                   "address",
+                  "start_date",
                   "has_agreed_to_terms_and_conditions"
                 ]
               }
@@ -1685,6 +1692,11 @@
               "has_agreed_to_terms_and_conditions": {
                 "type": "boolean",
                 "example": true
+              },
+              "start_date": {
+                "type": "string",
+                "format": "date",
+                "example": "2025-12-11"
               },
               "property_cost": {
                 "type": "number",
