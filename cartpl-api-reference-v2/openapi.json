@@ -6,15 +6,15 @@
     "license": {
       "name": "MIT"
     },
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "servers": [
     {
-      "url": "https://sandbox.yasmina.ai/api/v1",
+      "url": "https://sandbox.yasmina.ai/api",
       "description": "Sandbox"
     },
     {
-      "url": "https://production.yasmina.ai/api/v1",
+      "url": "https://production.yasmina.ai/api",
       "description": "Production"
     }
   ],
@@ -24,7 +24,7 @@
     }
   ],
   "paths": {
-    "/car/policies": {
+    "/v2/car/policies": {
       "get": {
         "description": "Listing requested policies",
         "parameters": [
@@ -79,27 +79,34 @@
         }
       },
       "post": {
-        "description": "For issuing a new policy",
+        "description": "For issuing a new policy. This version requires an email field and an istimarah document upload.",
         "summary": "Issue policy",
         "tags": ["Policies"],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email address (must be @syarah.com domain)"
+                  },
                   "vin": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Vehicle Identification Number (17 characters, must be unique)"
                   },
                   "car_sequence_number": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Car sequence number (8-9 digits, must be unique)"
                   },
                   "current_car_owner": {
-                    "description": "The nationality ID of the current owner",
+                    "description": "The nationality ID of the current owner (10 digits)",
                     "type": "string"
                   },
                   "new_owner_id": {
-                    "description": "The Nationality ID of the new owner",
+                    "description": "The Nationality ID of the new owner (10 digits)",
                     "type": "string"
                   },
                   "extra_fields": {
@@ -110,13 +117,20 @@
                       "some_key": "some value",
                       "another_key": 123
                     }
+                  },
+                  "istimarah": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Vehicle registration document (PDF, JPEG, JPG, or PNG, max 10MB)"
                   }
                 },
                 "required": [
+                  "email",
                   "vin",
                   "car_sequence_number",
                   "current_car_owner",
-                  "new_owner_id"
+                  "new_owner_id",
+                  "istimarah"
                 ]
               }
             }
@@ -146,14 +160,16 @@
                     "code": "42201",
                     "message": "The vin must be 17 characters. (and 3 more errors)",
                     "details": {
+                      "email": ["The email must be a valid email address."],
                       "vin": ["The vin must be 17 characters."],
                       "car_sequence_number": [
-                        "The car sequence number must be 9 digits."
+                        "The car sequence number must be between 8 and 9 digits."
                       ],
                       "new_owner_id": ["The new owner id must be 10 digits."],
                       "current_car_owner": [
-                        "The current owner id field cannot be empty."
-                      ]
+                        "The current owner id must be 10 digits."
+                      ],
+                      "istimarah": ["The istimarah field is required."]
                     }
                   }
                 }
@@ -163,7 +179,7 @@
         }
       }
     },
-    "/car/policies/{carPolicy}/cancellation": {
+    "/v2/car/policies/{carPolicy}/cancellation": {
       "post": {
         "description": "Cancel a policy",
         "summary": "Cancel policy",
@@ -178,6 +194,64 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cancellation_document": {
+                    "type": "string",
+                    "description": "Supporting document of why policy was deleted. Could be resignation document.",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Cancellation success"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": "40010",
+                  "message": "Policy is already canceled"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "40010"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Policy is already canceled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v2/clients/policies/cancellation": {
+      "post": {
+        "description": "Cancel policy by VIN",
+        "summary": "Cancel policy by VIN",
+        "tags": ["Policies"],
         "requestBody": {
           "content": {
             "multipart/form-data": {

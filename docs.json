@@ -133,13 +133,6 @@
             }
           },
           {
-            "group": "TPL Motor Insurance APIs",
-            "openapi": {
-              "source": "cartpl-api-reference/openapi.json",
-              "directory": "cartpl-api-reference"
-            }
-          },
-          {
             "group": "Property Insurance APIs",
             "openapi": {
               "source": "property-api-reference/openapi.json",
@@ -158,6 +151,20 @@
             "openapi": {
               "source": "life-snp/openapi.json",
               "directory": "life-snp"
+            }
+          },
+          {
+            "group": "TPL Motor Insurance - Flat Fee APIs V2",
+            "openapi": {
+              "source": "cartpl-api-reference-v2/openapi.json",
+              "directory": "cartpl-api-reference-v2"
+            }
+          },
+          {
+            "group": "TPL Motor Insurance APIs - Flat Fee",
+            "openapi": {
+              "source": "cartpl-api-reference/openapi.json",
+              "directory": "cartpl-api-reference"
             }
           },
           {
