@@ -92,76 +92,60 @@
       "get": {
         "tags": ["Quotes"],
         "summary": "List quotes",
+        "parameters": [
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "Inclusive lower bound for quote request creation date.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2026-06-01"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "Inclusive upper bound for quote request creation date.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2026-06-30"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Number of quote requests to return per page.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "example": 10
+            }
+          },
+          {
+            "name": "include_aggregates",
+            "in": "query",
+            "description": "When true, includes quote request totals and monthly buckets for the filtered result set.",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Paginated list of quotes",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "current_page": {
-                      "type": "integer"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/QuoteResponse"
-                      }
-                    },
-                    "first_page_url": {
-                      "type": "string"
-                    },
-                    "from": {
-                      "type": "integer",
-                      "nullable": true
-                    },
-                    "last_page": {
-                      "type": "integer"
-                    },
-                    "last_page_url": {
-                      "type": "string"
-                    },
-                    "links": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "url": {
-                            "type": "string"
-                          },
-                          "label": {
-                            "type": "string"
-                          },
-                          "active": {
-                            "type": "boolean"
-                          }
-                        }
-                      }
-                    },
-                    "next_page_url": {
-                      "type": "string"
-                    },
-                    "path": {
-                      "type": "string"
-                    },
-                    "per_page": {
-                      "type": "integer"
-                    },
-                    "prev_page_url": {
-                      "type": "string"
-                    },
-                    "to": {
-                      "type": "integer",
-                      "nullable": true
-                    },
-                    "total": {
-                      "type": "integer"
-                    }
-                  }
+                  "$ref": "#/components/schemas/PaginatedQuoteResponse"
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           }
         }
       },
@@ -407,7 +391,37 @@
             "name": "per_page",
             "in": "query",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "Inclusive lower bound for the policy date. For issued policies (`status=1`), this filters by `uploaded_at` (the provider policy issue timestamp) and falls back to `created_at` when `uploaded_at` is unavailable. For other statuses, this filters by `created_at`.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2026-06-01"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "Inclusive upper bound for the policy date. For issued policies (`status=1`), this filters by `uploaded_at` (the provider policy issue timestamp) and falls back to `created_at` when `uploaded_at` is unavailable. For other statuses, this filters by `created_at`.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2026-06-30"
+            }
+          },
+          {
+            "name": "include_aggregates",
+            "in": "query",
+            "description": "When true, includes policy totals, total price, and monthly buckets for the filtered result set.",
+            "schema": {
+              "type": "boolean",
+              "example": true
             }
           }
         ],
@@ -417,10 +431,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Policy"
-                  }
+                  "$ref": "#/components/schemas/PaginatedPolicyResponse"
                 }
               }
             }
@@ -815,6 +826,16 @@
                 "company_name": {
                   "type": "string"
                 },
+                "company_logo_url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "CDN URL for the insurance company's logo."
+                },
+                "square_company_logo_url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "CDN URL for the insurance company's square logo."
+                },
                 "prices": {
                   "type": "array",
                   "description": "An array representing each price. This will have the premium and the deductible",
@@ -858,6 +879,16 @@
         "properties": {
           "company_name": {
             "type": "string"
+          },
+          "company_logo_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "CDN URL for the insurance company's logo."
+          },
+          "square_company_logo_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "CDN URL for the insurance company's square logo."
           },
           "prices": {
             "type": "array",
@@ -956,6 +987,12 @@
           "created_at": {
             "type": "string"
           },
+          "uploaded_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the provider policy document was attached. For issued motor policies this is the closest available issue/purchase timestamp."
+          },
           "updated_at": {
             "type": "string"
           },
@@ -971,6 +1008,197 @@
           },
           "cancellation_document": {
             "type": "string"
+          }
+        }
+      },
+      "PaginationLink": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": true
+          },
+          "label": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "QuoteRequestAggregates": {
+        "type": "object",
+        "description": "Returned only when include_aggregates is true.",
+        "properties": {
+          "total_count": {
+            "type": "integer",
+            "example": 24
+          },
+          "by_month": {
+            "type": "object",
+            "description": "Monthly quote request counts keyed by YYYY-MM.",
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "example": {
+              "2026-06": 24
+            }
+          }
+        }
+      },
+      "PolicyMonthAggregate": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "example": 12
+          },
+          "total_price": {
+            "type": "number",
+            "format": "float",
+            "example": 42850.75
+          }
+        }
+      },
+      "PolicyAggregates": {
+        "type": "object",
+        "description": "Returned only when include_aggregates is true.",
+        "properties": {
+          "total_count": {
+            "type": "integer",
+            "example": 12
+          },
+          "total_price": {
+            "type": "number",
+            "format": "float",
+            "example": 42850.75
+          },
+          "by_month": {
+            "type": "object",
+            "description": "Monthly policy counts and sales totals keyed by YYYY-MM. For issued policies (`status=1`), buckets use `uploaded_at` and fall back to `created_at`.",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PolicyMonthAggregate"
+            },
+            "example": {
+              "2026-06": {
+                "count": 12,
+                "total_price": 42850.75
+              }
+            }
+          }
+        }
+      },
+      "PaginatedQuoteResponse": {
+        "type": "object",
+        "properties": {
+          "current_page": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuoteResponse"
+            }
+          },
+          "first_page_url": {
+            "type": "string"
+          },
+          "from": {
+            "type": "integer",
+            "nullable": true
+          },
+          "last_page": {
+            "type": "integer"
+          },
+          "last_page_url": {
+            "type": "string"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaginationLink"
+            }
+          },
+          "next_page_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string"
+          },
+          "per_page": {
+            "type": "integer"
+          },
+          "prev_page_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "to": {
+            "type": "integer",
+            "nullable": true
+          },
+          "total": {
+            "type": "integer"
+          },
+          "aggregates": {
+            "$ref": "#/components/schemas/QuoteRequestAggregates"
+          }
+        }
+      },
+      "PaginatedPolicyResponse": {
+        "type": "object",
+        "properties": {
+          "current_page": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Policy"
+            }
+          },
+          "first_page_url": {
+            "type": "string"
+          },
+          "from": {
+            "type": "integer",
+            "nullable": true
+          },
+          "last_page": {
+            "type": "integer"
+          },
+          "last_page_url": {
+            "type": "string"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaginationLink"
+            }
+          },
+          "next_page_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string"
+          },
+          "per_page": {
+            "type": "integer"
+          },
+          "prev_page_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "to": {
+            "type": "integer",
+            "nullable": true
+          },
+          "total": {
+            "type": "integer"
+          },
+          "aggregates": {
+            "$ref": "#/components/schemas/PolicyAggregates"
           }
         }
       },
