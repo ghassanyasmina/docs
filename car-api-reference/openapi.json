@@ -153,6 +153,19 @@
         "description": "For getting prices with benefits. \nThe Quote IDs can be used later to issue a policy",
         "tags": ["Quotes"],
         "summary": "Request quotes",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "Set to ar to receive Arabic-localized quote content.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ar"],
+              "example": "ar"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Insurance quote details",
