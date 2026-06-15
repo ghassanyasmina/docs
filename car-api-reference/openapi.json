@@ -839,6 +839,23 @@
                 "company_name": {
                   "type": "string"
                 },
+                "company_name_ar": {
+                  "type": "string",
+                  "description": "Arabic name of the insurance company. Use this field instead of `company_name` when rendering Arabic UIs."
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["TPL", "TPL +", "Comprehensive"],
+                  "description": "Normalised insurance category used to group and filter quotes. Always one of `TPL`, `TPL +`, or `Comprehensive`."
+                },
+                "insurance_type_display": {
+                  "type": "string",
+                  "description": "The insurance type label exactly as the insurance provider intends it to be displayed. While `type` normalises all non-TPL / non-Comprehensive values into `TPL +`, this field preserves the original provider string (e.g. \"TPL Plus\", \"Third Party Plus\") and should be shown in the UI wherever the provider's own wording is preferred."
+                },
+                "insurance_type_display_ar": {
+                  "type": "string",
+                  "description": "Arabic translation of `insurance_type_display`. Use this field for Arabic UIs. Falls back to the English value for provider-specific types that do not have a translation."
+                },
                 "company_logo_url": {
                   "type": "string",
                   "format": "uri",
@@ -892,6 +909,23 @@
         "properties": {
           "company_name": {
             "type": "string"
+          },
+          "company_name_ar": {
+            "type": "string",
+            "description": "Arabic name of the insurance company. Use this field instead of `company_name` when rendering Arabic UIs."
+          },
+          "type": {
+            "type": "string",
+            "enum": ["TPL", "TPL +", "Comprehensive"],
+            "description": "Normalised insurance category used to group and filter quotes. Always one of `TPL`, `TPL +`, or `Comprehensive`."
+          },
+          "insurance_type_display": {
+            "type": "string",
+            "description": "The insurance type label exactly as the insurance provider intends it to be displayed. While `type` normalises all non-TPL / non-Comprehensive values into `TPL +`, this field preserves the original provider string (e.g. \"TPL Plus\", \"Third Party Plus\") and should be shown in the UI wherever the provider's own wording is preferred."
+          },
+          "insurance_type_display_ar": {
+            "type": "string",
+            "description": "Arabic translation of `insurance_type_display`. Use this field for Arabic UIs. Falls back to the English value for provider-specific types that do not have a translation."
           },
           "company_logo_url": {
             "type": "string",
@@ -954,6 +988,10 @@
           },
           "name": {
             "type": "string"
+          },
+          "name_ar": {
+            "type": "string",
+            "description": "Arabic name of the benefit. Use this field instead of `name` when rendering Arabic UIs."
           },
           "amount": {
             "type": "number"

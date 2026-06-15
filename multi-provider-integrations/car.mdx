@@ -167,6 +167,10 @@ Once you execute this you will get a response that includes pricing and benefits
       "company_logo_url": "https://axjqy4nuifd8.compat.objectstorage.me-jeddah-1.oraclecloud.com/Yasmina-Dev-bucket/company-logos/art.png",
       "square_company_logo_url": "https://axjqy4nuifd8.compat.objectstorage.me-jeddah-1.oraclecloud.com/Yasmina-Dev-bucket/insurance-logos/alrajhi.png",
       "company_name": "Al Rajhi Takaful",
+      "company_name_ar": "تكافل الراجحي",
+      "type": "Comprehensive",
+      "insurance_type_display": "Comprehensive",
+      "insurance_type_display_ar": "شامل",
       "quote_reference_id": "6c7c18a7-ee89-49fe-9f7e-dde72ad809ce",
       "prices": [
         {
@@ -183,6 +187,7 @@ Once you execute this you will get a response that includes pricing and benefits
           "quote_benefit_id": "f72846cb-98ed-4b78-b3b5-bb0d587f8da5",
           "id": "1296",
           "name": "Natural Disasters",
+          "name_ar": "كوارث طبيعية",
           "amount": 0,
           "vat": 0,
           "url": null
@@ -209,6 +214,18 @@ Each insurance provider gives a `prices` array. This represents different pricin
 Finally we have the `benefits` array. We have two types. Some require an additional price and are optional (`amount` > 0), while others are considered free and are automatically added (`amount` = 0).
 
 For those that have a price, you need to provide the `quote_benefit_id` in the `benefits` array in the Issue Policy API.
+
+#### Arabic localisation fields
+
+Each quote object includes Arabic counterparts for the fields that typically appear in the UI. Use these when rendering an Arabic experience:
+
+| Field | Arabic equivalent | Notes |
+|---|---|---|
+| `company_name` | `company_name_ar` | Arabic name of the insurance company |
+| `insurance_type_display` | `insurance_type_display_ar` | Arabic label for the insurance type as the provider intends it to be shown. Falls back to the English value for provider-specific types without a translation |
+| `benefits[].name` | `benefits[].name_ar` | Arabic name of each benefit |
+
+`insurance_type` and `type` are normalised category values used internally for filtering (`TPL`, `TPL +`, `Comprehensive`) and do not have Arabic equivalents — use `insurance_type_display_ar` for display purposes.
 
 ### List Quotes Requests
 
