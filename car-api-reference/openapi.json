@@ -188,6 +188,11 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "otp": {
+                    "type": "string",
+                    "description": "The OTP received by the customer from the Request OTP API",
+                    "example": "123456"
+                  },
                   "owner_id": {
                     "type": "string",
                     "pattern": "^(1|2|7)\\d{9}$",
@@ -287,6 +292,7 @@
                   }
                 },
                 "required": [
+                  "otp",
                   "owner_id",
                   "phone",
                   "birthdate",
@@ -464,6 +470,11 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "otp": {
+                    "type": "string",
+                    "description": "The OTP received by the customer from the Issue OTP API",
+                    "example": "123456"
+                  },
                   "quote_request_id": {
                     "type": "integer",
                     "description": "ID of the car quote request",
@@ -505,6 +516,7 @@
                   }
                 },
                 "required": [
+                  "otp",
                   "quote_request_id",
                   "quote_reference_id",
                   "quote_price_id"

@@ -26,6 +26,7 @@ These are the fields that you need to provide:
 
 | Field                | Example Value   | Description                                                                                   |
 |-----------------------|----------------|-----------------------------------------------------------------------------------------------|
+| `otp`                 | `123456`       | The OTP received by the customer. Required for issuing a policy.                              |
 | `owner_id`            | `2234567890`   | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.              |
 | `email`            | `someone@example.com`   | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).              |
 | `birthdate`           | `1988-04-20`   | Date of birth of the owner in `YYYY-MM-DD` format. If the owner ID is a Saudi National, then you need to give Hijri date, otherwise you need to give a Gregorian birthdate.                             |
@@ -46,6 +47,7 @@ Accept: application/json
 Content-Length: 212
 
 {
+    "otp": "123456",
     "owner_id": 2234567890,
     "email": "someone@example.com",
     "phone": "05XXXXXXXX",

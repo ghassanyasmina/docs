@@ -72,6 +72,7 @@ You need to provider the following properties for the Request Quotes API:
 
 | Field                   | Example Value         | Is Required       | Description                                                                                                                                                                 |
 | ----------------------- | --------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `otp`                   | `123456`              | Yes               | The OTP received by the customer from the Request OTP API.                                                                                                                  |
 | `owner_id`              | `2234567890`          | Yes               | The owner’s national ID. Must be 10 digits and typically starts with 1, 2, or 7.                                                                                            |
 | `email`                 | `someone@example.com` | Yes               | The owner’s email. Must be unique and belong to the one customer (Do not use the same email for multiple customers).                                                        |
 | `birthdate`             | `1988-04-20`          | Yes               | Date of birth of the owner in `YYYY-MM-DD` format. If the owner ID is a Saudi National, then you need to give Hijri date, otherwise you need to give a Gregorian birthdate. |
@@ -110,6 +111,7 @@ Authorization: ••••••
 Content-Length: 226
 
 {
+    "otp": "123456",
     "owner_id": 2234567890,
     "email": "someone@example.com",
     "phone": "05XXXXXXXX",
@@ -312,6 +314,7 @@ Accept: application/json
 Content-Length: 212
 
 {
+  "otp": "123456",
   "quote_request_id": 11,
   "quote_reference_id": "04486448-3433-43ef-a755-b07799d6580f",
   "quote_price_id": "e059d28e-a519-43af-b9d4-e1cc5d97ecb7",
