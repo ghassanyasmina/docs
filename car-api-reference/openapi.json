@@ -10,9 +10,11 @@
   },
   "servers": [
     {
+      "x-fern-server-name": "Sandbox",
       "url": "https://sandbox.yasmina.ai/api/v1/car-comp"
     },
     {
+      "x-fern-server-name": "Production",
       "url": "https://production.yasmina.ai/api/v1/car-comp"
     }
   ],
