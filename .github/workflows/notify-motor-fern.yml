@@ -1,0 +1,32 @@
+name: Notify motor-fern
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - car-api-reference/openapi.json
+
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify motor-fern
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.SDK_DISPATCH_TOKEN }}
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: "YasminaAI",
+              repo: "motor-fern",
+              event_type: "openapi-updated",
+              client_payload: {
+                docs_owner: context.repo.owner,
+                docs_repo: context.repo.repo,
+                docs_ref: context.sha,
+                spec_path: "car-api-reference/openapi.json"
+              }
+            });
