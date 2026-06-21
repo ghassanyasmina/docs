@@ -31,9 +31,7 @@
     }
   },
   "contextual": {
-    "options": [
-      "chatgpt"
-    ]
+    "options": ["chatgpt"]
   },
   "integrations": {
     "intercom": {
@@ -94,16 +92,11 @@
           },
           {
             "group": "Webhooks",
-            "pages":[
-              "webhooks/guide"
-            ]
+            "pages": ["webhooks/guide"]
           },
           {
             "group": "White-labeling Solutions",
-            "pages": [
-              "whitelabel/iframes",
-              "whitelabel/snippets"
-            ]
+            "pages": ["whitelabel/iframes", "whitelabel/snippets"]
           }
         ]
       },
@@ -190,7 +183,16 @@
           {
             "group": "Front-End SDKs",
             "pages": [
-              "sdks/ios"
+              "sdks/ios",
+              "sdks/php",
+              "sdks/dotnet",
+              "sdks/ruby",
+              "sdks/swift",
+              "sdks/rust",
+              "sdks/go",
+              "sdks/ts",
+              "sdks/python",
+              "sdks/java"
             ]
           }
         ]
@@ -201,9 +203,7 @@
         "groups": [
           {
             "group": "Changelog",
-            "pages": [
-              "changelog"
-            ]
+            "pages": ["changelog"]
           }
         ]
       }
